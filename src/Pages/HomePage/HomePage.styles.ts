@@ -9,5 +9,6 @@ export const StyledTiles = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 15rem);
+  justify-content: center;
   gap: 1rem;
 `
