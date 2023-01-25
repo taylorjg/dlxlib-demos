@@ -1,4 +1,4 @@
-import { createTheme, Container, CssBaseline, ThemeProvider } from "@mui/material"
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
 import { Global } from "@emotion/react"
 import {
   BrowserRouter as Router,
@@ -8,7 +8,7 @@ import {
 
 import { HomePage } from "./Pages/HomePage"
 import { DemoPage } from "./Pages/DemoPage"
-import { GlobalStyles } from "./App.styles"
+import { GlobalStyles, StyledContainer } from "./App.styles"
 
 const darkTheme = createTheme({
   palette: {
@@ -21,7 +21,7 @@ export const App = () => {
     <ThemeProvider theme={darkTheme}>
       <Global styles={GlobalStyles} />
       <CssBaseline />
-      <Container sx={{ mt: "2rem" }}>
+      <StyledContainer>
         <Router>
           <Switch>
             <Route path="/" exact>
@@ -32,7 +32,7 @@ export const App = () => {
             </Route>
           </Switch>
         </Router>
-      </Container>
+      </StyledContainer>
     </ThemeProvider>
   )
 }
