@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import { App } from "./App"
 
-test("renders learn react link", () => {
+test("renders home page", () => {
   render(<App />)
-  expect(screen.getByText("TODO")).toBeInTheDocument()
+  expect(screen.getByText("Demo 1")).toBeInTheDocument()
 })
