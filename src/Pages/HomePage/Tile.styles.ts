@@ -7,4 +7,5 @@ export const StyledTile = styled.div`
   width: 15rem;
   height: 12rem;
   border: 1px solid grey;
+  cursor: pointer;
 `

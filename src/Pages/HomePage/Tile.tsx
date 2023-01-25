@@ -1,3 +1,5 @@
+import { useHistory } from "react-router-dom"
+
 import { StyledTile } from "./Tile.styles"
 
 export type TileProps = {
@@ -5,8 +7,9 @@ export type TileProps = {
 }
 
 export const Tile: React.FC<TileProps> = ({ demo }) => {
+  const history = useHistory();
   return (
-    <StyledTile>
+    <StyledTile onClick={() => history.push("/demo")}>
       {demo.name}
     </StyledTile>
   )
