@@ -1,6 +1,6 @@
-import { Tile } from "./Tile"
-import { Version } from "./Version"
-import { StyledPage, StyledTiles } from "./HomePage.styles"
+import { Tile } from "./tile"
+import { Version } from "./version"
+import { StyledPage, StyledTiles } from "./home-page.styles"
 
 export const HomePage = () => {
   const demos = Array.from(Array(11).keys())

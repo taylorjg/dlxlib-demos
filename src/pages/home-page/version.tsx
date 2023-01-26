@@ -1,4 +1,4 @@
-import { StyledVersion } from "./Version.styles"
+import { StyledVersion } from "./version.styles"
 import packageJson from "../../../package.json"
 
 export const Version = () => {

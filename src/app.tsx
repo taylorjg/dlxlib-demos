@@ -6,9 +6,9 @@ import {
   Route
 } from "react-router-dom"
 
-import { HomePage } from "./Pages/HomePage"
-import { DemoPage } from "./Pages/DemoPage"
-import { GlobalStyles, StyledContainer } from "./App.styles"
+import { HomePage } from "./pages/home-page"
+import { DemoPage } from "./pages/demo-page"
+import { GlobalStyles, StyledContainer } from "./app.styles"
 
 const darkTheme = createTheme({
   palette: {

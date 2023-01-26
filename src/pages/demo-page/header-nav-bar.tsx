@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { StyledHeaderNavBar } from "./HeaderNavBar.styles"
+import { StyledHeaderNavBar } from "./header-nav-bar.styles"
 
 export type HeaderNavBarProps = {
   id: number
