@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { StyledPage } from "./DemoPage.styles"
+import { HeaderNavBar } from "./HeaderNavBar"
+
+type DemoPageParams = {
+  id: string
+}
 
 export const DemoPage = () => {
+  const { id } = useParams<DemoPageParams>()
+
   return (
     <StyledPage>
-      <Link to="/">Home</Link>
-      <div>TODO</div>
+      <HeaderNavBar id={Number(id)} />
     </StyledPage>
   )
 }

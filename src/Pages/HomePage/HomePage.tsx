@@ -3,7 +3,12 @@ import { Version } from "./Version"
 import { StyledPage, StyledTiles } from "./HomePage.styles"
 
 export const HomePage = () => {
-  const demos = Array.from(Array(11).keys()).map(n => ({ name: `Demo ${n + 1}` }))
+  const demos = Array.from(Array(11).keys())
+    .map(n => n + 1)
+    .map(id => ({
+      name: `Demo ${id}`,
+      id
+    }))
 
   return (
     <StyledPage>

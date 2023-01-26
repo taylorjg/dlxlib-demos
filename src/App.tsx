@@ -27,7 +27,7 @@ export const App = () => {
             <Route path="/" exact>
               <HomePage />
             </Route>
-            <Route path="/demo" exact>
+            <Route path="/demo/:id" exact>
               <DemoPage />
             </Route>
           </Switch>
