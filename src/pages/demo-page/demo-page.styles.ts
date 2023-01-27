@@ -16,7 +16,6 @@ export const StyledMainContent = styled.div`
 `
 
 export const StyledDrawingWrapper = styled.div`
-  background-color: goldenrod;
   height: 100%;
   aspect-ratio: 1;
 `
