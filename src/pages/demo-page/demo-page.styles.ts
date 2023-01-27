@@ -1,14 +1,15 @@
 import styled from "@emotion/styled"
 
 export const StyledPage = styled.div`
-  padding-top: 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   height: 100%;
 `
 
 export const StyledMainContent = styled.div`
-  padding: 10rem;
+  background-image: url("/dlxlib-demos/pattern_apple_wood.png");
+  padding: 4rem;
   flex-grow: 1;
   display: flex;
   justify-content: center;

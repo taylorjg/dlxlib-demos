@@ -4,7 +4,7 @@ import { StyledButtons } from "./buttons.styles"
 export const Buttons = () => {
   return (
     <StyledButtons>
-      <Button>Save</Button>
+      <Button>Solve</Button>
     </StyledButtons>
   )
 }
