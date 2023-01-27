@@ -9,7 +9,9 @@ export type HeaderNavBarProps = {
 export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ demo }) => {
   return (
     <StyledHeaderNavBar data-testid="header-nav-bar">
-      <Link to="/">Home</Link>
+      <div>
+        <Link to="/">Home</Link>
+      </div>
       <div>{demo.name}</div>
     </StyledHeaderNavBar>
   )

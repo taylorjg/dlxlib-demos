@@ -1,7 +1,7 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
 import { Global } from "@emotion/react"
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route
 } from "react-router-dom"
