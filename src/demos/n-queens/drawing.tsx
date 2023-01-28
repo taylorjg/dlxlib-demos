@@ -1,4 +1,5 @@
 import { range } from "utils"
+import { Coords } from "./coords"
 
 const SIZE = 8
 const VIEWBOX_WIDTH = 100
@@ -12,7 +13,7 @@ const calculateX = (col: number) => col * SQUARE_WIDTH
 const calculateY = (row: number) => row * SQUARE_HEIGHT
 
 export const NQueensDrawing = () => {
-  const renderGrid = () => {
+  const renderGrid = (): JSX.Element[] => {
     const allLocations = range(SIZE).flatMap(row =>
       range(SIZE).map(col =>
         ({ row, col })))
@@ -21,8 +22,36 @@ export const NQueensDrawing = () => {
       const x = calculateX(col)
       const y = calculateY(row)
       const fill = (row + col) % 2 === 0 ? SQUARE_COLOUR_1 : SQUARE_COLOUR_2
-      return <rect x={x} y={y} width={SQUARE_WIDTH} height={SQUARE_HEIGHT} fill={fill} />
+      return <rect
+        key={`square-${row}-${col}`}
+        x={x}
+        y={y}
+        width={SQUARE_WIDTH}
+        height={SQUARE_HEIGHT}
+        fill={fill}
+      />
     })
+  }
+
+  const renderQueen = (coords: Coords): JSX.Element => {
+    const cx = calculateX(coords.col) + SQUARE_WIDTH / 2
+    const cy = calculateY(coords.row) + SQUARE_WIDTH / 2
+
+    // Unicode white chess queen
+    // https://util.unicode.org/UnicodeJsps/character.jsp?a=2655
+    const text = "\u2655"
+
+    return (
+      <text
+        x={cx}
+        y={cy}
+        fill="white"
+        text-anchor="middle"
+        dominant-baseline="middle"
+      >
+        {text}
+      </text>
+    )
   }
 
   return (
