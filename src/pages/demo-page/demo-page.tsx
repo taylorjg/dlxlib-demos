@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { StyledPage, StyledMainContent, StyledDrawingWrapper, StyledErrorPage, StyledError } from "./demo-page.styles"
 import { HeaderNavBar } from "./header-nav-bar"
-import { Drawing } from "./drawing"
+import { SudokuDrawing } from "../../demos/sudoku/drawing"
 import { Buttons } from "./buttons"
 import { lookupAvailableDemoByIdParam } from "../../available-demos"
 
@@ -28,7 +28,7 @@ export const DemoPage = () => {
       <HeaderNavBar demo={demo} />
       <StyledMainContent>
         <StyledDrawingWrapper>
-          <Drawing />
+          <SudokuDrawing />
         </StyledDrawingWrapper>
       </StyledMainContent>
       <Buttons />

@@ -11,7 +11,7 @@ const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNE
 
 const range = (n: number) => Array.from(Array(n).keys())
 
-export const Drawing = () => {
+export const SudokuDrawing = () => {
   const renderHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(10)
     return rows.map(row => {
