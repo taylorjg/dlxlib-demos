@@ -1,23 +1,32 @@
 import { useParams } from "react-router-dom"
 import { StyledPage, StyledMainContent, StyledDrawingWrapper, StyledErrorPage, StyledError } from "./demo-page.styles"
 import { HeaderNavBar } from "./header-nav-bar"
-import { SudokuDrawing } from "../../demos/sudoku/drawing"
+import { PlaceholderDrawing } from "./placeholder-drawing"
 import { Buttons } from "./buttons"
-import { lookupAvailableDemoByIdParam } from "../../available-demos"
+import { lookupAvailableDemoByShortName } from "../../available-demos"
 
 type DemoPageParams = {
-  id: string
+  shortName: string
 }
 
-export const DemoPage = () => {
-  const { id } = useParams<DemoPageParams>()
-  const demo = lookupAvailableDemoByIdParam(id)
+export type DemoPageProps = {
+  Drawing?: React.FC,
+  shortName?: string
+}
+
+export const DemoPage: React.FC<DemoPageProps> = ({
+  Drawing = PlaceholderDrawing,
+  shortName: shortNameProp
+}) => {
+  const { shortName: shortNameParam } = useParams<DemoPageParams>()
+  const shortName = shortNameProp ?? shortNameParam
+  const demo = lookupAvailableDemoByShortName(shortName)
 
   if (!demo) {
     return (
       <StyledErrorPage>
         <StyledError>
-          Oops! It looks like no demo exists with id {id}.
+          Oops! It looks like no demo exists with short name, "{shortName}".
         </StyledError>
       </StyledErrorPage>
     )
@@ -28,7 +37,7 @@ export const DemoPage = () => {
       <HeaderNavBar demo={demo} />
       <StyledMainContent>
         <StyledDrawingWrapper>
-          <SudokuDrawing />
+          <Drawing />
         </StyledDrawingWrapper>
       </StyledMainContent>
       <Buttons />

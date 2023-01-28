@@ -10,7 +10,7 @@ export type TileProps = {
 export const Tile: React.FC<TileProps> = ({ demo }) => {
   const history = useHistory()
   return (
-    <StyledTile onClick={() => history.push(`/demo/${demo.id}`)}>
+    <StyledTile onClick={() => history.push(`/demo/${demo.shortName}`)}>
       {demo.name}
     </StyledTile>
   )

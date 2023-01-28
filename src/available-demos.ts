@@ -17,6 +17,7 @@ const demoNames = [
 export const availableDemos: AvailableDemo[] = demoNames
   .map((name, index) => ({
     name,
+    shortName: name.toLowerCase().replace(/\s/g, "-"),
     id: index + 1
   }))
 
@@ -29,4 +30,8 @@ export const lookupAvailableDemoByIdParam = (idParam: string) => {
     }
   }
   return undefined
+}
+
+export const lookupAvailableDemoByShortName = (shortName: string) => {
+  return availableDemos.find(availableDemo => availableDemo.shortName === shortName)
 }
