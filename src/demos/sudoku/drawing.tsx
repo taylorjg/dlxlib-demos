@@ -1,3 +1,4 @@
+import { DrawingProps } from "types"
 import { range } from "utils"
 
 const VIEWBOX_WIDTH = 100
@@ -11,7 +12,7 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const SudokuDrawing = () => {
+export const SudokuDrawing: React.FC<DrawingProps> = () => {
   const renderHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(10)
     return rows.map(row => {

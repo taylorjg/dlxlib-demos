@@ -1,3 +1,5 @@
+import { render } from "@testing-library/react"
+import { DrawingProps } from "types"
 import { range } from "utils"
 import { Coords } from "./coords"
 
@@ -12,7 +14,7 @@ const SQUARE_COLOUR_2 = "sandybrown"
 const calculateX = (col: number) => col * SQUARE_WIDTH
 const calculateY = (row: number) => row * SQUARE_HEIGHT
 
-export const NQueensDrawing = () => {
+export const NQueensDrawing: React.FC<DrawingProps> = ({ solutionInternalRows }) => {
   const renderGrid = (): JSX.Element[] => {
     const allLocations = range(SIZE).flatMap(row =>
       range(SIZE).map(col =>
@@ -34,8 +36,9 @@ export const NQueensDrawing = () => {
   }
 
   const renderQueen = (coords: Coords): JSX.Element => {
-    const cx = calculateX(coords.col) + SQUARE_WIDTH / 2
-    const cy = calculateY(coords.row) + SQUARE_WIDTH / 2
+    const { row, col } = coords
+    const cx = calculateX(col) + SQUARE_WIDTH / 2
+    const cy = calculateY(row) + SQUARE_WIDTH / 2
 
     // Unicode white chess queen
     // https://util.unicode.org/UnicodeJsps/character.jsp?a=2655
@@ -43,11 +46,12 @@ export const NQueensDrawing = () => {
 
     return (
       <text
+        key={`queen-${row}-${col}`}
         x={cx}
         y={cy}
         fill="white"
-        text-anchor="middle"
-        dominant-baseline="middle"
+        textAnchor="middle"
+        dominantBaseline="middle"
       >
         {text}
       </text>
@@ -58,6 +62,7 @@ export const NQueensDrawing = () => {
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
       {renderGrid()}
+      {solutionInternalRows.map(internalRow => renderQueen(internalRow.coords))}
     </svg>
   )
 }
