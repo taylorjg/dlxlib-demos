@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import { AvailableDemo } from "../../types"
+
+import { AvailableDemo } from "types"
 import { StyledHeaderNavBar } from "./header-nav-bar.styles"
 
 export type HeaderNavBarProps = {

@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom"
-import { StyledPage, StyledMainContent, StyledDrawingWrapper, StyledErrorPage, StyledError } from "./demo-page.styles"
+
+import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
 import { PlaceholderDrawing } from "./placeholder-drawing"
 import { Buttons } from "./buttons"
-import { lookupAvailableDemoByShortName } from "../../available-demos"
+import { StyledPage, StyledMainContent, StyledDrawingWrapper, StyledErrorPage, StyledError } from "./demo-page.styles"
 
 type DemoPageParams = {
   shortName: string

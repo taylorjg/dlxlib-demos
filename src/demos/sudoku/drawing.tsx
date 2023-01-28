@@ -1,3 +1,5 @@
+import { range } from "utils"
+
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 const GRID_LINE_FULL_THICKNESS = 1
@@ -8,8 +10,6 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
 
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
-
-const range = (n: number) => Array.from(Array(n).keys())
 
 export const SudokuDrawing = () => {
   const renderHorizontalGridLines = (): JSX.Element[] => {

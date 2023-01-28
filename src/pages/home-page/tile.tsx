@@ -1,6 +1,6 @@
 import { useHistory } from "react-router-dom"
-import { AvailableDemo } from "../../types"
 
+import { AvailableDemo } from "types"
 import { StyledTile } from "./tile.styles"
 
 export type TileProps = {

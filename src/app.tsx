@@ -6,9 +6,10 @@ import {
   Route
 } from "react-router-dom"
 
-import { SudokuDrawing } from "./demos/sudoku/drawing"
-import { HomePage } from "./pages/home-page"
-import { DemoPage } from "./pages/demo-page"
+import { SudokuDrawing } from "demos/sudoku/drawing"
+import { NQueensDrawing } from "demos/n-queens/drawing"
+import { HomePage } from "pages/home-page"
+import { DemoPage } from "pages/demo-page"
 import { GlobalStyles, StyledContainer } from "./app.styles"
 
 const darkTheme = createTheme({
@@ -30,6 +31,9 @@ export const App = () => {
             </Route>
             <Route path="/demo/sudoku" exact>
               <DemoPage Drawing={SudokuDrawing} shortName="sudoku" />
+            </Route>
+            <Route path="/demo/n-queens" exact>
+              <DemoPage Drawing={NQueensDrawing} shortName="n-queens" />
             </Route>
             <Route path="/demo/:shortName" exact>
               <DemoPage />

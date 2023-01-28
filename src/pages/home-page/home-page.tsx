@@ -1,7 +1,7 @@
+import { availableDemos } from "available-demos"
 import { Tile } from "./tile"
 import { Version } from "./version"
 import { StyledPage, StyledTiles } from "./home-page.styles"
-import { availableDemos } from "../../available-demos"
 
 export const HomePage = () => {
   return (
