@@ -13,3 +13,8 @@ export interface IDemo<TInternalRow> {
   internalRowToMatrixRow(internalRow: TInternalRow): number[]
   getNumPrimaryColumns(): number | undefined
 }
+
+export type Coords = {
+  row: number,
+  col: number
+}

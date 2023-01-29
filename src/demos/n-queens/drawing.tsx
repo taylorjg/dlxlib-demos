@@ -1,6 +1,5 @@
-import { DrawingProps } from "types"
+import { Coords, DrawingProps } from "types"
 import { range } from "utils"
-import { Coords } from "./coords"
 import { NQueensInternalRow } from "./internal-row"
 
 const SIZE = 8

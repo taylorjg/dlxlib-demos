@@ -7,13 +7,15 @@ const VIEWBOX_HEIGHT = 100
 const GRID_LINE_FULL_THICKNESS = 1
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 const GRID_LINE_COLOUR = "black"
+const INITIAL_VALUE_COLOUR = "magenta"
+const CALCULATED_VALUE_COLOUR = "black"
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 9
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
 
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = () => {
+export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = ({ solutionInternalRows }) => {
   const renderHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(10)
     return rows.map(row => {
@@ -52,11 +54,39 @@ export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = () => {
     })
   }
 
+  const renderValues = (): JSX.Element[] => {
+    return solutionInternalRows.map(internalRow => renderValue(internalRow))
+  }
+
+  const renderValue = (internalRow: SudokuInternalRow): JSX.Element => {
+    const { row, col } = internalRow.coords
+    const cx = calculateX(col) + SQUARE_WIDTH / 2
+    const cy = calculateY(row) + SQUARE_WIDTH / 2
+    const fill = internalRow.isInitialValue ? INITIAL_VALUE_COLOUR : CALCULATED_VALUE_COLOUR
+    const fontSize = "8px"
+
+    return (
+      <text
+        key={`value-${row}-${col}`}
+        x={cx}
+        y={cy}
+        fill={fill}
+        fontSize={fontSize}
+        textAnchor="middle"
+        dominantBaseline="middle"
+      >
+        {internalRow.value}
+      </text>
+    )
+  }
+
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
       {renderHorizontalGridLines()}
       {renderVerticalGridLines()}
+      {renderValues()}
     </svg>
   )
 }

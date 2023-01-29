@@ -1,4 +1,4 @@
-import { Coords } from "./coords"
+import { Coords } from "types"
 
 export type NQueensInternalRow = {
   coords: Coords

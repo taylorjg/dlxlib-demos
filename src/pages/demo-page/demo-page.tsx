@@ -37,7 +37,7 @@ export function DemoPage<TInternalRow>(props: DemoPageProps<TInternalRow>) {
 
   const onSolve = () => {
     const internalRows = demo.buildInternalRows()
-    const matrix = internalRows.map(demo.internalRowToMatrixRow)
+    const matrix = internalRows.map(internalRow => demo.internalRowToMatrixRow(internalRow))
     const options: dlxlib.Options = {
       numSolutions: 1,
       numPrimaryColumns: demo.getNumPrimaryColumns()
