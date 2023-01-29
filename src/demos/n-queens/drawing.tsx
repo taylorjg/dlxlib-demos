@@ -2,21 +2,20 @@ import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { NQueensInternalRow } from "./internal-row"
 
-const SIZE = 8
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
-const SQUARE_WIDTH = VIEWBOX_WIDTH / SIZE
-const SQUARE_HEIGHT = VIEWBOX_HEIGHT / SIZE
 const SQUARE_COLOUR_1 = "peru"
 const SQUARE_COLOUR_2 = "sandybrown"
 
-const calculateX = (col: number) => col * SQUARE_WIDTH
-const calculateY = (row: number) => row * SQUARE_HEIGHT
+export const NQueensDrawing: React.FC<DrawingProps<{ size: number }, NQueensInternalRow>> = ({ puzzle, solutionInternalRows }) => {
+  const { size } = puzzle
 
-export const NQueensDrawing: React.FC<DrawingProps<NQueensInternalRow>> = ({ solutionInternalRows }) => {
+  const calculateX = (col: number) => col * VIEWBOX_WIDTH / size
+  const calculateY = (row: number) => row * VIEWBOX_HEIGHT / size
+
   const renderGrid = (): JSX.Element[] => {
-    const allLocations = range(SIZE).flatMap(row =>
-      range(SIZE).map(col =>
+    const allLocations = range(size).flatMap(row =>
+      range(size).map(col =>
         ({ row, col })))
 
     return allLocations.map(({ row, col }) => {
@@ -27,17 +26,21 @@ export const NQueensDrawing: React.FC<DrawingProps<NQueensInternalRow>> = ({ sol
         key={`square-${row}-${col}`}
         x={x}
         y={y}
-        width={SQUARE_WIDTH}
-        height={SQUARE_HEIGHT}
+        width={VIEWBOX_WIDTH / size}
+        height={VIEWBOX_HEIGHT / size}
         fill={fill}
       />
     })
   }
 
+  const renderQueens = (): JSX.Element[] => {
+    return solutionInternalRows.map(internalRow => renderQueen(internalRow.coords))
+  }
+
   const renderQueen = (coords: Coords): JSX.Element => {
     const { row, col } = coords
-    const cx = calculateX(col) + SQUARE_WIDTH / 2
-    const cy = calculateY(row) + SQUARE_WIDTH / 2
+    const cx = calculateX(col) + VIEWBOX_WIDTH / size / 2
+    const cy = calculateY(row) + VIEWBOX_HEIGHT / size / 2
 
     // Unicode white chess queen
     // https://util.unicode.org/UnicodeJsps/character.jsp?a=2655
@@ -61,7 +64,7 @@ export const NQueensDrawing: React.FC<DrawingProps<NQueensInternalRow>> = ({ sol
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
       {renderGrid()}
-      {solutionInternalRows.map(internalRow => renderQueen(internalRow.coords))}
+      {renderQueens()}
     </svg>
   )
 }

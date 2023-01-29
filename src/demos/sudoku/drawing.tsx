@@ -1,6 +1,7 @@
-import { DrawingProps } from "types"
+import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { SudokuInternalRow } from "./internal-row"
+import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
@@ -15,7 +16,7 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = ({ solutionInternalRows }) => {
+export const SudokuDrawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = ({ puzzle, solutionInternalRows }) => {
   const renderHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(10)
     return rows.map(row => {
@@ -54,15 +55,29 @@ export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = ({ solut
     })
   }
 
-  const renderValues = (): JSX.Element[] => {
-    return solutionInternalRows.map(internalRow => renderValue(internalRow))
+  const renderInitiaValues = (): JSX.Element[] => {
+    return puzzle.initialValues.map(initialValue =>
+      renderValue(
+        initialValue.coords,
+        initialValue.value,
+        true))
   }
 
-  const renderValue = (internalRow: SudokuInternalRow): JSX.Element => {
-    const { row, col } = internalRow.coords
+  const renderCalculatedValues = (): JSX.Element[] => {
+    return solutionInternalRows
+      .filter(internalRow => !internalRow.isInitialValue)
+      .map(internalRow =>
+        renderValue(
+          internalRow.coords,
+          internalRow.value,
+          false))
+  }
+
+  const renderValue = (coords: Coords, value: number, isInitialValue: boolean): JSX.Element => {
+    const { row, col } = coords
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
-    const fill = internalRow.isInitialValue ? INITIAL_VALUE_COLOUR : CALCULATED_VALUE_COLOUR
+    const fill = isInitialValue ? INITIAL_VALUE_COLOUR : CALCULATED_VALUE_COLOUR
     const fontSize = "8px"
 
     return (
@@ -75,7 +90,7 @@ export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = ({ solut
         textAnchor="middle"
         dominantBaseline="middle"
       >
-        {internalRow.value}
+        {value}
       </text>
     )
   }
@@ -86,7 +101,8 @@ export const SudokuDrawing: React.FC<DrawingProps<SudokuInternalRow>> = ({ solut
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
       {renderHorizontalGridLines()}
       {renderVerticalGridLines()}
-      {renderValues()}
+      {renderInitiaValues()}
+      {renderCalculatedValues()}
     </svg>
   )
 }

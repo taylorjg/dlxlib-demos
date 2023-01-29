@@ -7,8 +7,8 @@ import {
 } from "react-router-dom"
 
 import { IDemo } from "types"
-import { SudokuDemo, SudokuDrawing } from "demos/sudoku"
-import { NQueensDemo, NQueensDrawing } from "demos/n-queens"
+import * as Sudoku from "demos/sudoku"
+import * as NQueens from "demos/n-queens"
 import { PlaceholderDrawing } from "pages/demo-page/placeholder-drawing"
 import { HomePage } from "pages/home-page"
 import { DemoPage } from "pages/demo-page"
@@ -20,7 +20,7 @@ const darkTheme = createTheme({
   }
 })
 
-class PlaceholderDemo implements IDemo<{}> {
+class PlaceholderDemo implements IDemo<{}, {}> {
   buildInternalRows(): {}[] {
     return [{}]
   }
@@ -44,13 +44,27 @@ export const App = () => {
               <HomePage />
             </Route>
             <Route path="/demo/sudoku" exact>
-              <DemoPage demo={new SudokuDemo()} Drawing={SudokuDrawing} shortName="sudoku" />
+              <DemoPage
+                shortName="sudoku"
+                puzzle={Sudoku.puzzles[0]}
+                demo={new Sudoku.SudokuDemo()}
+                Drawing={Sudoku.SudokuDrawing}
+              />
             </Route>
             <Route path="/demo/n-queens" exact>
-              <DemoPage demo={new NQueensDemo()} Drawing={NQueensDrawing} shortName="n-queens" />
+              <DemoPage
+                shortName="n-queens"
+                puzzle={NQueens.puzzles[NQueens.puzzles.length - 1]}
+                demo={new NQueens.NQueensDemo()}
+                Drawing={NQueens.NQueensDrawing}
+              />
             </Route>
             <Route path="/demo/:shortName" exact>
-              <DemoPage demo={new PlaceholderDemo()} Drawing={PlaceholderDrawing} />
+              <DemoPage
+                puzzle={{}}
+                demo={new PlaceholderDemo()}
+                Drawing={PlaceholderDrawing}
+              />
             </Route>
           </Switch>
         </Router>

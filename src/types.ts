@@ -4,14 +4,15 @@ export type AvailableDemo = {
   id: number
 }
 
-export type DrawingProps<TInternalRow> = {
+export type DrawingProps<TPuzzle, TInternalRow> = {
+  puzzle: TPuzzle,
   solutionInternalRows: TInternalRow[]
 }
 
-export interface IDemo<TInternalRow> {
-  buildInternalRows(): TInternalRow[]
+export interface IDemo<TPuzzle, TInternalRow> {
+  buildInternalRows(puzzle: TPuzzle): TInternalRow[]
   internalRowToMatrixRow(internalRow: TInternalRow): number[]
-  getNumPrimaryColumns(): number | undefined
+  getNumPrimaryColumns(puzzle: TPuzzle): number | undefined
 }
 
 export type Coords = {

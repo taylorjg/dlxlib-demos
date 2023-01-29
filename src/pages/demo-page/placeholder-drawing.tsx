@@ -3,7 +3,7 @@ import { DrawingProps } from "types"
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
-export const PlaceholderDrawing: React.FC<DrawingProps<{}>> = () => {
+export const PlaceholderDrawing: React.FC<DrawingProps<{}, {}>> = () => {
   const cx = VIEWBOX_WIDTH / 2
   const cy = VIEWBOX_HEIGHT / 2
 

@@ -2,12 +2,10 @@ import { Coords, IDemo } from "types"
 import { range, sameCoords } from "utils"
 import { InitialValue } from "./initial-value"
 import { SudokuInternalRow } from "./internal-row"
-import { puzzles } from "./puzzles"
+import { Puzzle } from "./puzzle"
 
-const puzzle = puzzles[0]
-
-export class SudokuDemo implements IDemo<SudokuInternalRow> {
-  buildInternalRows(/* demoSettings */): SudokuInternalRow[] {
+export class SudokuDemo implements IDemo<Puzzle, SudokuInternalRow> {
+  buildInternalRows(puzzle: Puzzle): SudokuInternalRow[] {
     const allCoords = range(9).flatMap(row => range(9).map(col => ({ row, col })))
     return allCoords.flatMap(coords => {
       const initialValue = puzzle.initialValues.find(iv => sameCoords(iv.coords, coords))
@@ -53,7 +51,7 @@ export class SudokuDemo implements IDemo<SudokuInternalRow> {
     return Math.floor(row - (row % 3) + (col / 3))
   }
 
-  getNumPrimaryColumns(/* demoSettings */): number | undefined {
+  getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
     return undefined
   }
 }

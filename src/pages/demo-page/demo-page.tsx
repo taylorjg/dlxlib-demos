@@ -18,14 +18,16 @@ type DemoPageParams = {
   shortName: string
 }
 
-export type DemoPageProps<TInternalRow> = {
-  demo: IDemo<TInternalRow>,
-  Drawing: React.FC<DrawingProps<TInternalRow>>,
+export type DemoPageProps<TPuzzle, TInternalRow> = {
+  puzzle: TPuzzle,
+  demo: IDemo<TPuzzle, TInternalRow>,
+  Drawing: React.FC<DrawingProps<TPuzzle, TInternalRow>>,
   shortName?: string
 }
 
-export function DemoPage<TInternalRow>(props: DemoPageProps<TInternalRow>) {
+export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TInternalRow>) {
   const {
+    puzzle,
     demo,
     Drawing,
     shortName: shortNameProp
@@ -36,11 +38,11 @@ export function DemoPage<TInternalRow>(props: DemoPageProps<TInternalRow>) {
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
 
   const onSolve = () => {
-    const internalRows = demo.buildInternalRows()
+    const internalRows = demo.buildInternalRows(puzzle)
     const matrix = internalRows.map(internalRow => demo.internalRowToMatrixRow(internalRow))
     const options: dlxlib.Options = {
       numSolutions: 1,
-      numPrimaryColumns: demo.getNumPrimaryColumns()
+      numPrimaryColumns: demo.getNumPrimaryColumns(puzzle)
     }
     const solutions = dlxlib.solve(matrix, options)
     if (solutions.length === 1) {
@@ -63,7 +65,7 @@ export function DemoPage<TInternalRow>(props: DemoPageProps<TInternalRow>) {
       <HeaderNavBar availableDemo={availableDemo} />
       <StyledMainContent>
         <StyledDrawingWrapper>
-          <Drawing solutionInternalRows={solutionInternalRows} />
+          <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
         </StyledDrawingWrapper>
       </StyledMainContent>
       <Buttons onSolve={onSolve} />
