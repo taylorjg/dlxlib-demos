@@ -6,14 +6,13 @@ import {
   Route
 } from "react-router-dom"
 
-import { SudokuDrawing } from "demos/sudoku/drawing"
-import { NQueensDrawing } from "demos/n-queens/drawing"
+import { IDemo } from "types"
+import { SudokuDemo, SudokuDrawing } from "demos/sudoku"
+import { NQueensDemo, NQueensDrawing } from "demos/n-queens"
 import { PlaceholderDrawing } from "pages/demo-page/placeholder-drawing"
 import { HomePage } from "pages/home-page"
 import { DemoPage } from "pages/demo-page"
 import { GlobalStyles, StyledContainer } from "./app.styles"
-import { NQueensDemo } from "demos/n-queens/demo"
-import { IDemo } from "types"
 
 const darkTheme = createTheme({
   palette: {
@@ -21,11 +20,11 @@ const darkTheme = createTheme({
   }
 })
 
-class NullDemo<TInternalRow> implements IDemo<TInternalRow> {
-  buildInternalRows(): TInternalRow[] {
-    return []
+class PlaceholderDemo implements IDemo<{}> {
+  buildInternalRows(): {}[] {
+    return [{}]
   }
-  internalRowToMatrixRow(internalRow: TInternalRow): number[] {
+  internalRowToMatrixRow(internalRow: {}): number[] {
     return []
   }
   getNumPrimaryColumns(): number | undefined {
@@ -45,13 +44,13 @@ export const App = () => {
               <HomePage />
             </Route>
             <Route path="/demo/sudoku" exact>
-              <DemoPage demo={new NullDemo<{}>()} Drawing={SudokuDrawing} shortName="sudoku" />
+              <DemoPage demo={new SudokuDemo()} Drawing={SudokuDrawing} shortName="sudoku" />
             </Route>
             <Route path="/demo/n-queens" exact>
               <DemoPage demo={new NQueensDemo()} Drawing={NQueensDrawing} shortName="n-queens" />
             </Route>
             <Route path="/demo/:shortName" exact>
-              <DemoPage demo={new NullDemo<{}>()} Drawing={PlaceholderDrawing} />
+              <DemoPage demo={new PlaceholderDemo()} Drawing={PlaceholderDrawing} />
             </Route>
           </Switch>
         </Router>
