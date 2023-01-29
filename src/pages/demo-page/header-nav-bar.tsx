@@ -5,10 +5,10 @@ import { AvailableDemo } from "types"
 import { StyledHeaderNavBar } from "./header-nav-bar.styles"
 
 export type HeaderNavBarProps = {
-  demo: AvailableDemo
+  availableDemo: AvailableDemo
 }
 
-export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ demo }) => {
+export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => {
   const history = useHistory()
 
   const onBack = () => history.push("/")
@@ -21,7 +21,7 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ demo }) => {
           <div style={{ display: "flex", alignItems: "center" }}>Back</div>
         </div>
       </div>
-      <div>{demo.name}</div>
+      <div>{availableDemo.name}</div>
     </StyledHeaderNavBar>
   )
 }

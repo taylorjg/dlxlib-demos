@@ -1,7 +1,7 @@
-import { render } from "@testing-library/react"
 import { DrawingProps } from "types"
 import { range } from "utils"
 import { Coords } from "./coords"
+import { NQueensInternalRow } from "./internal-row"
 
 const SIZE = 8
 const VIEWBOX_WIDTH = 100
@@ -14,7 +14,7 @@ const SQUARE_COLOUR_2 = "sandybrown"
 const calculateX = (col: number) => col * SQUARE_WIDTH
 const calculateY = (row: number) => row * SQUARE_HEIGHT
 
-export const NQueensDrawing: React.FC<DrawingProps> = ({ solutionInternalRows }) => {
+export const NQueensDrawing: React.FC<DrawingProps<NQueensInternalRow>> = ({ solutionInternalRows }) => {
   const renderGrid = (): JSX.Element[] => {
     const allLocations = range(SIZE).flatMap(row =>
       range(SIZE).map(col =>

@@ -1,9 +1,10 @@
+import { IDemo } from "types"
 import { range } from "utils"
 import { NQueensInternalRow } from "./internal-row"
 
 const SIZE = 8
 
-export class NQueensDemo {
+export class NQueensDemo implements IDemo<NQueensInternalRow> {
   buildInternalRows(/* demoSettings */): NQueensInternalRow[] {
     const allLocations = range(SIZE).flatMap(row =>
       range(SIZE).map(col =>

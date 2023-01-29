@@ -2,10 +2,8 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 
 import * as dlxlib from "dlxlib/dlx"
-import { NQueensDemo } from "demos/n-queens/demo"
 import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
-import { PlaceholderDrawing } from "./placeholder-drawing"
 import { Buttons } from "./buttons"
 import {
   StyledPage,
@@ -14,29 +12,30 @@ import {
   StyledErrorPage,
   StyledError
 } from "./demo-page.styles"
-import { NQueensInternalRow } from "demos/n-queens/internal-row"
-import { DrawingProps } from "types"
+import { DrawingProps, IDemo } from "types"
 
 type DemoPageParams = {
   shortName: string
 }
 
-export type DemoPageProps = {
-  Drawing?: React.FC<DrawingProps>,
+export type DemoPageProps<TInternalRow> = {
+  demo: IDemo<TInternalRow>,
+  Drawing: React.FC<DrawingProps<TInternalRow>>,
   shortName?: string
 }
 
-export const DemoPage: React.FC<DemoPageProps> = ({
-  Drawing = PlaceholderDrawing,
-  shortName: shortNameProp
-}) => {
+export function DemoPage<TInternalRow>(props: DemoPageProps<TInternalRow>) {
+  const {
+    demo,
+    Drawing,
+    shortName: shortNameProp
+  } = props
   const { shortName: shortNameParam } = useParams<DemoPageParams>()
   const shortName = shortNameProp ?? shortNameParam
-  const demo = lookupAvailableDemoByShortName(shortName)
-  const [solutionInternalRows, setSolutionInternalRows] = useState<NQueensInternalRow[]>([])
+  const availableDemo = lookupAvailableDemoByShortName(shortName)
+  const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
 
   const onSolve = () => {
-    const demo = new NQueensDemo()
     const internalRows = demo.buildInternalRows()
     const matrix = internalRows.map(demo.internalRowToMatrixRow)
     const options: dlxlib.Options = {
@@ -49,7 +48,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
     }
   }
 
-  if (!demo) {
+  if (!availableDemo) {
     return (
       <StyledErrorPage>
         <StyledError>
@@ -61,7 +60,7 @@ export const DemoPage: React.FC<DemoPageProps> = ({
 
   return (
     <StyledPage>
-      <HeaderNavBar demo={demo} />
+      <HeaderNavBar availableDemo={availableDemo} />
       <StyledMainContent>
         <StyledDrawingWrapper>
           <Drawing solutionInternalRows={solutionInternalRows} />
