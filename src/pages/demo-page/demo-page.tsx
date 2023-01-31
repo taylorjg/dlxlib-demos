@@ -11,7 +11,7 @@ import {
   StyledErrorPage,
   StyledError
 } from "./demo-page.styles"
-import { DrawingProps, IDemo } from "types"
+import { CurrentState, DrawingProps } from "types"
 import { useWorker } from "useWorker"
 
 type DemoPageParams = {
@@ -34,12 +34,20 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
   const shortName = shortNameProp ?? shortNameParam
   const availableDemo = lookupAvailableDemoByShortName(shortName)
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
+  const [currentState, setCurrentState] = useState<CurrentState>(CurrentState.Clean)
   const worker = useWorker()
 
   const onSolve = () => {
+    setCurrentState(CurrentState.Solving)
     worker.solve(shortName, puzzle, (solutionInternalRows: TInternalRow[]) => {
       setSolutionInternalRows(solutionInternalRows)
+      setCurrentState(CurrentState.Dirty)
     })
+  }
+
+  const onReset = () => {
+    setSolutionInternalRows([])
+    setCurrentState(CurrentState.Clean)
   }
 
   if (!availableDemo) {
@@ -60,7 +68,7 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
           <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
         </StyledDrawingWrapper>
       </StyledMainContent>
-      <Buttons onSolve={onSolve} />
+      <Buttons onSolve={onSolve} onReset={onReset} currentState={currentState} />
     </StyledPage>
   )
 }

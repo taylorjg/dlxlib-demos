@@ -8,7 +8,7 @@ export const StyledPage = styled.div`
 `
 
 export const StyledMainContent = styled.div`
-  background-image: url("/dlxlib-demos/pattern_apple_wood.png");
+  /* background-image: url("/dlxlib-demos/pattern_apple_wood.png"); */
   padding: 4rem;
   flex-grow: 1;
   display: flex;
@@ -17,6 +17,7 @@ export const StyledMainContent = styled.div`
 `
 
 export const StyledDrawingWrapper = styled.div`
+  border: 2px solid grey;
   height: 100%;
   aspect-ratio: 1;
 `

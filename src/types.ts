@@ -19,3 +19,9 @@ export type Coords = {
   row: number,
   col: number
 }
+
+export enum CurrentState {
+  Clean,
+  Solving,
+  Dirty
+}
