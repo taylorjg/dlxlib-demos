@@ -6,6 +6,7 @@ export const useWorker = () => {
 
   const getWorker = () => {
     if (!workerRef.current) {
+      // https://webpack.js.org/guides/web-workers/
       const worker = new Worker(new URL('./worker/worker.ts', import.meta.url))
       workerRef.current = worker
     }
