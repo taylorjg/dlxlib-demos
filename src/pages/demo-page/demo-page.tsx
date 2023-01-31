@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 
-import * as dlxlib from "dlxlib/dlx"
 import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
 import { Buttons } from "./buttons"
@@ -13,6 +12,7 @@ import {
   StyledError
 } from "./demo-page.styles"
 import { DrawingProps, IDemo } from "types"
+import { useWorker } from "useWorker"
 
 type DemoPageParams = {
   shortName: string
@@ -20,7 +20,6 @@ type DemoPageParams = {
 
 export type DemoPageProps<TPuzzle, TInternalRow> = {
   puzzle: TPuzzle,
-  demo: IDemo<TPuzzle, TInternalRow>,
   Drawing: React.FC<DrawingProps<TPuzzle, TInternalRow>>,
   shortName?: string
 }
@@ -28,7 +27,6 @@ export type DemoPageProps<TPuzzle, TInternalRow> = {
 export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TInternalRow>) {
   const {
     puzzle,
-    demo,
     Drawing,
     shortName: shortNameProp
   } = props
@@ -36,18 +34,12 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
   const shortName = shortNameProp ?? shortNameParam
   const availableDemo = lookupAvailableDemoByShortName(shortName)
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
+  const worker = useWorker()
 
   const onSolve = () => {
-    const internalRows = demo.buildInternalRows(puzzle)
-    const matrix = internalRows.map(internalRow => demo.internalRowToMatrixRow(internalRow))
-    const options: dlxlib.Options = {
-      numSolutions: 1,
-      numPrimaryColumns: demo.getNumPrimaryColumns(puzzle)
-    }
-    const solutions = dlxlib.solve(matrix, options)
-    if (solutions.length === 1) {
-      setSolutionInternalRows(solutions[0].map(index => internalRows[index]))
-    }
+    worker.solve(shortName, puzzle, (solutionInternalRows: TInternalRow[]) => {
+      setSolutionInternalRows(solutionInternalRows)
+    })
   }
 
   if (!availableDemo) {

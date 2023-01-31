@@ -6,7 +6,6 @@ import {
   Route
 } from "react-router-dom"
 
-import { IDemo } from "types"
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
 import { PlaceholderDrawing } from "pages/demo-page/placeholder-drawing"
@@ -19,18 +18,6 @@ const darkTheme = createTheme({
     mode: "dark"
   }
 })
-
-class PlaceholderDemo implements IDemo<{}, {}> {
-  buildInternalRows(): {}[] {
-    return [{}]
-  }
-  internalRowToMatrixRow(internalRow: {}): number[] {
-    return []
-  }
-  getNumPrimaryColumns(): number | undefined {
-    return undefined
-  }
-}
 
 export const App = () => {
   return (
@@ -47,7 +34,6 @@ export const App = () => {
               <DemoPage
                 shortName="sudoku"
                 puzzle={Sudoku.puzzles[0]}
-                demo={new Sudoku.SudokuDemo()}
                 Drawing={Sudoku.SudokuDrawing}
               />
             </Route>
@@ -55,14 +41,12 @@ export const App = () => {
               <DemoPage
                 shortName="n-queens"
                 puzzle={NQueens.puzzles[NQueens.puzzles.length - 1]}
-                demo={new NQueens.NQueensDemo()}
                 Drawing={NQueens.NQueensDrawing}
               />
             </Route>
             <Route path="/demo/:shortName" exact>
               <DemoPage
                 puzzle={{}}
-                demo={new PlaceholderDemo()}
                 Drawing={PlaceholderDrawing}
               />
             </Route>
