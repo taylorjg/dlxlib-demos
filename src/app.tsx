@@ -8,6 +8,7 @@ import {
 
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import * as Kakuro from "demos/kakuro"
 import { PlaceholderDrawing } from "pages/demo-page/placeholder-drawing"
 import { HomePage } from "pages/home-page"
 import { DemoPage } from "pages/demo-page"
@@ -43,6 +44,13 @@ export const App = () => {
                 shortName="n-queens"
                 puzzle={last(NQueens.puzzles)}
                 Drawing={NQueens.NQueensDrawing}
+              />
+            </Route>
+            <Route path="/demo/kakuro" exact>
+              <DemoPage
+                shortName="kakuro"
+                puzzle={Kakuro.fakePuzzle}
+                Drawing={Kakuro.KakuroDrawing}
               />
             </Route>
             <Route path="/demo/:shortName" exact>

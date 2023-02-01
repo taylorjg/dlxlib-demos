@@ -1,6 +1,7 @@
 import { AvailableDemo } from "types";
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import * as Kakuro from "demos/kakuro"
 import { PlaceholderThumbnail } from "pages/demo-page/placeholder-drawing"
 
 const demoNames = [
@@ -20,6 +21,7 @@ const demoNames = [
 const thumbnailMap = new Map<string, React.FC>([
   ["sudoku", Sudoku.SudokuThumbnail],
   ["n-queens", NQueens.NQueensThumbnail],
+  ["kakuro", Kakuro.KakuroThumbnail]
 ])
 
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
