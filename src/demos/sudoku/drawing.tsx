@@ -95,7 +95,6 @@ export const SudokuDrawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = 
     )
   }
 
-
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />

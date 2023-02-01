@@ -2,6 +2,7 @@ import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { KakuroInternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
+import { RunType } from "./run-type"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
@@ -72,12 +73,48 @@ export const KakuroDrawing: React.FC<DrawingProps<Puzzle, KakuroInternalRow>> = 
     )
   }
 
+  const renderHorizontalRuns = (): JSX.Element[] => {
+    return solutionInternalRows
+      .filter(internalRow => internalRow.run.runType === RunType.Horizontal)
+      .flatMap(renderHorizontalRun)
+  }
+
+  const renderHorizontalRun = (internalRow: KakuroInternalRow): JSX.Element[] => {
+    return range(internalRow.run.coordsList.length).map(index => {
+      const coords = internalRow.run.coordsList[index]
+      const value = internalRow.values[index]
+      return renderValue(coords, value)
+    })
+  }
+
+  const renderValue = (coords: Coords, value: number): JSX.Element => {
+    const { row, col } = coords
+    const cx = calculateX(col) + SQUARE_WIDTH / 2
+    const cy = calculateY(row) + SQUARE_WIDTH / 2
+    const fill = "black"
+    const fontSize = "8px"
+
+    return (
+      <text
+        key={`value-${row}-${col}`}
+        x={cx}
+        y={cy}
+        fill={fill}
+        fontSize={fontSize}
+        textAnchor="middle"
+        dominantBaseline="middle"
+      >
+        {value}
+      </text>
+    )
+  }
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
       {renderHorizontalGridLines()}
       {renderVerticalGridLines()}
       {renderBlocks()}
+      {renderHorizontalRuns()}
     </svg>
   )
 }
