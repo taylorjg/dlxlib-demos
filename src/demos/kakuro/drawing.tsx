@@ -52,11 +52,32 @@ export const KakuroDrawing: React.FC<DrawingProps<Puzzle, KakuroInternalRow>> = 
     })
   }
 
+  const renderBlocks = (): JSX.Element[] => {
+    return puzzle.blocks.map(renderBlock)
+  }
+
+  const renderBlock = (block: Coords): JSX.Element => {
+    const { row, col } = block
+    const x = calculateX(col)
+    const y = calculateY(row)
+    return (
+      <rect
+        key={`block-${row}-${col}`}
+        x={x}
+        y={y}
+        width={SQUARE_WIDTH}
+        height={SQUARE_HEIGHT}
+        fill="black"
+      />
+    )
+  }
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
       {renderHorizontalGridLines()}
       {renderVerticalGridLines()}
+      {renderBlocks()}
     </svg>
   )
 }

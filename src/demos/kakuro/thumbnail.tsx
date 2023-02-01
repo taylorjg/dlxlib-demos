@@ -1,15 +1,8 @@
+import { first } from "utils"
 import { KakuroDrawing } from "./drawing"
-import { Puzzle } from "./puzzle"
-
-export const fakePuzzle: Puzzle = {
-  size: 10,
-  blocks: [],
-  clues: [],
-  unknowns: [],
-  horizontalRuns: [],
-  verticalRuns: []
-}
+import { puzzles } from "./puzzles"
 
 export const KakuroThumbnail = () => {
-  return <KakuroDrawing puzzle={fakePuzzle} solutionInternalRows={[]} />
+  const puzzle = first(puzzles)
+  return <KakuroDrawing puzzle={puzzle} solutionInternalRows={[]} />
 }

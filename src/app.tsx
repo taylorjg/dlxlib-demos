@@ -49,7 +49,7 @@ export const App = () => {
             <Route path="/demo/kakuro" exact>
               <DemoPage
                 shortName="kakuro"
-                puzzle={Kakuro.fakePuzzle}
+                puzzle={first(Kakuro.puzzles)}
                 Drawing={Kakuro.KakuroDrawing}
               />
             </Route>
