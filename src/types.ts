@@ -1,7 +1,7 @@
 export type AvailableDemo = {
   name: string,
   shortName: string,
-  id: number
+  Thumbnail: React.FC,
 }
 
 export type DrawingProps<TPuzzle, TInternalRow> = {

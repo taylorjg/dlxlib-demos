@@ -4,6 +4,7 @@
 import * as dlxlib from "dlxlib/dlx"
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import { first } from "utils"
 
 const map = new Map<string, any>([
   ["sudoku", Sudoku.SudokuDemo],
@@ -34,8 +35,9 @@ const onSolve = (shortName: string, puzzle: any) => {
     return
   }
 
-  console.dir(solutions[0])
-  const solutionInternalRows = solutions[0].map(index => internalRows[index])
+  const solution = first(solutions)
+  console.dir(solution)
+  const solutionInternalRows = solution.map(index => internalRows[index])
   console.dir(solutionInternalRows)
   self.postMessage({ type: "solutionFound", solutionInternalRows })
 }

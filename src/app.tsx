@@ -12,6 +12,7 @@ import { PlaceholderDrawing } from "pages/demo-page/placeholder-drawing"
 import { HomePage } from "pages/home-page"
 import { DemoPage } from "pages/demo-page"
 import { GlobalStyles, StyledContainer } from "./app.styles"
+import { first, last } from "utils"
 
 const darkTheme = createTheme({
   palette: {
@@ -33,14 +34,14 @@ export const App = () => {
             <Route path="/demo/sudoku" exact>
               <DemoPage
                 shortName="sudoku"
-                puzzle={Sudoku.puzzles[0]}
+                puzzle={first(Sudoku.puzzles)}
                 Drawing={Sudoku.SudokuDrawing}
               />
             </Route>
             <Route path="/demo/n-queens" exact>
               <DemoPage
                 shortName="n-queens"
-                puzzle={NQueens.puzzles[NQueens.puzzles.length - 1]}
+                puzzle={last(NQueens.puzzles)}
                 Drawing={NQueens.NQueensDrawing}
               />
             </Route>

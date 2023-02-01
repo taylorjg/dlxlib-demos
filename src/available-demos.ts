@@ -1,4 +1,7 @@
-import { AvailableDemo } from "./types";
+import { AvailableDemo } from "types";
+import * as Sudoku from "demos/sudoku"
+import * as NQueens from "demos/n-queens"
+import { PlaceholderThumbnail } from "pages/demo-page/placeholder-drawing"
 
 const demoNames = [
   "Sudoku",
@@ -14,23 +17,22 @@ const demoNames = [
   "Crossword"
 ]
 
-export const availableDemos: AvailableDemo[] = demoNames
-  .map((name, index) => ({
-    name,
-    shortName: name.toLowerCase().replace(/\s/g, "-"),
-    id: index + 1
-  }))
+const thumbnailMap = new Map<string, React.FC>([
+  ["sudoku", Sudoku.SudokuThumbnail],
+  ["n-queens", NQueens.NQueensThumbnail],
+])
 
-export const lookupAvailableDemoByIdParam = (idParam: string) => {
-  const number = Number(idParam)
-  if (Number.isInteger(number)) {
-    const index = number - 1;
-    if (availableDemos[index]) {
-      return availableDemos[index];
+const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
+
+export const availableDemos: AvailableDemo[] = demoNames
+  .map(name => {
+    const shortName = makeShortName(name)
+    return {
+      name,
+      shortName,
+      Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail
     }
-  }
-  return undefined
-}
+  })
 
 export const lookupAvailableDemoByShortName = (shortName: string) => {
   return availableDemos.find(availableDemo => availableDemo.shortName === shortName)

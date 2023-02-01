@@ -7,7 +7,7 @@ export const HomePage = () => {
   return (
     <StyledPage>
       <StyledTiles>
-        {availableDemos.map((demo, index) => <Tile key={index} demo={demo} />)}
+        {availableDemos.map(demo => <Tile key={demo.shortName} demo={demo} />)}
       </StyledTiles>
       <Version />
     </StyledPage>
