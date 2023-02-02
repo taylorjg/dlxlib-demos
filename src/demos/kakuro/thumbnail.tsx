@@ -1,5 +1,4 @@
-import { first, range } from "utils"
-import { Coords } from "types"
+import { first } from "utils"
 import { KakuroDrawing } from "./drawing"
 import { KakuroInternalRow } from "./internal-row"
 import { Run } from "./run"
@@ -25,26 +24,9 @@ export const KakuroThumbnail = () => {
 }
 
 const parseSolution = (puzzle: Puzzle, solution: string[]): KakuroInternalRow[] => {
-  const dict = new Map<string, number>()
-  const size = puzzle.size
-
-  const makeKeyFromCoords = ({ row, col }: Coords): string => makeKeyFromRowCol(row, col)
-  const makeKeyFromRowCol = (row: number, col: number): string => `${row}:${col}`
-
-  for (const row of range(size)) {
-    for (const col of range(size)) {
-      const ch = solution[row][col]
-      const value = Number(ch)
-      if (Number.isInteger(value)) {
-        const key = makeKeyFromRowCol(row, col)
-        dict.set(key, value)
-      }
-    }
-  }
-
   const makeInternalRowsForRuns = (runs: Run[]): KakuroInternalRow[] =>
     runs.map(run => {
-      const values = run.coordsList.map(coords => dict.get(makeKeyFromCoords(coords))!)
+      const values = run.coordsList.map(({ row, col }) => Number(solution[row][col]))
       return { puzzle, run, values }
     })
 
