@@ -9,7 +9,7 @@ export const StyledPage = styled.div`
 
 export const StyledMainContent = styled.div`
   /* background-image: url("/dlxlib-demos/pattern_apple_wood.png"); */
-  padding: 4rem;
+  padding: 2rem;
   flex-grow: 1;
   display: flex;
   justify-content: center;
