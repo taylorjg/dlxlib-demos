@@ -1,8 +1,9 @@
 import { Coords } from "types"
-import { range } from "utils"
+import { range, sameCoords } from "utils"
 import { Clue } from "./clue"
 import { Puzzle } from "./puzzle"
 import { Run } from "./run"
+import { RunType } from "./run-type"
 
 const makeLabelDict = (size: number, grid: string[]): Map<string, Coords> => {
   const dict = new Map<string, Coords>()
@@ -43,14 +44,73 @@ const findUnknowns = (size: number, grid: string[]): Coords[] => {
   return unknowns
 }
 
+const findRun = (unknowns: Coords[], startingPoint: Coords, advance: (coords: Coords) => Coords): Coords[] => {
+  const run: Coords[] = []
+  let currentCoords = startingPoint
+  const isInUnknowns = (coords: Coords) => unknowns.findIndex(unknown => sameCoords(unknown, coords)) >= 0
+  for (; ;) {
+    currentCoords = advance(currentCoords)
+    if (!isInUnknowns(currentCoords)) break
+    run.push(currentCoords)
+  }
+  return run
+}
+
+const goRight = (coords: Coords): Coords => ({ row: coords.row, col: coords.col + 1 })
+const goDown = (coords: Coords): Coords => ({ row: coords.row + 1, col: coords.col })
+
+const findHorizontalRuns = (unknowns: Coords[], clues: Clue[]): Run[] => {
+  return clues
+    .filter(clue => clue.acrossSum !== undefined)
+    .map(clue => {
+      const coordsList = findRun(unknowns, clue.coords, goRight)
+      return { runType: RunType.Horizontal, coordsList, sum: clue.acrossSum! }
+    })
+}
+
+const findVerticalRuns = (unknowns: Coords[], clues: Clue[]): Run[] => {
+  return clues
+    .filter(clue => clue.downSum !== undefined)
+    .map(clue => {
+      const coordsList = findRun(unknowns, clue.coords, goDown)
+      return { runType: RunType.Vertical, coordsList, sum: clue.downSum! }
+    })
+}
+
+const parseClues = (labelDict: Map<string, Coords>, cluesString: string): Clue[] => {
+  return cluesString
+    .split(/\s/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(clueString => parseClue(labelDict, clueString))
+}
+
+const parseClue = (labelDict: Map<string, Coords>, clueString: string): Clue => {
+  const bits = clueString.split(":").map(s => s.trim())
+  const label = bits[0]
+  const sumsString = bits[1]
+  const coords = labelDict.get(label)!
+
+  const parseSum = (sumString: string): number | undefined => {
+    const sum = Number(sumString)
+    return Number.isInteger(sum) ? sum : undefined
+  }
+
+  const sumsList = sumsString.split(",").map(s => s.trim())
+  const acrossSum = parseSum(sumsList[0] ?? "")
+  const downSum = parseSum(sumsList[1] ?? "")
+
+  return { coords, acrossSum, downSum }
+}
+
 const parsePuzzle = (grid: string[], cluesString: string): Puzzle => {
   const size = grid.length
-  // const labelDict = makeLabelDict(size, grid)
   const blocks = findBlocks(size, grid)
-  const clues: Clue[] = []
-  var unknowns = findUnknowns(size, grid)
-  var horizontalRuns: Run[] = []
-  var verticalRuns: Run[] = []
+  const labelDict = makeLabelDict(size, grid)
+  const unknowns = findUnknowns(size, grid)
+  const clues = parseClues(labelDict, cluesString)
+  const horizontalRuns = findHorizontalRuns(unknowns, clues)
+  const verticalRuns = findVerticalRuns(unknowns, clues)
   return { size, blocks, clues, unknowns, horizontalRuns, verticalRuns }
 }
 
