@@ -8,7 +8,7 @@ import { doPermute } from "./permutations"
 
 const DIGITS = range(9).map(n => n + 1)
 
-export class KakuroDemo implements IDemo<Puzzle, KakuroInternalRow> {
+export class Demo implements IDemo<Puzzle, KakuroInternalRow> {
 
   buildInternalRows(puzzle: Puzzle): KakuroInternalRow[] {
     const internalRows: KakuroInternalRow[] = []

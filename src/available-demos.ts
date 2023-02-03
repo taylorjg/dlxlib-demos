@@ -19,9 +19,9 @@ const demoNames = [
 ]
 
 const thumbnailMap = new Map<string, React.FC>([
-  ["sudoku", Sudoku.SudokuThumbnail],
-  ["n-queens", NQueens.NQueensThumbnail],
-  ["kakuro", Kakuro.KakuroThumbnail]
+  ["sudoku", Sudoku.Thumbnail],
+  ["n-queens", NQueens.Thumbnail],
+  ["kakuro", Kakuro.Thumbnail]
 ])
 
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
@@ -32,7 +32,7 @@ export const availableDemos: AvailableDemo[] = demoNames
     return {
       name,
       shortName,
-      Thumbnail: thumbnailMap.get(shortName) ?? Placeholder.PlaceholderThumbnail
+      Thumbnail: thumbnailMap.get(shortName) ?? Placeholder.Thumbnail
     }
   })
 

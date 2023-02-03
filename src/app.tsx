@@ -36,27 +36,27 @@ export const App = () => {
               <DemoPage
                 shortName="sudoku"
                 puzzle={first(Sudoku.puzzles)}
-                Drawing={Sudoku.SudokuDrawing}
+                Drawing={Sudoku.Drawing}
               />
             </Route>
             <Route path="/demo/n-queens" exact>
               <DemoPage
                 shortName="n-queens"
                 puzzle={last(NQueens.puzzles)}
-                Drawing={NQueens.NQueensDrawing}
+                Drawing={NQueens.Drawing}
               />
             </Route>
             <Route path="/demo/kakuro" exact>
               <DemoPage
                 shortName="kakuro"
                 puzzle={first(Kakuro.puzzles)}
-                Drawing={Kakuro.KakuroDrawing}
+                Drawing={Kakuro.Drawing}
               />
             </Route>
             <Route path="/demo/:shortName" exact>
               <DemoPage
                 puzzle={{}}
-                Drawing={Placeholder.PlaceholderDrawing}
+                Drawing={Placeholder.Drawing}
               />
             </Route>
           </Switch>

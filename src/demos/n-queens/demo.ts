@@ -3,7 +3,7 @@ import { range } from "utils"
 import { Puzzle } from "./puzzle"
 import { NQueensInternalRow } from "./internal-row"
 
-export class NQueensDemo implements IDemo<Puzzle, NQueensInternalRow> {
+export class Demo implements IDemo<Puzzle, NQueensInternalRow> {
   buildInternalRows(puzzle: Puzzle): NQueensInternalRow[] {
     const allLocations = range(puzzle.size).flatMap(row =>
       range(puzzle.size).map(col =>

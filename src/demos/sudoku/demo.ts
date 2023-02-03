@@ -4,7 +4,7 @@ import { InitialValue } from "./initial-value"
 import { SudokuInternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 
-export class SudokuDemo implements IDemo<Puzzle, SudokuInternalRow> {
+export class Demo implements IDemo<Puzzle, SudokuInternalRow> {
   buildInternalRows(puzzle: Puzzle): SudokuInternalRow[] {
     const allCoords = range(9).flatMap(row => range(9).map(col => ({ row, col })))
     return allCoords.flatMap(coords => {

@@ -1,11 +1,11 @@
 import { first } from "utils"
-import { KakuroDrawing } from "./drawing"
+import { Drawing } from "./drawing"
 import { KakuroInternalRow } from "./internal-row"
 import { Run } from "./run"
 import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
 
-export const KakuroThumbnail = () => {
+export const Thumbnail = () => {
   const puzzle = first(puzzles)
   const solution = [
     "..........",
@@ -20,7 +20,7 @@ export const KakuroThumbnail = () => {
     ".13.31.13."
   ]
   const solutionInternalRows = parseSolution(puzzle, solution)
-  return <KakuroDrawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
+  return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
 }
 
 const parseSolution = (puzzle: Puzzle, solution: string[]): KakuroInternalRow[] => {

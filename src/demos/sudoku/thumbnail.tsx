@@ -1,11 +1,11 @@
 import { sameCoords } from "types"
 import { first, range } from "utils"
-import { SudokuDrawing } from "./drawing"
+import { Drawing } from "./drawing"
 import { SudokuInternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
 
-export const SudokuThumbnail = () => {
+export const Thumbnail = () => {
   const puzzle = first(puzzles)
   const solution = [
     "614892753",
@@ -19,7 +19,7 @@ export const SudokuThumbnail = () => {
     "928761435"
   ]
   const solutionInternalRows = parseSolution(puzzle, solution)
-  return <SudokuDrawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
+  return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
 }
 
 const parseSolution = (puzzle: Puzzle, solution: string[]): SudokuInternalRow[] => {

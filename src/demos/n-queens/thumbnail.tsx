@@ -1,13 +1,13 @@
 import { last } from "utils"
-import { NQueensDrawing } from "./drawing"
+import { Drawing } from "./drawing"
 import { puzzles } from "./puzzles"
 import { Puzzle } from "./puzzle"
 import { NQueensInternalRow } from "./internal-row"
 
-export const NQueensThumbnail = () => {
+export const Thumbnail = () => {
   const puzzle = last(puzzles)
   const solutionInternalRows = makeSolution(puzzle)
-  return <NQueensDrawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
+  return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
 }
 
 const makeSolution = (puzzle: Puzzle): NQueensInternalRow[] => {

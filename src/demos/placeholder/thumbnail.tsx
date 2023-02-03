@@ -1,5 +1,5 @@
-import { PlaceholderDrawing } from "./drawing"
+import { Drawing } from "./drawing"
 
-export const PlaceholderThumbnail = () => {
-  return <PlaceholderDrawing puzzle={{}} solutionInternalRows={[]} />
+export const Thumbnail = () => {
+  return <Drawing puzzle={{}} solutionInternalRows={[]} />
 }

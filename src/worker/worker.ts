@@ -8,9 +8,9 @@ import * as NQueens from "demos/n-queens"
 import * as Kakuro from "demos/kakuro"
 
 const map = new Map<string, any>([
-  ["sudoku", Sudoku.SudokuDemo],
-  ["n-queens", NQueens.NQueensDemo],
-  ["kakuro", Kakuro.KakuroDemo]
+  ["sudoku", Sudoku.Demo],
+  ["n-queens", NQueens.Demo],
+  ["kakuro", Kakuro.Demo]
 ])
 
 // 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)

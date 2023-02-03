@@ -16,7 +16,7 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 10
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const KakuroDrawing: React.FC<DrawingProps<Puzzle, KakuroInternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, KakuroInternalRow>> = ({ puzzle, solutionInternalRows }) => {
 
   const drawBackground = (): JSX.Element => {
     return <rect

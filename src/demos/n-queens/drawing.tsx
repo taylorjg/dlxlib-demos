@@ -8,7 +8,7 @@ const VIEWBOX_HEIGHT = 100
 const SQUARE_COLOUR_1 = "peru"
 const SQUARE_COLOUR_2 = "sandybrown"
 
-export const NQueensDrawing: React.FC<DrawingProps<Puzzle, NQueensInternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, NQueensInternalRow>> = ({ puzzle, solutionInternalRows }) => {
   const { size } = puzzle
 
   const calculateX = (col: number) => col * VIEWBOX_WIDTH / size
