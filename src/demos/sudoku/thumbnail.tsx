@@ -1,4 +1,5 @@
-import { first, range, sameCoords } from "utils"
+import { sameCoords } from "types"
+import { first, range } from "utils"
 import { SudokuDrawing } from "./drawing"
 import { SudokuInternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
@@ -30,8 +31,9 @@ const parseSolution = (puzzle: Puzzle, solution: string[]): SudokuInternalRow[] 
       const value = Number(ch)
       if (Number.isInteger(value)) {
         const coords = { row, col }
-        const isInitialValue = puzzle.initialValues.findIndex(initialValue => sameCoords(initialValue.coords, coords)) >= 0
-        const internalRow = {coords, value, isInitialValue}
+        const isInitialValue = puzzle.initialValues.findIndex(initialValue =>
+          sameCoords(initialValue.coords, coords)) >= 0
+        const internalRow = { coords, value, isInitialValue }
         internalRows.push(internalRow)
       }
     }

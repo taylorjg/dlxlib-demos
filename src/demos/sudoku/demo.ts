@@ -1,5 +1,5 @@
-import { Coords, IDemo } from "types"
-import { range, sameCoords } from "utils"
+import { Coords, IDemo, sameCoords } from "types"
+import { range } from "utils"
 import { InitialValue } from "./initial-value"
 import { SudokuInternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"

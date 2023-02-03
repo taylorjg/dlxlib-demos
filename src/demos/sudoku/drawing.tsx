@@ -17,7 +17,12 @@ const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNES
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
 export const SudokuDrawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = ({ puzzle, solutionInternalRows }) => {
-  const renderHorizontalGridLines = (): JSX.Element[] => {
+
+  const drawBackground = (): JSX.Element => {
+    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
+  }
+
+  const drawHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(10)
     return rows.map(row => {
       const y = calculateY(row)
@@ -36,7 +41,7 @@ export const SudokuDrawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = 
     })
   }
 
-  const renderVerticalGridLines = (): JSX.Element[] => {
+  const drawVerticalGridLines = (): JSX.Element[] => {
     const cols = range(10)
     return cols.map(col => {
       const x = calculateX(col)
@@ -55,25 +60,25 @@ export const SudokuDrawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = 
     })
   }
 
-  const renderInitiaValues = (): JSX.Element[] => {
+  const drawInitiaValues = (): JSX.Element[] => {
     return puzzle.initialValues.map(initialValue =>
-      renderValue(
+      drawValue(
         initialValue.coords,
         initialValue.value,
         true))
   }
 
-  const renderCalculatedValues = (): JSX.Element[] => {
+  const drawCalculatedValues = (): JSX.Element[] => {
     return solutionInternalRows
       .filter(internalRow => !internalRow.isInitialValue)
       .map(internalRow =>
-        renderValue(
+        drawValue(
           internalRow.coords,
           internalRow.value,
           false))
   }
 
-  const renderValue = (coords: Coords, value: number, isInitialValue: boolean): JSX.Element => {
+  const drawValue = (coords: Coords, value: number, isInitialValue: boolean): JSX.Element => {
     const { row, col } = coords
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
@@ -97,11 +102,11 @@ export const SudokuDrawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = 
 
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
-      <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
-      {renderHorizontalGridLines()}
-      {renderVerticalGridLines()}
-      {renderInitiaValues()}
-      {renderCalculatedValues()}
+      {drawBackground()}
+      {drawHorizontalGridLines()}
+      {drawVerticalGridLines()}
+      {drawInitiaValues()}
+      {drawCalculatedValues()}
     </svg>
   )
 }

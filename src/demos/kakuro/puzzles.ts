@@ -1,5 +1,5 @@
-import { Coords } from "types"
-import { range, sameCoords } from "utils"
+import { Coords, goDown, goRight, sameCoords } from "types"
+import { range } from "utils"
 import { Clue } from "./clue"
 import { Puzzle } from "./puzzle"
 import { Run } from "./run"
@@ -55,9 +55,6 @@ const findRun = (unknowns: Coords[], startingPoint: Coords, advance: (coords: Co
   }
   return run
 }
-
-const goRight = (coords: Coords): Coords => ({ row: coords.row, col: coords.col + 1 })
-const goDown = (coords: Coords): Coords => ({ row: coords.row + 1, col: coords.col })
 
 const findHorizontalRuns = (unknowns: Coords[], clues: Clue[]): Run[] => {
   return clues
