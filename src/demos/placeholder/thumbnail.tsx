@@ -1,5 +1,5 @@
 import { PlaceholderDrawing } from "./drawing"
 
 export const PlaceholderThumbnail = () => {
-  return <PlaceholderDrawing puzzle={ { } } solutionInternalRows = { []} />
+  return <PlaceholderDrawing puzzle={{}} solutionInternalRows={[]} />
 }
