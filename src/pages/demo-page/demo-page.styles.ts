@@ -18,8 +18,8 @@ export const StyledMainContent = styled.div`
 
 export const StyledDrawingWrapper = styled.div`
   border: 2px solid grey;
-  height: 100%;
-  aspect-ratio: 1;
+  width: min(60vw, 60vh);
+  height: min(60vw, 60vh);
 `
 
 export const StyledErrorPage = styled.div`

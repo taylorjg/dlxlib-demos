@@ -23,6 +23,6 @@ export const StyledRightColumn = styled.div`
 
 export const StyledDrawingWrapper = styled.div`
   border: 1px solid grey;
-  height: 70%;
-  aspect-ratio: 1;
+  width: calc(min(20rem, 90vw) * 3 / 7);
+  height: calc(min(20rem, 90vw) * 3 / 7);
 `
