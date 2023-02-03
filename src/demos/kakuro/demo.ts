@@ -1,14 +1,71 @@
 import { Coords, IDemo, sameCoords } from "types"
-import { range } from "utils"
+import { range, sum } from "utils"
 import { KakuroInternalRow } from "./internal-row"
 import { Run, sameRun } from "./run"
 import { Puzzle } from "./puzzle"
 import { RunType } from "./run-type"
+import { doPermute } from "./permutations"
+
+const DIGITS = range(9).map(n => n + 1)
 
 export class KakuroDemo implements IDemo<Puzzle, KakuroInternalRow> {
 
   buildInternalRows(puzzle: Puzzle): KakuroInternalRow[] {
-    return []
+    const internalRows: KakuroInternalRow[] = []
+
+    const createInternalRowsFor = (runs: Run[]): void => {
+      for (const run of runs) {
+        for (const setOfValues of this.findSetsOfValues(run)) {
+          for (const values of doPermute(setOfValues)) {
+            const internalRow = { puzzle, run, values }
+            internalRows.push(internalRow)
+          }
+        }
+      }
+    }
+
+    createInternalRowsFor(puzzle.horizontalRuns)
+    createInternalRowsFor(puzzle.verticalRuns)
+
+    return internalRows
+  }
+
+  // Return sets of values where each set of values:
+  // - has length run.CoordsList.Length
+  // - sums to run.Sum
+  // - contains only values 1..9
+  // - does not have any duplicated values
+  // e.g. for run length 3 and sum 10, valid sets of values would be [1,4,5], [2,3,5], [1,3,6], etc
+  findSetsOfValues(run: Run): number[][] {
+    const setsOfValues: number[][] = []
+
+    const helper = (n: number, useds: number[][], setOfValues: number[]): void => {
+      const remainingDigits = this.digitsExcept(useds.flat())
+      const used: number[] = []
+      useds.push(used)
+      for (const digit of remainingDigits) {
+        setOfValues.push(digit)
+        used.push(digit)
+        if (n > 1) {
+          helper(n - 1, useds, setOfValues)
+        } else {
+          if (sum(setOfValues) === run.sum) {
+            setsOfValues.push(setOfValues.slice())
+          }
+        }
+        setOfValues.pop()
+      }
+      useds.pop()
+    }
+
+    const runLength = run.coordsList.length
+    helper(runLength, [], []);
+
+    return setsOfValues
+  }
+
+  digitsExcept(ds: number[]): number[] {
+    return DIGITS.filter(d => !ds.includes(d))
   }
 
   internalRowToMatrixRow(internalRow: KakuroInternalRow): number[] {

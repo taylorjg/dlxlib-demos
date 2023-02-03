@@ -1,14 +1,16 @@
 // Unexpected use of 'self'.
 /* eslint-disable no-restricted-globals */
 
+import { first } from "utils"
 import * as dlxlib from "dlxlib/dlx"
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
-import { first } from "utils"
+import * as Kakuro from "demos/kakuro"
 
 const map = new Map<string, any>([
   ["sudoku", Sudoku.SudokuDemo],
-  ["n-queens", NQueens.NQueensDemo]
+  ["n-queens", NQueens.NQueensDemo],
+  ["kakuro", Kakuro.KakuroDemo]
 ])
 
 // 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)
