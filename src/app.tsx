@@ -9,7 +9,7 @@ import {
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
 import * as Kakuro from "demos/kakuro"
-import { PlaceholderDrawing } from "pages/demo-page/placeholder-drawing"
+import * as Placeholder from "demos/placeholder"
 import { HomePage } from "pages/home-page"
 import { DemoPage } from "pages/demo-page"
 import { GlobalStyles, StyledContainer } from "./app.styles"
@@ -56,7 +56,7 @@ export const App = () => {
             <Route path="/demo/:shortName" exact>
               <DemoPage
                 puzzle={{}}
-                Drawing={PlaceholderDrawing}
+                Drawing={Placeholder.PlaceholderDrawing}
               />
             </Route>
           </Switch>

@@ -14,7 +14,3 @@ export const PlaceholderDrawing: React.FC<DrawingProps<{}, {}>> = () => {
     </svg>
   )
 }
-
-export const PlaceholderThumbnail = () => {
-  return <PlaceholderDrawing puzzle={{}} solutionInternalRows={[]} />
-}

@@ -2,7 +2,7 @@ import { AvailableDemo } from "types";
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
 import * as Kakuro from "demos/kakuro"
-import { PlaceholderThumbnail } from "pages/demo-page/placeholder-drawing"
+import * as Placeholder from "demos/placeholder"
 
 const demoNames = [
   "Sudoku",
@@ -32,7 +32,7 @@ export const availableDemos: AvailableDemo[] = demoNames
     return {
       name,
       shortName,
-      Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail
+      Thumbnail: thumbnailMap.get(shortName) ?? Placeholder.PlaceholderThumbnail
     }
   })
 
