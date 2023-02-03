@@ -1,6 +1,6 @@
 import { Coords, IDemo, sameCoords } from "types"
 import { range, sum } from "utils"
-import { KakuroInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 import { Run, sameRun } from "./run"
 import { Puzzle } from "./puzzle"
 import { RunType } from "./run-type"
@@ -8,10 +8,10 @@ import { doPermute } from "./permutations"
 
 const DIGITS = range(9).map(n => n + 1)
 
-export class Demo implements IDemo<Puzzle, KakuroInternalRow> {
+export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(puzzle: Puzzle): KakuroInternalRow[] {
-    const internalRows: KakuroInternalRow[] = []
+  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+    const internalRows: InternalRow[] = []
 
     const createInternalRowsFor = (runs: Run[]): void => {
       for (const run of runs) {
@@ -68,7 +68,7 @@ export class Demo implements IDemo<Puzzle, KakuroInternalRow> {
     return DIGITS.filter(d => !ds.includes(d))
   }
 
-  internalRowToMatrixRow(internalRow: KakuroInternalRow): number[] {
+  internalRowToMatrixRow(internalRow: InternalRow): number[] {
     const { puzzle, run, values } = internalRow
     const horizontalRunColumns = this.makeHorizontalRunColumns(puzzle, run)
     const verticalRunColumns = this.makeVerticalRunColumns(puzzle, run)

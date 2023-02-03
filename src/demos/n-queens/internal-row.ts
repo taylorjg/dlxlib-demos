@@ -1,7 +1,7 @@
 import { Coords } from "types"
 import { Puzzle } from "./puzzle"
 
-export type NQueensInternalRow = {
+export type InternalRow = {
   puzzle: Puzzle,
   coords: Coords
 }

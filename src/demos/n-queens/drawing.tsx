@@ -1,6 +1,6 @@
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
-import { NQueensInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
@@ -8,7 +8,7 @@ const VIEWBOX_HEIGHT = 100
 const SQUARE_COLOUR_1 = "peru"
 const SQUARE_COLOUR_2 = "sandybrown"
 
-export const Drawing: React.FC<DrawingProps<Puzzle, NQueensInternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
   const { size } = puzzle
 
   const calculateX = (col: number) => col * VIEWBOX_WIDTH / size

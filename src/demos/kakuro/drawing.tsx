@@ -1,6 +1,6 @@
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
-import { KakuroInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 import { Clue } from './clue'
 import { Puzzle } from "./puzzle"
 import { RunType } from "./run-type"
@@ -16,7 +16,7 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 10
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const Drawing: React.FC<DrawingProps<Puzzle, KakuroInternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
 
   const drawBackground = (): JSX.Element => {
     return <rect
@@ -185,7 +185,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, KakuroInternalRow>> = ({ puz
       .flatMap(drawHorizontalRun)
   }
 
-  const drawHorizontalRun = (internalRow: KakuroInternalRow): JSX.Element[] => {
+  const drawHorizontalRun = (internalRow: InternalRow): JSX.Element[] => {
     return range(internalRow.run.coordsList.length).map(index => {
       const coords = internalRow.run.coordsList[index]
       const value = internalRow.values[index]

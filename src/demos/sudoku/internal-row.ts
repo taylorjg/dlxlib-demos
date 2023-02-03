@@ -1,6 +1,6 @@
 import { Coords } from "types"
 
-export type SudokuInternalRow = {
+export type InternalRow = {
   coords: Coords
   value: number,
   isInitialValue: boolean

@@ -2,7 +2,7 @@ import { last } from "utils"
 import { Drawing } from "./drawing"
 import { puzzles } from "./puzzles"
 import { Puzzle } from "./puzzle"
-import { NQueensInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 
 export const Thumbnail = () => {
   const puzzle = last(puzzles)
@@ -10,7 +10,7 @@ export const Thumbnail = () => {
   return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
 }
 
-const makeSolution = (puzzle: Puzzle): NQueensInternalRow[] => {
+const makeSolution = (puzzle: Puzzle): InternalRow[] => {
   return [
     makeInternalRow(puzzle, 0, 0),
     makeInternalRow(puzzle, 1, 4),
@@ -23,7 +23,7 @@ const makeSolution = (puzzle: Puzzle): NQueensInternalRow[] => {
   ]
 }
 
-const makeInternalRow = (puzzle: Puzzle, row: number, col: number): NQueensInternalRow => {
+const makeInternalRow = (puzzle: Puzzle, row: number, col: number): InternalRow => {
   const coords = { row, col }
   return { puzzle, coords }
 }

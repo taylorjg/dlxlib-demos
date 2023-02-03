@@ -1,6 +1,6 @@
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
-import { SudokuInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
@@ -16,7 +16,7 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const Drawing: React.FC<DrawingProps<Puzzle, SudokuInternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
 
   const drawBackground = (): JSX.Element => {
     return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />

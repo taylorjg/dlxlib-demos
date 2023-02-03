@@ -1,11 +1,11 @@
 import { Coords, IDemo, sameCoords } from "types"
 import { range } from "utils"
 import { InitialValue } from "./initial-value"
-import { SudokuInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 
-export class Demo implements IDemo<Puzzle, SudokuInternalRow> {
-  buildInternalRows(puzzle: Puzzle): SudokuInternalRow[] {
+export class Demo implements IDemo<Puzzle, InternalRow> {
+  buildInternalRows(puzzle: Puzzle): InternalRow[] {
     const allCoords = range(9).flatMap(row => range(9).map(col => ({ row, col })))
     return allCoords.flatMap(coords => {
       const initialValue = puzzle.initialValues.find(iv => sameCoords(iv.coords, coords))
@@ -15,11 +15,11 @@ export class Demo implements IDemo<Puzzle, SudokuInternalRow> {
     })
   }
 
-  _buildInternalRowsForInitialValue(initialValue: InitialValue): SudokuInternalRow[] {
+  _buildInternalRowsForInitialValue(initialValue: InitialValue): InternalRow[] {
     return [{ ...initialValue, isInitialValue: true }]
   }
 
-  _buildInternalRowsForCoords(coords: Coords): SudokuInternalRow[] {
+  _buildInternalRowsForCoords(coords: Coords): InternalRow[] {
     return range(9).map(n => n + 1).map(value => ({
       coords,
       value,
@@ -27,7 +27,7 @@ export class Demo implements IDemo<Puzzle, SudokuInternalRow> {
     }))
   }
 
-  internalRowToMatrixRow(internalRow: SudokuInternalRow): number[] {
+  internalRowToMatrixRow(internalRow: InternalRow): number[] {
     const { row, col } = internalRow.coords
     const box = this._rowColToBox(row, col);
     const zeroBasedValue = internalRow.value - 1

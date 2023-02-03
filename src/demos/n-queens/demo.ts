@@ -1,10 +1,10 @@
 import { IDemo } from "types"
 import { range } from "utils"
 import { Puzzle } from "./puzzle"
-import { NQueensInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 
-export class Demo implements IDemo<Puzzle, NQueensInternalRow> {
-  buildInternalRows(puzzle: Puzzle): NQueensInternalRow[] {
+export class Demo implements IDemo<Puzzle, InternalRow> {
+  buildInternalRows(puzzle: Puzzle): InternalRow[] {
     const allLocations = range(puzzle.size).flatMap(row =>
       range(puzzle.size).map(col =>
         ({ row, col })))
@@ -15,7 +15,7 @@ export class Demo implements IDemo<Puzzle, NQueensInternalRow> {
     return puzzle.size * 2
   }
 
-  internalRowToMatrixRow(internalRow: NQueensInternalRow): number[] {
+  internalRowToMatrixRow(internalRow: InternalRow): number[] {
     const { row, col } = internalRow.coords
     const size = internalRow.puzzle.size
     const diagonalColumnCount = size + size - 3

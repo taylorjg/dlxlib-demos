@@ -1,6 +1,6 @@
 import { first } from "utils"
 import { Drawing } from "./drawing"
-import { KakuroInternalRow } from "./internal-row"
+import { InternalRow } from "./internal-row"
 import { Run } from "./run"
 import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
@@ -23,8 +23,8 @@ export const Thumbnail = () => {
   return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
 }
 
-const parseSolution = (puzzle: Puzzle, solution: string[]): KakuroInternalRow[] => {
-  const makeInternalRowsForRuns = (runs: Run[]): KakuroInternalRow[] =>
+const parseSolution = (puzzle: Puzzle, solution: string[]): InternalRow[] => {
+  const makeInternalRowsForRuns = (runs: Run[]): InternalRow[] =>
     runs.map(run => {
       const values = run.coordsList.map(({ row, col }) => Number(solution[row][col]))
       return { puzzle, run, values }
