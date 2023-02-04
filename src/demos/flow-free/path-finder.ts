@@ -26,7 +26,7 @@ const findPathsInternal = (
 ): void => {
   for (const nextNode of neighbours(puzzle, node, goal)) {
     if (sameCoords(nextNode, goal)) {
-      const path = [nextNode, ...currentPath]
+      const path = [...currentPath, nextNode]
       if (countDirectionChanges(path) <= maxDirectionChanges) {
         paths.push(path)
       }

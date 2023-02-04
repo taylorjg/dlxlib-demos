@@ -1,7 +1,7 @@
 import { IDemo } from "types"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
-import { findPaths } from "./pathFinder"
+import { findPaths } from "./path-finder"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 

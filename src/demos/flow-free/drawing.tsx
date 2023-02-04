@@ -174,7 +174,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         key={`path-${label}`}
         d={d}
         stroke={colour}
-        strokeWidth={5}
+        strokeWidth={SQUARE_WIDTH / 4}
         strokeLinejoin="round"
         fill="none"
       />
