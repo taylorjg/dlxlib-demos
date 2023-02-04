@@ -1,4 +1,3 @@
-import internal from "stream"
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { InternalRow } from "./internal-row"

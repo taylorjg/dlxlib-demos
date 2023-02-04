@@ -4,11 +4,13 @@
 import * as dlxlib from "dlxlib/dlx"
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
 
 const map = new Map<string, any>([
   ["sudoku", Sudoku.Demo],
   ["n-queens", NQueens.Demo],
+  ["flow-free", FlowFree.Demo],
   ["kakuro", Kakuro.Demo]
 ])
 
