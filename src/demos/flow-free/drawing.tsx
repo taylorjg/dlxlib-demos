@@ -1,3 +1,4 @@
+import internal from "stream"
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { InternalRow } from "./internal-row"
@@ -19,6 +20,21 @@ const dotColours = new Map<string, string>([
   ["J", "white"],
   ["K", "grey"],
   ["L", "limegreen"]
+])
+
+const labelColours = new Map<string, string>([
+  ["A", "white"],
+  ["B", "white"],
+  ["C", "white"],
+  ["D", "black"],
+  ["E", "black"],
+  ["F", "black"],
+  ["G", "white"],
+  ["H", "white"],
+  ["I", "white"],
+  ["J", "black"],
+  ["K", "black"],
+  ["L", "black"]
 ])
 
 export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
@@ -97,14 +113,83 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
     )
   }
 
+  const drawColourPairLabels = (): JSX.Element[] => {
+    return puzzle.colourPairs.flatMap(colourPair => [
+      drawLabel(colourPair.label, colourPair.start),
+      drawLabel(colourPair.label, colourPair.end)
+    ])
+  }
+
+  const drawLabel = (label: string, coords: Coords): JSX.Element => {
+    const { row, col } = coords
+    const cx = calculateX(col) + SQUARE_WIDTH / 2
+    const cy = calculateY(row) + SQUARE_WIDTH / 2
+    const fill = labelColours.get(label) ?? "white"
+    const fontSize = "8px"
+
+    return (
+      <text
+        key={`label-${row}-${col}`}
+        x={cx}
+        y={cy}
+        fill={fill}
+        fontSize={fontSize}
+        textAnchor="middle"
+        dominantBaseline="middle"
+      >
+        {label}
+      </text>
+    )
+  }
+
+  const drawPipes = (): JSX.Element[] => {
+    return solutionInternalRows.map(internalRow => {
+      return drawPipe(internalRow)
+    })
+  }
+
+  const makePathData = (points: number[][]): string => {
+    const [firstPoint, ...remainingPoints] = points
+    const pathCommands: string[] = []
+    pathCommands.push(`M${firstPoint[0]},${firstPoint[1]}`)
+    for (const point of remainingPoints) {
+      pathCommands.push(`L${point[0]},${point[1]}`)
+    }
+    return pathCommands.join(" ")
+  }
+
+  const drawPipe = (internalRow: InternalRow): JSX.Element => {
+
+    const coordsToCentreOfSquare = (coords: Coords): number[] => {
+      const x = calculateX(coords.col) + SQUARE_WIDTH / 2
+      const y = calculateY(coords.row) + SQUARE_HEIGHT / 2
+      return [x, y]
+    }
+
+    const d = makePathData(internalRow.coordsList.map(coordsToCentreOfSquare))
+    const label = internalRow.colourPair.label
+    const colour = dotColours.get(label) ?? "white"
+
+    return (
+      <path
+        key={`path-${label}`}
+        d={d}
+        stroke={colour}
+        strokeWidth={5}
+        strokeLinejoin="round"
+        fill="none"
+      />
+    )
+  }
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       {drawBackground()}
       {drawHorizontalGridLines()}
       {drawVerticalGridLines()}
       {drawColourPairDots()}
-      {/* DrawPipes() */}
-      {/* DrawColourPairLabels() */}
+      {drawPipes()}
+      {drawColourPairLabels()}
     </svg>
   )
 }
