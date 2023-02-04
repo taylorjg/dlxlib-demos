@@ -5,5 +5,5 @@ export const StyledVersion = styled.span`
   font-style: italic;
   position: fixed;
   bottom: .25rem;
-  right: .25rem;
+  right: .5rem;
 `

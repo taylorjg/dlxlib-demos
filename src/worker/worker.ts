@@ -1,7 +1,6 @@
 // Unexpected use of 'self'.
 /* eslint-disable no-restricted-globals */
 
-import { first } from "utils"
 import * as dlxlib from "dlxlib/dlx"
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
@@ -15,6 +14,16 @@ const map = new Map<string, any>([
 
 // 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)
 export { }
+
+type SearchStepEvent = {
+  partialSolution: number[],
+  stepIndex: number
+}
+
+type SolutionFoundEvent = {
+  solution: number[],
+  solutionIndex: number
+}
 
 const onSolve = (shortName: string, puzzle: any) => {
   const demoConstructor = map.get(shortName)
@@ -30,23 +39,31 @@ const onSolve = (shortName: string, puzzle: any) => {
     numPrimaryColumns: demo.getNumPrimaryColumns(puzzle)
   }
 
-  const solutions = dlxlib.solve(matrix, options)
-
-  if (solutions.length === 0) {
-    self.postMessage({ type: "noSolutionFound" })
-    return
+  const onStep = (event: SearchStepEvent) => {
+    console.log("[worker onStep]", "stepIndex:", event.stepIndex)
+    const partialSolution = event.partialSolution
+    const solutionInternalRows = partialSolution.map(index => internalRows[index])
+    self.postMessage({ type: "searchStep", solutionInternalRows })
   }
 
-  const solution = first(solutions)
-  console.dir(solution)
-  const solutionInternalRows = solution.map(index => internalRows[index])
-  console.dir(solutionInternalRows)
-  self.postMessage({ type: "solutionFound", solutionInternalRows })
+  const onSolution = (event: SolutionFoundEvent) => {
+    console.log("[worker onSolution]", "solutionIndex:", event.solutionIndex)
+    const solution = event.solution
+    const solutionInternalRows = solution.map(index => internalRows[index])
+    self.postMessage({ type: "solutionFound", solutionInternalRows })
+  }
+
+  const dlx = new dlxlib.Dlx()
+  dlx.addListener("step", onStep)
+  dlx.addListener("solution", onSolution)
+  const solutions = dlx.solve(matrix, options)
+
+  self.postMessage({ type: "finished", numSolutionsFound: solutions.length })
 }
 
 self.onmessage = (ev: MessageEvent<any>) => {
   try {
-    console.log("[worker onmessage]", "ev.data:", JSON.stringify(ev.data, null, 2))
+    console.log("[worker onmessage]", "ev.data.type:", ev.data.type)
     if (ev.data.type === "solve") {
       const { shortName, puzzle } = ev.data
       onSolve(shortName, puzzle)
