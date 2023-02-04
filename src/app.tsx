@@ -8,6 +8,7 @@ import {
 
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
 import * as Placeholder from "demos/placeholder"
 import { HomePage } from "pages/home-page"
@@ -44,6 +45,13 @@ export const App = () => {
                 shortName="n-queens"
                 puzzle={last(NQueens.puzzles)}
                 Drawing={NQueens.Drawing}
+              />
+            </Route>
+            <Route path="/demo/flow-free" exact>
+              <DemoPage
+                shortName="flow-free"
+                puzzle={first(FlowFree.puzzles)}
+                Drawing={FlowFree.Drawing}
               />
             </Route>
             <Route path="/demo/kakuro" exact>
