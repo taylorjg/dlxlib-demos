@@ -66,8 +66,9 @@ export const App = () => {
             <Route path="/demo/nonogram" exact>
               <DemoPage
                 initiallySelectedPuzzle={first(Nonogram.puzzles)}
-                initialDrawingOptions={{}}
+                initialDrawingOptions={{ showClues: true }}
                 Drawing={Nonogram.Drawing}
+                DemoControls={Nonogram.DemoControls}
               />
             </Route>
             <Route path="/demo/:shortName" exact>

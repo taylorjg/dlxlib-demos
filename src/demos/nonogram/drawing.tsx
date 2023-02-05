@@ -1,5 +1,6 @@
 import { Coords, DrawingProps } from "types"
 import { range, max } from "utils"
+import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 import { RunGroupType } from "./run-group-type"
@@ -7,18 +8,24 @@ import { RunGroupType } from "./run-group-type"
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>> = ({
   puzzle,
-  solutionInternalRows
+  solutionInternalRows,
+  drawingOptions
 }) => {
   const GRID_LINE_FULL_THICKNESS = 1 / 4
   const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
   const GRID_LINE_COLOUR = "black"
-  const maxNumRunGroupsHorizontally = max(puzzle.horizontalRunGroups.map(rg => rg.lengths.length))
-  const maxNumRunGroupsVertically = max(puzzle.verticalRunGroups.map(rg => rg.lengths.length))
-  const numMarginSquares = Math.max(maxNumRunGroupsHorizontally, maxNumRunGroupsVertically)
-  const sizeWithMargin = numMarginSquares + puzzle.size
 
+  let numMarginSquares = 0
+
+  if (drawingOptions.showClues) {
+    const maxNumRunGroupsHorizontally = max(puzzle.horizontalRunGroups.map(rg => rg.lengths.length))
+    const maxNumRunGroupsVertically = max(puzzle.verticalRunGroups.map(rg => rg.lengths.length))
+    numMarginSquares = Math.max(maxNumRunGroupsHorizontally, maxNumRunGroupsVertically)
+  }
+
+  const sizeWithMargin = numMarginSquares + puzzle.size
   const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / sizeWithMargin
   const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / sizeWithMargin
 
@@ -66,29 +73,35 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
   }
 
   const drawHorizontalRunLengths = (): JSX.Element[] => {
-    return puzzle.horizontalRunGroups.flatMap(runGroup => {
-      const row = runGroup.row
-      const numRunLengths = runGroup.lengths.length
-      return range(numRunLengths).map(index => {
-        const runLength = runGroup.lengths[index]
-        const col = -(numRunLengths - index)
-        const coords = { row, col }
-        return drawRunLength(coords, runLength)
+    if (drawingOptions.showClues) {
+      return puzzle.horizontalRunGroups.flatMap(runGroup => {
+        const row = runGroup.row
+        const numRunLengths = runGroup.lengths.length
+        return range(numRunLengths).map(index => {
+          const runLength = runGroup.lengths[index]
+          const col = -(numRunLengths - index)
+          const coords = { row, col }
+          return drawRunLength(coords, runLength)
+        })
       })
-    })
+    }
+    return []
   }
 
   const drawVerticalRunLengths = (): JSX.Element[] => {
-    return puzzle.verticalRunGroups.flatMap(runGroup => {
-      const col = runGroup.col
-      const numRunLengths = runGroup.lengths.length
-      return range(numRunLengths).map(index => {
-        const runLength = runGroup.lengths[index]
-        const row = -(numRunLengths - index)
-        const coords = { row, col }
-        return drawRunLength(coords, runLength)
+    if (drawingOptions.showClues) {
+      return puzzle.verticalRunGroups.flatMap(runGroup => {
+        const col = runGroup.col
+        const numRunLengths = runGroup.lengths.length
+        return range(numRunLengths).map(index => {
+          const runLength = runGroup.lengths[index]
+          const row = -(numRunLengths - index)
+          const coords = { row, col }
+          return drawRunLength(coords, runLength)
+        })
       })
-    })
+    }
+    return []
   }
 
   const drawRunLength = (coords: Coords, runLength: number): JSX.Element => {
