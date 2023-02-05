@@ -3,6 +3,7 @@ import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
 import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
+import * as Nonogram from "demos/nonogram"
 import * as Placeholder from "demos/placeholder"
 
 const demoNames = [
@@ -23,7 +24,8 @@ const thumbnailMap = new Map<string, React.FC>([
   ["sudoku", Sudoku.Thumbnail],
   ["n-queens", NQueens.Thumbnail],
   ["flow-free", FlowFree.Thumbnail],
-  ["kakuro", Kakuro.Thumbnail]
+  ["kakuro", Kakuro.Thumbnail],
+  ["nonogram", Nonogram.Thumbnail]
 ])
 
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")

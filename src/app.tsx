@@ -10,6 +10,7 @@ import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
 import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
+import * as Nonogram from "demos/nonogram"
 import * as Placeholder from "demos/placeholder"
 import { HomePage } from "pages/home-page"
 import { DemoPage } from "pages/demo-page"
@@ -60,6 +61,13 @@ export const App = () => {
                 initiallySelectedPuzzle={first(Kakuro.puzzles)}
                 initialDrawingOptions={{}}
                 Drawing={Kakuro.Drawing}
+              />
+            </Route>
+            <Route path="/demo/nonogram" exact>
+              <DemoPage
+                initiallySelectedPuzzle={first(Nonogram.puzzles)}
+                initialDrawingOptions={{}}
+                Drawing={Nonogram.Drawing}
               />
             </Route>
             <Route path="/demo/:shortName" exact>
