@@ -12,7 +12,17 @@ export const Drawing: React.FC<DrawingProps<{}, {}>> = () => {
   const drawMessage = (): JSX.Element => {
     const cx = VIEWBOX_WIDTH / 2
     const cy = VIEWBOX_HEIGHT / 2
-    return <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle">TODO</text>
+
+    return (
+      <text
+        x={cx}
+        y={cy}
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        TODO
+      </text>
+    )
   }
 
   return (

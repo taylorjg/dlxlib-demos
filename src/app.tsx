@@ -52,6 +52,7 @@ export const App = () => {
                 shortName="flow-free"
                 puzzle={first(FlowFree.puzzles)}
                 Drawing={FlowFree.Drawing}
+                DemoSpecificControls={FlowFree.DemoSpecificControls}
               />
             </Route>
             <Route path="/demo/kakuro" exact>

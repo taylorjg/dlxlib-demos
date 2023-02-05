@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
-
 import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
 import { Buttons } from "./buttons"
@@ -11,12 +10,8 @@ import {
   StyledErrorPage,
   StyledError
 } from "./demo-page.styles"
-import { CurrentState, DrawingProps } from "types"
+import { CurrentState, DrawingProps, DemoSpecificControlsProps } from "types"
 import { useWorker } from "useWorker"
-
-type DemoPageParams = {
-  shortName: string
-}
 
 // enum Mode { FirstSolution, SearchSteps }
 
@@ -48,21 +43,28 @@ class ErrorMessage<TInternalRow> extends BaseMessage<TInternalRow> {
   }
 }
 
+type DemoPageParams = {
+  shortName: string
+}
+
 export type DemoPageProps<TPuzzle, TInternalRow> = {
   shortName?: string
   puzzle: TPuzzle,
   Drawing: React.FC<DrawingProps<TPuzzle, TInternalRow>>,
+  DemoSpecificControls?: React.FC<DemoSpecificControlsProps<TPuzzle>>,
 }
 
 export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TInternalRow>) {
   const {
     shortName: shortNameProp,
-    puzzle,
-    Drawing
+    puzzle: initiallySelectedPuzzle,
+    Drawing,
+    DemoSpecificControls
   } = props
   const { shortName: shortNameParam } = useParams<DemoPageParams>()
   const shortName = shortNameProp ?? shortNameParam
   const availableDemo = lookupAvailableDemoByShortName(shortName)
+  const [selectedPuzzle, setSelectedPuzzle] = useState(initiallySelectedPuzzle)
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
   const [currentState, setCurrentState] = useState<CurrentState>(CurrentState.Clean)
   // const [mode, setMode] = useState<Mode>(Mode.FirstSolution)
@@ -139,12 +141,17 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
   const onSolve = () => {
     startTimer()
     setCurrentState(CurrentState.Solving)
-    worker.solve(shortName, puzzle, onSearchStep, onSolutionFound, onFinished, onError)
+    worker.solve(shortName, selectedPuzzle, onSearchStep, onSolutionFound, onFinished, onError)
   }
 
   const onReset = () => {
     setSolutionInternalRows([])
     setCurrentState(CurrentState.Clean)
+  }
+
+  const onSelectedPuzzleChanged = (newSelectedPuzzle: TPuzzle) => {
+    onReset()
+    setSelectedPuzzle(newSelectedPuzzle)
   }
 
   if (!availableDemo) {
@@ -162,9 +169,15 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
       <HeaderNavBar availableDemo={availableDemo} />
       <StyledMainContent>
         <StyledDrawingWrapper>
-          <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
+          <Drawing puzzle={selectedPuzzle} solutionInternalRows={solutionInternalRows} />
         </StyledDrawingWrapper>
       </StyledMainContent>
+      {DemoSpecificControls && (
+        <DemoSpecificControls
+          selectedPuzzle={selectedPuzzle}
+          onSelectedPuzzleChanged={onSelectedPuzzleChanged}
+        />
+      )}
       <Buttons onSolve={onSolve} onReset={onReset} currentState={currentState} />
     </StyledPage>
   )

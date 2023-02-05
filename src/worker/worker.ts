@@ -2,16 +2,16 @@
 /* eslint-disable no-restricted-globals */
 
 import * as dlxlib from "dlxlib/dlx"
-import * as Sudoku from "demos/sudoku"
-import * as NQueens from "demos/n-queens"
-import * as FlowFree from "demos/flow-free"
-import * as Kakuro from "demos/kakuro"
+import { Demo as SudokuDemo } from "demos/sudoku/demo"
+import { Demo as NQueensDemo } from "demos/n-queens/demo"
+import { Demo as FlowFreeDemo } from "demos/flow-free/demo"
+import { Demo as KakuroDemo } from "demos/kakuro/demo"
 
 const map = new Map<string, any>([
-  ["sudoku", Sudoku.Demo],
-  ["n-queens", NQueens.Demo],
-  ["flow-free", FlowFree.Demo],
-  ["kakuro", Kakuro.Demo]
+  ["sudoku", SudokuDemo],
+  ["n-queens", NQueensDemo],
+  ["flow-free", FlowFreeDemo],
+  ["kakuro", KakuroDemo]
 ])
 
 // 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)

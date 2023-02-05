@@ -11,6 +11,11 @@ export type DrawingProps<TPuzzle, TInternalRow> = {
   solutionInternalRows: TInternalRow[]
 }
 
+export type DemoSpecificControlsProps<TPuzzle> = {
+  selectedPuzzle: TPuzzle,
+  onSelectedPuzzleChanged: (puzzle: TPuzzle) => void
+}
+
 export interface IDemo<TPuzzle, TInternalRow> {
   buildInternalRows(puzzle: TPuzzle): TInternalRow[]
   internalRowToMatrixRow(internalRow: TInternalRow): number[]

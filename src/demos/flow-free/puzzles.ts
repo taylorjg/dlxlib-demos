@@ -36,13 +36,26 @@ const parsePuzzle = (name: string, grid: string[]): Puzzle => {
 
 export const puzzles = [
   parsePuzzle(
-    "Puzzle 1",
+    "Puzzle 1 (5x5)",
     [
       "C--AE",
       "---D-",
       "--D--",
       "-AE-B",
       "-CB--"
+    ]
+  ),
+  parsePuzzle(
+    "Puzzle 1 (8x8)",
+    [
+      "F--FD---",
+      "--AIG-G-",
+      "--C-----",
+      "--B-EH--",
+      "----I---",
+      "---A----",
+      "-C-B--ED",
+      "-------H"
     ]
   )
 ]

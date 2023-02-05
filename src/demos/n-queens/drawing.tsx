@@ -58,7 +58,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         y={cy}
         fill="white"
         textAnchor="middle"
-        dominantBaseline="middle"
+        dominantBaseline="central"
       >
         {text}
       </text>

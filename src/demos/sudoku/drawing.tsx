@@ -93,7 +93,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         fill={fill}
         fontSize={fontSize}
         textAnchor="middle"
-        dominantBaseline="middle"
+        dominantBaseline="central"
       >
         {value}
       </text>
