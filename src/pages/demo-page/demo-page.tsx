@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
-import { Buttons } from "./buttons"
+import { ActionControls } from "./action-controls"
 import {
   StyledPage,
   StyledMainContent,
@@ -10,7 +10,7 @@ import {
   StyledErrorPage,
   StyledError
 } from "./demo-page.styles"
-import { CurrentState, DrawingProps, DemoSpecificControlsProps } from "types"
+import { CurrentState, DrawingProps, DemoControlsProps } from "types"
 import { useWorker } from "useWorker"
 
 // enum Mode { FirstSolution, SearchSteps }
@@ -51,7 +51,7 @@ export type DemoPageProps<TPuzzle, TInternalRow> = {
   shortName?: string
   puzzle: TPuzzle,
   Drawing: React.FC<DrawingProps<TPuzzle, TInternalRow>>,
-  DemoSpecificControls?: React.FC<DemoSpecificControlsProps<TPuzzle>>,
+  DemoControls?: React.FC<DemoControlsProps<TPuzzle>>,
 }
 
 export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TInternalRow>) {
@@ -59,7 +59,7 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
     shortName: shortNameProp,
     puzzle: initiallySelectedPuzzle,
     Drawing,
-    DemoSpecificControls
+    DemoControls
   } = props
   const { shortName: shortNameParam } = useParams<DemoPageParams>()
   const shortName = shortNameProp ?? shortNameParam
@@ -172,13 +172,13 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
           <Drawing puzzle={selectedPuzzle} solutionInternalRows={solutionInternalRows} />
         </StyledDrawingWrapper>
       </StyledMainContent>
-      {DemoSpecificControls && (
-        <DemoSpecificControls
+      {DemoControls && (
+        <DemoControls
           selectedPuzzle={selectedPuzzle}
           onSelectedPuzzleChanged={onSelectedPuzzleChanged}
         />
       )}
-      <Buttons onSolve={onSolve} onReset={onReset} currentState={currentState} />
+      <ActionControls onSolve={onSolve} onReset={onReset} currentState={currentState} />
     </StyledPage>
   )
 }

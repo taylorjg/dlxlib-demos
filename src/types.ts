@@ -11,7 +11,7 @@ export type DrawingProps<TPuzzle, TInternalRow> = {
   solutionInternalRows: TInternalRow[]
 }
 
-export type DemoSpecificControlsProps<TPuzzle> = {
+export type DemoControlsProps<TPuzzle> = {
   selectedPuzzle: TPuzzle,
   onSelectedPuzzleChanged: (puzzle: TPuzzle) => void
 }

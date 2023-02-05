@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 
-export const StyledButtons = styled.div`
+export const StyledActionControls = styled.div`
   margin: 2rem 0;
   display: flex;
   justify-content: center;

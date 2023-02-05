@@ -1,10 +1,10 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material"
-import { DemoSpecificControlsProps } from "types"
+import { DemoControlsProps } from "types"
 import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
-import { StyledControls } from "./demo-sepcific-controls.styles"
+import { StyledControls } from "./demo-controls.styles"
 
-export const DemoSpecificControls: React.FC<DemoSpecificControlsProps<Puzzle>> = ({
+export const DemoControls: React.FC<DemoControlsProps<Puzzle>> = ({
   selectedPuzzle,
   onSelectedPuzzleChanged
 }) => {

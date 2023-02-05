@@ -1,5 +1,5 @@
 export * from "./demo"
-export * from "./demo-sepcific-controls"
+export * from "./demo-controls"
 export * from "./drawing"
 export * from "./puzzle"
 export * from "./puzzles"
