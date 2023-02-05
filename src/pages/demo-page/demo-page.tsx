@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useLocation } from "react-router-dom"
 import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
 import { ActionControls } from "./action-controls"
@@ -12,6 +12,7 @@ import {
 } from "./demo-page.styles"
 import { CurrentState, DrawingProps, DemoControlsProps } from "types"
 import { useWorker } from "useWorker"
+import { last } from "utils"
 
 // enum Mode { FirstSolution, SearchSteps }
 
@@ -47,24 +48,29 @@ type DemoPageParams = {
   shortName: string
 }
 
-export type DemoPageProps<TPuzzle, TInternalRow> = {
-  shortName?: string
-  puzzle: TPuzzle,
-  Drawing: React.FC<DrawingProps<TPuzzle, TInternalRow>>,
-  DemoControls?: React.FC<DemoControlsProps<TPuzzle>>,
+export type DemoPageProps<TPuzzle, TInternalRow, TDrawingOptions> = {
+  initiallySelectedPuzzle: TPuzzle,
+  initialDrawingOptions: TDrawingOptions,
+  Drawing: React.FC<DrawingProps<TPuzzle, TInternalRow, TDrawingOptions>>,
+  DemoControls?: React.FC<DemoControlsProps<TPuzzle, TDrawingOptions>>,
 }
 
-export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TInternalRow>) {
+export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
+  props: DemoPageProps<TPuzzle, TInternalRow, TDrawingOptions>
+) {
   const {
-    shortName: shortNameProp,
-    puzzle: initiallySelectedPuzzle,
+    initiallySelectedPuzzle,
+    initialDrawingOptions,
     Drawing,
     DemoControls
   } = props
   const { shortName: shortNameParam } = useParams<DemoPageParams>()
-  const shortName = shortNameProp ?? shortNameParam
+  const { pathname } = useLocation()
+  const lastSegmentOfPathname = last(pathname.split("/"))
+  const shortName = shortNameParam ?? lastSegmentOfPathname
   const availableDemo = lookupAvailableDemoByShortName(shortName)
   const [selectedPuzzle, setSelectedPuzzle] = useState(initiallySelectedPuzzle)
+  const [drawingOptions, setDrawingOptions] = useState(initialDrawingOptions)
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
   const [currentState, setCurrentState] = useState<CurrentState>(CurrentState.Clean)
   // const [mode, setMode] = useState<Mode>(Mode.FirstSolution)
@@ -154,6 +160,10 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
     setSelectedPuzzle(newSelectedPuzzle)
   }
 
+  const onDrawingOptionsChanged = (newDrawingOptions: TDrawingOptions) => {
+    setDrawingOptions(newDrawingOptions)
+  }
+
   if (!availableDemo) {
     return (
       <StyledErrorPage>
@@ -169,13 +179,19 @@ export function DemoPage<TPuzzle, TInternalRow>(props: DemoPageProps<TPuzzle, TI
       <HeaderNavBar availableDemo={availableDemo} />
       <StyledMainContent>
         <StyledDrawingWrapper>
-          <Drawing puzzle={selectedPuzzle} solutionInternalRows={solutionInternalRows} />
+          <Drawing
+            puzzle={selectedPuzzle}
+            solutionInternalRows={solutionInternalRows}
+            drawingOptions={drawingOptions}
+          />
         </StyledDrawingWrapper>
       </StyledMainContent>
       {DemoControls && (
         <DemoControls
           selectedPuzzle={selectedPuzzle}
+          drawingOptions={drawingOptions}
           onSelectedPuzzleChanged={onSelectedPuzzleChanged}
+          onDrawingOptionsChanged={onDrawingOptionsChanged}
         />
       )}
       <ActionControls onSolve={onSolve} onReset={onReset} currentState={currentState} />

@@ -1,6 +1,7 @@
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { InternalRow } from "./internal-row"
+import { DrawingOptions } from "./demo-controls"
 import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
@@ -36,7 +37,11 @@ const labelColours = new Map<string, string>([
   ["L", "black"]
 ])
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>> = ({
+  puzzle,
+  solutionInternalRows,
+  drawingOptions
+}) => {
 
   const GRID_LINE_FULL_THICKNESS = 1 / 4
   const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
@@ -113,10 +118,13 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
   }
 
   const drawColourPairLabels = (): JSX.Element[] => {
-    return puzzle.colourPairs.flatMap(colourPair => [
-      drawLabel(colourPair.label, colourPair.start),
-      drawLabel(colourPair.label, colourPair.end)
-    ])
+    if (drawingOptions.showLabels) {
+      return puzzle.colourPairs.flatMap(colourPair => [
+        drawLabel(colourPair.label, colourPair.start),
+        drawLabel(colourPair.label, colourPair.end)
+      ])
+    }
+    return []
   }
 
   const drawLabel = (label: string, coords: Coords): JSX.Element => {

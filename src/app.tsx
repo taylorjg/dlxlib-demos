@@ -35,36 +35,37 @@ export const App = () => {
             </Route>
             <Route path="/demo/sudoku" exact>
               <DemoPage
-                shortName="sudoku"
-                puzzle={first(Sudoku.puzzles)}
+                initiallySelectedPuzzle={first(Sudoku.puzzles)}
+                initialDrawingOptions={{}}
                 Drawing={Sudoku.Drawing}
               />
             </Route>
             <Route path="/demo/n-queens" exact>
               <DemoPage
-                shortName="n-queens"
-                puzzle={last(NQueens.puzzles)}
+                initiallySelectedPuzzle={last(NQueens.puzzles)}
+                initialDrawingOptions={{}}
                 Drawing={NQueens.Drawing}
               />
             </Route>
             <Route path="/demo/flow-free" exact>
               <DemoPage
-                shortName="flow-free"
-                puzzle={first(FlowFree.puzzles)}
+                initiallySelectedPuzzle={first(FlowFree.puzzles)}
+                initialDrawingOptions={{ showLabels: true }}
                 Drawing={FlowFree.Drawing}
                 DemoControls={FlowFree.DemoControls}
               />
             </Route>
             <Route path="/demo/kakuro" exact>
               <DemoPage
-                shortName="kakuro"
-                puzzle={first(Kakuro.puzzles)}
+                initiallySelectedPuzzle={first(Kakuro.puzzles)}
+                initialDrawingOptions={{}}
                 Drawing={Kakuro.Drawing}
               />
             </Route>
             <Route path="/demo/:shortName" exact>
               <DemoPage
-                puzzle={{}}
+                initiallySelectedPuzzle={{}}
+                initialDrawingOptions={{}}
                 Drawing={Placeholder.Drawing}
               />
             </Route>

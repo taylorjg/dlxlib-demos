@@ -6,14 +6,17 @@ export type AvailableDemo = {
   Thumbnail: React.FC,
 }
 
-export type DrawingProps<TPuzzle, TInternalRow> = {
+export type DrawingProps<TPuzzle, TInternalRow, TDrawingOptions = {}> = {
   puzzle: TPuzzle,
-  solutionInternalRows: TInternalRow[]
+  solutionInternalRows: TInternalRow[],
+  drawingOptions: TDrawingOptions
 }
 
-export type DemoControlsProps<TPuzzle> = {
+export type DemoControlsProps<TPuzzle, TDrawingOptions = {}> = {
   selectedPuzzle: TPuzzle,
-  onSelectedPuzzleChanged: (puzzle: TPuzzle) => void
+  drawingOptions: TDrawingOptions,
+  onSelectedPuzzleChanged: (puzzle: TPuzzle) => void,
+  onDrawingOptionsChanged: (drawingOptions: TDrawingOptions) => void
 }
 
 export interface IDemo<TPuzzle, TInternalRow> {

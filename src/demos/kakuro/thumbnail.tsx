@@ -20,7 +20,14 @@ export const Thumbnail = () => {
     ".13.31.13."
   ]
   const solutionInternalRows = parseSolution(puzzle, solution)
-  return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
+  const drawingOptions = {}
+  return (
+    <Drawing
+      puzzle={puzzle}
+      solutionInternalRows={solutionInternalRows}
+      drawingOptions={drawingOptions}
+    />
+  )
 }
 
 const parseSolution = (puzzle: Puzzle, solution: string[]): InternalRow[] => {

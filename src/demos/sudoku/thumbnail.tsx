@@ -19,7 +19,14 @@ export const Thumbnail = () => {
     "928761435"
   ]
   const solutionInternalRows = parseSolution(puzzle, solution)
-  return <Drawing puzzle={puzzle} solutionInternalRows={solutionInternalRows} />
+  const drawingOptions = {}
+  return (
+    <Drawing
+      puzzle={puzzle}
+      solutionInternalRows={solutionInternalRows}
+      drawingOptions={drawingOptions}
+    />
+  )
 }
 
 const parseSolution = (puzzle: Puzzle, solution: string[]): InternalRow[] => {
