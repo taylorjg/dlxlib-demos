@@ -5,5 +5,5 @@ import { RunGroup } from "./run-group"
 export type InternalRow = {
   puzzle: Puzzle,
   runGroup: RunGroup,
-  CoordsLists: Coords[][]
+  coordsLists: Coords[][]
 }

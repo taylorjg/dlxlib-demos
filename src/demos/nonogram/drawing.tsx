@@ -131,7 +131,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
   }
 
   const drawHorizontalRunGroup = (internalRow: InternalRow): JSX.Element[] => {
-    return internalRow.CoordsLists.flatMap(drawHorizontalRun)
+    return internalRow.coordsLists.flatMap(drawHorizontalRun)
   }
 
   const drawHorizontalRun = (coordsList: Coords[]): JSX.Element[] => {
