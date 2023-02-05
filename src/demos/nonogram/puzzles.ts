@@ -1,20 +1,55 @@
-import { range } from "utils";
-import { Puzzle } from "./puzzle";
-import { RunGroupType } from "./run-group-type";
+import { Puzzle } from "./puzzle"
+import { RunGroupType } from "./run-group-type"
 
-export const puzzles: Puzzle[] = [
-  {
-    name: "fake",
-    size: 10,
-    horizontalRunGroups: range(10).map(row => ({
-      runGroupType: RunGroupType.Horizontal,
-      lengths: range(3),
-      row
-    })),
-    verticalRunGroups: range(10).map(col => ({
-      runGroupType: RunGroupType.Vertical,
-      lengths: range(3),
-      col
-    })),
-  }
+const makePuzzle = (
+  name: string,
+  horizontalRunsData: number[][],
+  verticalsRunsData: number[][]
+): Puzzle => {
+  const size = horizontalRunsData.length
+  const nameIncludingSize = `${name} (${size}x${size})`
+
+  const horizontalRunGroups = horizontalRunsData.map((lengths, row) => ({
+    runGroupType: RunGroupType.Horizontal,
+    lengths,
+    row
+  }))
+
+  const verticalRunGroups = verticalsRunsData.map((lengths, col) => ({
+    runGroupType: RunGroupType.Vertical,
+    lengths,
+    col
+  }))
+
+  return { name: nameIncludingSize, size, horizontalRunGroups, verticalRunGroups }
+}
+
+export const puzzles = [
+  makePuzzle(
+    "Waving Figure",
+    [
+      [4],
+      [1, 6],
+      [1, 4],
+      [2, 2],
+      [8],
+      [2, 2],
+      [4, 1],
+      [2, 2, 1],
+      [1, 1],
+      [3, 3]
+    ],
+    [
+      [3, 1],
+      [2, 1],
+      [1, 1, 3],
+      [3, 1, 2],
+      [7],
+      [7],
+      [3, 1, 2],
+      [1, 1, 3],
+      [2, 1],
+      [3, 1]
+    ]
+  )
 ]
