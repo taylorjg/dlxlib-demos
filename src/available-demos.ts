@@ -1,6 +1,7 @@
 import { AvailableDemo } from "types";
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import * as TetraSticks from "demos/tetrasticks"
 import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
 import * as Nonogram from "demos/nonogram"
@@ -23,6 +24,7 @@ const demoNames = [
 const thumbnailMap = new Map<string, React.FC>([
   ["sudoku", Sudoku.Thumbnail],
   ["n-queens", NQueens.Thumbnail],
+  ["tetrasticks", TetraSticks.Thumbnail],
   ["flow-free", FlowFree.Thumbnail],
   ["kakuro", Kakuro.Thumbnail],
   ["nonogram", Nonogram.Thumbnail]

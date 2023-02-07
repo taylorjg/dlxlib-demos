@@ -48,6 +48,12 @@ export const sameCoordsList = (coordsList1: Coords[], coordsList2: Coords[]): bo
   return true
 }
 
+export const coordsComparer = (coords1: Coords, coords2: Coords): number => {
+  const rowDiff = coords1.row - coords2.row
+  const colDiff = coords1.col - coords2.col
+  return rowDiff !== 0 ? rowDiff : colDiff
+}
+
 export enum CurrentState {
   Clean,
   Solving,

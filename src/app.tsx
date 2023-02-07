@@ -8,6 +8,7 @@ import {
 
 import * as Sudoku from "demos/sudoku"
 import * as NQueens from "demos/n-queens"
+import * as TetraSticks from "demos/tetrasticks"
 import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
 import * as Nonogram from "demos/nonogram"
@@ -46,6 +47,13 @@ export const App = () => {
                 initiallySelectedPuzzle={last(NQueens.puzzles)}
                 initialDrawingOptions={{}}
                 Drawing={NQueens.Drawing}
+              />
+            </Route>
+            <Route path="/demo/tetrasticks" exact>
+              <DemoPage
+                initiallySelectedPuzzle={{}}
+                initialDrawingOptions={{}}
+                Drawing={TetraSticks.Drawing}
               />
             </Route>
             <Route path="/demo/flow-free" exact>
