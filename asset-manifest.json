@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/dlxlib-demos/static/css/main.8bce7456.css",
-    "main.js": "/dlxlib-demos/static/js/main.bc04148e.js",
+    "main.js": "/dlxlib-demos/static/js/main.26955fc2.js",
     "static/js/671.7b0e03f1.chunk.js": "/dlxlib-demos/static/js/671.7b0e03f1.chunk.js",
     "static/js/45.c1417dfa.chunk.js": "/dlxlib-demos/static/js/45.c1417dfa.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/dlxlib-demos/static/media/roboto-all-500-normal.0ab669b7a0d19b178f57.woff",
@@ -38,12 +38,12 @@
     "static/media/roboto-greek-ext-700-normal.woff2": "/dlxlib-demos/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/dlxlib-demos/index.html",
     "main.8bce7456.css.map": "/dlxlib-demos/static/css/main.8bce7456.css.map",
-    "main.bc04148e.js.map": "/dlxlib-demos/static/js/main.bc04148e.js.map",
+    "main.26955fc2.js.map": "/dlxlib-demos/static/js/main.26955fc2.js.map",
     "671.7b0e03f1.chunk.js.map": "/dlxlib-demos/static/js/671.7b0e03f1.chunk.js.map",
     "45.c1417dfa.chunk.js.map": "/dlxlib-demos/static/js/45.c1417dfa.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8bce7456.css",
-    "static/js/main.bc04148e.js"
+    "static/js/main.26955fc2.js"
   ]
 }
