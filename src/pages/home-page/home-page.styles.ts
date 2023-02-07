@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
 
 export const StyledPage = styled.div`
+  margin-top: 2rem;
   padding: 2rem 0;
   width: 100%;
 `;
