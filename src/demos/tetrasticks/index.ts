@@ -1,4 +1,3 @@
-export * from "./drawing"
-export * from "./internal-row"
-export * from "./puzzle"
+// export * from "./demo"
+export * from "./demo-page"
 export * from "./thumbnail"

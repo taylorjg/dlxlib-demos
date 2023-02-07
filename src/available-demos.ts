@@ -1,11 +1,11 @@
 import { AvailableDemo } from "types";
-import * as Sudoku from "demos/sudoku"
-import * as NQueens from "demos/n-queens"
-import * as TetraSticks from "demos/tetrasticks"
-import * as FlowFree from "demos/flow-free"
-import * as Kakuro from "demos/kakuro"
-import * as Nonogram from "demos/nonogram"
-import * as Placeholder from "demos/placeholder"
+import { Thumbnail as SudokuThumbnail } from "demos/sudoku/thumbnail"
+import { Thumbnail as NQueensThumbnail } from "demos/n-queens/thumbnail"
+import { Thumbnail as TetraSticksThumbnail } from "demos/tetrasticks/thumbnail"
+import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail"
+import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail"
+import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
+import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
 
 const demoNames = [
   "Sudoku",
@@ -22,12 +22,12 @@ const demoNames = [
 ]
 
 const thumbnailMap = new Map<string, React.FC>([
-  ["sudoku", Sudoku.Thumbnail],
-  ["n-queens", NQueens.Thumbnail],
-  ["tetrasticks", TetraSticks.Thumbnail],
-  ["flow-free", FlowFree.Thumbnail],
-  ["kakuro", Kakuro.Thumbnail],
-  ["nonogram", Nonogram.Thumbnail]
+  ["sudoku", SudokuThumbnail],
+  ["n-queens", NQueensThumbnail],
+  ["tetrasticks", TetraSticksThumbnail],
+  ["flow-free", FlowFreeThumbnail],
+  ["kakuro", KakuroThumbnail],
+  ["nonogram", NonogramThumbnail]
 ])
 
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
@@ -38,7 +38,7 @@ export const availableDemos: AvailableDemo[] = demoNames
     return {
       name,
       shortName,
-      Thumbnail: thumbnailMap.get(shortName) ?? Placeholder.Thumbnail
+      Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail
     }
   })
 
