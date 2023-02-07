@@ -1,5 +1,5 @@
-import { Coords, DrawingProps } from "types"
-import { range } from "utils"
+import { Coords, DrawingProps, sameCoords } from "types"
+import { first, last, range } from "utils"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 
@@ -90,18 +90,8 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
     )
   }
 
-  // const makePathData = (points: number[][]): string => {
-  //   const [firstPoint, ...remainingPoints] = points
-  //   const pathCommands: string[] = []
-  //   pathCommands.push(`M${firstPoint[0]},${firstPoint[1]}`)
-  //   for (const point of remainingPoints) {
-  //     pathCommands.push(`L${point[0]},${point[1]}`)
-  //   }
-  //   return pathCommands.join(" ")
-  // }
-
   const drawTetraSticks = (): JSX.Element[] => {
-    return solutionInternalRows.flatMap(drawPiece)
+    return solutionInternalRows.flatMap(drawTetraStick)
   }
 
   const LINE_END_MULTIPLIER = 3
@@ -153,18 +143,59 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
     return `A ${r} ${r} 0 ${largeArcFlag} ${sweepFlag} ${x},${y}`
   }
 
-  const drawPiece = (internalRow: InternalRow): JSX.Element[] => {
+  const drawTetraStick = (internalRow: InternalRow): JSX.Element[] => {
 
     const { label, variation, location } = internalRow
     const colour = tetraStickColours.get(label)
+
     const pathData: string[] = []
 
     for (const polyLine of variation.polyLines) {
+      const isClosed = sameCoords(first(polyLine), last(polyLine))
       const pathCommands: string[] = []
-      pathCommands.push(moveTo(calculatePoint(location, polyLine[0])))
-      for (const coords of polyLine.slice(1)) {
-        pathCommands.push(lineTo(calculatePoint(location, coords)))
+
+      if (isClosed) {
+        const roundedCornerStart = insetRoundedCornerStart(polyLine[0], polyLine[1], calculatePoint(location, polyLine[0]))
+        pathCommands.push(moveTo(roundedCornerStart))
+      } else {
+        var lineStart = insetLineStart(polyLine[0], polyLine[1], calculatePoint(location, polyLine[0]))
+        pathCommands.push(moveTo(lineStart))
       }
+
+      const indices = range(polyLine.length).slice(1).slice(0, -1)
+      for (const index of indices) {
+        const coords = polyLine[index]
+        const coordsPrev = polyLine[index - 1]
+        const coordsNext = polyLine[index + 1]
+        const point = calculatePoint(location, coords)
+
+        if (coordsPrev.row === coordsNext.row || coordsPrev.col === coordsNext.col) {
+          pathCommands.push(lineTo(point))
+        } else {
+          const roundedCornerStart = insetRoundedCornerStart(coords, coordsPrev, point)
+          pathCommands.push(lineTo(roundedCornerStart))
+
+          const roundedCornerEnd = insetRoundedCornerEnd(coords, coordsNext, point)
+          pathCommands.push(roundedCornerTo(coordsPrev, coords, coordsNext, roundedCornerEnd))
+        }
+      }
+
+      if (isClosed) {
+        const coords = polyLine[0]
+        const coordsPrev = polyLine.slice(-2)[0] // not -1 because -1 is the same coords as point 0
+        const coordsNext = polyLine[1]
+        const point = calculatePoint(location, coords)
+
+        const roundedCornerStart = insetRoundedCornerStart(coords, coordsPrev, point)
+        pathCommands.push(lineTo(roundedCornerStart))
+
+        const firstPoint = insetRoundedCornerStart(polyLine[0], polyLine[1], calculatePoint(location, coords))
+        pathCommands.push(roundedCornerTo(coordsPrev, coords, coordsNext, firstPoint))
+      } else {
+        const lineEnd = insetLineEnd(polyLine.slice(-1)[0], polyLine.slice(-2)[0], calculatePoint(location, polyLine.slice(-1)[0]))
+        pathCommands.push(lineTo(lineEnd))
+      }
+
       pathData.push(pathCommands.join(" "))
     }
 
