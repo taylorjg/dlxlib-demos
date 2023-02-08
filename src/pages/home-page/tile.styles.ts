@@ -21,8 +21,8 @@ export const StyledRightColumn = styled.div`
   align-items: center;
 `
 
-export const StyledDrawingWrapper = styled.div`
-  border: 1px solid grey;
+export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
+  border: ${({ hideBorder }) => hideBorder ? "unset" : "1px solid grey"};
   width: calc(min(20rem, 90vw) * 3 / 7);
   height: calc(min(20rem, 90vw) * 3 / 7);
 `

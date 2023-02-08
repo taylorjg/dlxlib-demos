@@ -17,7 +17,7 @@ export const Tile: React.FC<TileProps> = ({ demo }) => {
   return (
     <StyledTile onClick={() => history.push(`/demo/${demo.shortName}`)}>
       <StyledLeftColumn>
-        <StyledDrawingWrapper>
+        <StyledDrawingWrapper hideBorder={demo.hideBorder}>
           <demo.Thumbnail />
         </StyledDrawingWrapper>
       </StyledLeftColumn>

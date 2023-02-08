@@ -9,7 +9,6 @@ export const StyledPage = styled.div`
 `
 
 export const StyledMainContent = styled.div`
-  /* background-image: url("/dlxlib-demos/pattern_apple_wood.png"); */
   padding: 2rem;
   flex-grow: 1;
   display: flex;
@@ -17,8 +16,8 @@ export const StyledMainContent = styled.div`
   align-items: center;
 `
 
-export const StyledDrawingWrapper = styled.div`
-  border: 2px solid grey;
+export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
+  border: ${({ hideBorder }) => hideBorder ? "unset" : "2px solid grey"};
   @supports (aspect-ratio: 1) {
     height: 100%;
     aspect-ratio: 1;

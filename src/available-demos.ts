@@ -30,15 +30,22 @@ const thumbnailMap = new Map<string, React.FC>([
   ["nonogram", NonogramThumbnail]
 ])
 
+const hideBorderMap = new Map<string, boolean>([
+  ["flow-free", true],
+  ["tetrasticks", true],
+])
+
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
 
 export const availableDemos: AvailableDemo[] = demoNames
   .map(name => {
     const shortName = makeShortName(name)
+    const hideBorder = hideBorderMap.get(shortName) ?? false
     return {
       name,
       shortName,
-      Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail
+      Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail,
+      hideBorder
     }
   })
 

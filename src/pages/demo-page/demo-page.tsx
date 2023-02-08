@@ -178,7 +178,7 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
     <StyledPage>
       <HeaderNavBar availableDemo={availableDemo} />
       <StyledMainContent>
-        <StyledDrawingWrapper>
+        <StyledDrawingWrapper hideBorder={availableDemo.hideBorder}>
           <Drawing
             puzzle={selectedPuzzle}
             solutionInternalRows={solutionInternalRows}
