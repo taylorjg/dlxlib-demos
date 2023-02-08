@@ -2,6 +2,7 @@ import { AvailableDemo } from "types";
 import { Thumbnail as SudokuThumbnail } from "demos/sudoku/thumbnail"
 import { Thumbnail as NQueensThumbnail } from "demos/n-queens/thumbnail"
 import { Thumbnail as TetraSticksThumbnail } from "demos/tetrasticks/thumbnail"
+import { Thumbnail as AztecDiamondThumbnail } from "demos/aztec-diamond/thumbnail"
 import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail"
 import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail"
 import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
@@ -25,6 +26,7 @@ const thumbnailMap = new Map<string, React.FC>([
   ["sudoku", SudokuThumbnail],
   ["n-queens", NQueensThumbnail],
   ["tetrasticks", TetraSticksThumbnail],
+  ["aztec-diamond", AztecDiamondThumbnail],
   ["flow-free", FlowFreeThumbnail],
   ["kakuro", KakuroThumbnail],
   ["nonogram", NonogramThumbnail]
@@ -33,6 +35,7 @@ const thumbnailMap = new Map<string, React.FC>([
 const hideBorderMap = new Map<string, boolean>([
   ["flow-free", true],
   ["tetrasticks", true],
+  ["aztec-diamond", true]
 ])
 
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
