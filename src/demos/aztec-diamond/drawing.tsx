@@ -198,7 +198,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
     pathData.forEach((d, index) => {
       const path = (
         <path
-          key={`tetrastick-${label}-${index}`}
+          key={`tetrastick-${label}-${variation.orientation}-${variation.reflected}-${index}`}
           d={d}
           stroke={colour}
           strokeWidth={TETRASTICK_FULL_THICKNESS}

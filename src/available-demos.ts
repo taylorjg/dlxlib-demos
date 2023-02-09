@@ -6,6 +6,7 @@ import { Thumbnail as AztecDiamondThumbnail } from "demos/aztec-diamond/thumbnai
 import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail"
 import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail"
 import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
+import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail"
 import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
 
 const demoNames = [
@@ -29,7 +30,8 @@ const thumbnailMap = new Map<string, React.FC>([
   ["aztec-diamond", AztecDiamondThumbnail],
   ["flow-free", FlowFreeThumbnail],
   ["kakuro", KakuroThumbnail],
-  ["nonogram", NonogramThumbnail]
+  ["nonogram", NonogramThumbnail],
+  ["crossword", CrosswordThumbnail]
 ])
 
 const hideBorderMap = new Map<string, boolean>([
