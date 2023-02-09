@@ -23,12 +23,3 @@ export const allJunctions: Coords[] =
 
 export const allLocations: Coords[] =
   allHorizontals.concat(allVerticals.filter(v => !allHorizontals.some(h => sameCoords(v, h))))
-
-console.log("allHorizontals:")
-console.dir(allHorizontals)
-
-console.log("allVerticals:")
-console.dir(allVerticals)
-
-console.log("allLocations:")
-console.dir(allLocations)

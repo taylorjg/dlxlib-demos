@@ -3,6 +3,7 @@ import { Thumbnail as SudokuThumbnail } from "demos/sudoku/thumbnail"
 import { Thumbnail as NQueensThumbnail } from "demos/n-queens/thumbnail"
 import { Thumbnail as TetraSticksThumbnail } from "demos/tetrasticks/thumbnail"
 import { Thumbnail as AztecDiamondThumbnail } from "demos/aztec-diamond/thumbnail"
+import { Thumbnail as RippleEffectThumbnail } from "demos/ripple-effect/thumbnail"
 import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail"
 import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail"
 import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
@@ -28,6 +29,7 @@ const thumbnailMap = new Map<string, React.FC>([
   ["n-queens", NQueensThumbnail],
   ["tetrasticks", TetraSticksThumbnail],
   ["aztec-diamond", AztecDiamondThumbnail],
+  ["ripple-effect", RippleEffectThumbnail],
   ["flow-free", FlowFreeThumbnail],
   ["kakuro", KakuroThumbnail],
   ["nonogram", NonogramThumbnail],
