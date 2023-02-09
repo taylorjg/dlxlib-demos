@@ -1,5 +1,5 @@
 import { Coords, goDown, goRight, sameCoords } from "types";
-import { range } from "utils";
+import { intersect, range } from "utils";
 import { Clue } from "./clue";
 import { ClueType } from "./clue-type";
 import { Puzzle } from "./puzzle";
@@ -37,12 +37,7 @@ const makePuzzle = (
     .filter(clue => clue.clueType === ClueType.Down)
     .flatMap(clue => clue.coordsList)
 
-  const crossCheckingSquares = allAcrossSquares.slice()
-  for (const downSquare of allDownSquares) {
-    if (!allAcrossSquares.some(acrossSquare => sameCoords(acrossSquare, downSquare))) {
-      crossCheckingSquares.push(downSquare)
-    }
-  }
+  const crossCheckingSquares = intersect(allAcrossSquares, allDownSquares, sameCoords)
 
   return { name, size, blocks, clues, crossCheckingSquares }
 }

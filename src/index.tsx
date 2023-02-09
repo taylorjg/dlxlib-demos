@@ -6,7 +6,7 @@ import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 
-import { App } from "./app"
+import { App } from "app"
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

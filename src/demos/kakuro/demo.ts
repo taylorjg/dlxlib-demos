@@ -1,5 +1,5 @@
 import { Coords, IDemo, sameCoords } from "types"
-import { range, sum } from "utils"
+import { except, range, sum } from "utils"
 import { InternalRow } from "./internal-row"
 import { Run, sameRun } from "./run"
 import { Puzzle } from "./puzzle"
@@ -40,7 +40,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     const setsOfValues: number[][] = []
 
     const helper = (n: number, useds: number[][], setOfValues: number[]): void => {
-      const remainingDigits = this.digitsExcept(useds.flat())
+      const remainingDigits = except(DIGITS, useds.flat())
       const used: number[] = []
       useds.push(used)
       for (const digit of remainingDigits) {
@@ -62,10 +62,6 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     helper(runLength, [], []);
 
     return setsOfValues
-  }
-
-  digitsExcept(ds: number[]): number[] {
-    return DIGITS.filter(d => !ds.includes(d))
   }
 
   internalRowToMatrixRow(internalRow: InternalRow): number[] {

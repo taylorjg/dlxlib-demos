@@ -6,4 +6,19 @@ export function minBy<T>(xs: T[], selector: (x: T) => number): number { return m
 export function maxBy<T>(xs: T[], selector: (x: T) => number): number { return max(xs.map(selector)) }
 export function first<T>(xs: T[]) { return xs[0] }
 export function last<T>(xs: T[]) { return xs[xs.length - 1] }
-export function except<T>(xs1: T[], xs2: T[], isSame: (x1: T, x2: T) => boolean): T[] { return xs1.filter(x1 => !xs2.some(x2 => isSame(x1, x2))) }
+
+function defaultSameness<T>(x1: T, x2: T): boolean { return x1 === x2 }
+
+export function except<T>(xs1: T[], xs2: T[], isSame: (x1: T, x2: T) => boolean = defaultSameness): T[] {
+  return xs1.filter(x1 => !xs2.some(x2 => isSame(x1, x2)))
+}
+
+export function union<T>(xs1: T[], xs2: T[], isSame: (x1: T, x2: T) => boolean = defaultSameness): T[] {
+  return [...xs1].concat(xs2.filter(x2 => !xs1.some(x1 => isSame(x1, x2))))
+}
+
+export function intersect<T>(xs1: T[], xs2: T[], isSame: (x1: T, x2: T) => boolean = defaultSameness): T[] {
+  const firstsInSecond = xs1.filter(x1 => xs2.some(x2 => isSame(x1, x2)))
+  const secondsInFirst = xs2.filter(x2 => xs1.some(x1 => isSame(x1, x2)))
+  return union(firstsInSecond, secondsInFirst, isSame)
+}
