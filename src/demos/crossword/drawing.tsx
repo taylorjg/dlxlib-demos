@@ -8,7 +8,6 @@ const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
 export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
-  const { size } = puzzle
 
   const GRID_LINE_FULL_THICKNESS = 1 / 4
   const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2

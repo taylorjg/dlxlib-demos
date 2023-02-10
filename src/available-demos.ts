@@ -1,5 +1,6 @@
 import { AvailableDemo } from "types";
 import { Thumbnail as SudokuThumbnail } from "demos/sudoku/thumbnail"
+import { Thumbnail as PentominoesThumbnail } from "demos/pentominoes/thumbnail"
 import { Thumbnail as NQueensThumbnail } from "demos/n-queens/thumbnail"
 import { Thumbnail as TetraSticksThumbnail } from "demos/tetrasticks/thumbnail"
 import { Thumbnail as AztecDiamondThumbnail } from "demos/aztec-diamond/thumbnail"
@@ -26,6 +27,7 @@ const demoNames = [
 
 const thumbnailMap = new Map<string, React.FC>([
   ["sudoku", SudokuThumbnail],
+  ["pentominoes", PentominoesThumbnail],
   ["n-queens", NQueensThumbnail],
   ["tetrasticks", TetraSticksThumbnail],
   ["aztec-diamond", AztecDiamondThumbnail],
@@ -37,6 +39,7 @@ const thumbnailMap = new Map<string, React.FC>([
 ])
 
 const hideBorderMap = new Map<string, boolean>([
+  ["pentominoes", true],
   ["flow-free", true],
   ["tetrasticks", true],
   ["aztec-diamond", true]
