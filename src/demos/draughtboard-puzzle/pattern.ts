@@ -1,5 +1,6 @@
-import { Coords } from "types"
 import { range, reverseString } from "utils"
+import { Colour } from "./colour"
+import { Square } from "./square"
 
 export const rotateCW = (pattern: string[]): string[] => {
   const rowCount = pattern.length
@@ -14,19 +15,24 @@ export const reflect = (pattern: string[]): string[] => {
   return pattern.map(reverseString)
 }
 
-export const toCoordsList = (pattern: string[]): Coords[] => {
+export const toSquares = (pattern: string[]): Square[] => {
   const rowCount = pattern.length
   const colCount = pattern[0].length
-  const coordsList: Coords[] = []
+  const squares: Square[] = []
 
   for (const row of range(rowCount)) {
     for (const col of range(colCount)) {
-      if (pattern[row][col] === "X") {
-        const coords = { row, col }
-        coordsList.push(coords)
+      const coords = { row, col }
+      switch (pattern[row][col]) {
+        case "B":
+          squares.push({coords, colour: Colour.Black})
+          break
+        case "W":
+          squares.push({coords, colour: Colour.White})
+          break
       }
     }
   }
 
-  return coordsList
+  return squares
 }

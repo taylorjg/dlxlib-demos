@@ -22,3 +22,5 @@ export function intersect<T>(xs1: T[], xs2: T[], isSame: (x1: T, x2: T) => boole
   const secondsInFirst = xs2.filter(x2 => xs1.some(x1 => isSame(x1, x2)))
   return union(firstsInSecond, secondsInFirst, isSame)
 }
+
+export const reverseString = (s: string): string => Array.from(s).reverse().join("")
