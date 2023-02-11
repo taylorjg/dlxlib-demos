@@ -8,15 +8,19 @@ import { RunGroupType } from "./run-group-type"
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
+const GRID_LINE_FULL_THICKNESS = 1 / 4
+const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
+
+const BACKGROUND_COLOUR = "white"
+const GRID_LINE_COLOUR = "black"
+const RUN_LENGTH_COLOUR = "black"
+const BLOCK_COLOUR = "black"
+
 export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>> = ({
   puzzle,
   solutionInternalRows,
   drawingOptions
 }) => {
-  const GRID_LINE_FULL_THICKNESS = 1 / 4
-  const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
-  const GRID_LINE_COLOUR = "black"
-
   let numMarginSquares = 0
 
   if (drawingOptions.showClues) {
@@ -33,7 +37,15 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
   const calculateY = (row: number) => (numMarginSquares + row) * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
   const drawBackground = (): JSX.Element => {
-    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
+    return (
+      <rect
+        x={0}
+        y={0}
+        width={VIEWBOX_WIDTH}
+        height={VIEWBOX_HEIGHT}
+        fill={BACKGROUND_COLOUR}
+      />
+    )
   }
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
@@ -108,14 +120,15 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
     const { row, col } = coords
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_HEIGHT / 2
+    const fontSize = 100 / puzzle.size / 2
 
     return (
       <text
         key={`run-length-${row}-${col}`}
         x={cx}
         y={cy}
-        fill="black"
-        fontSize={5}
+        fill={RUN_LENGTH_COLOUR}
+        fontSize={fontSize}
         textAnchor="middle"
         dominantBaseline="central"
       >
@@ -140,15 +153,17 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
 
   const drawBlock = (coords: Coords): JSX.Element => {
     const { row, col } = coords
+    const x = calculateX(col)
+    const y = calculateY(row)
 
     return (
       <rect
         key={`block-${row}-${col}`}
-        x={calculateX(col)}
-        y={calculateY(row)}
+        x={x}
+        y={y}
         width={SQUARE_WIDTH}
         height={SQUARE_HEIGHT}
-        fill="black"
+        fill={BLOCK_COLOUR}
       />
     )
   }
