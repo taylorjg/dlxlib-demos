@@ -1,5 +1,6 @@
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
+import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
 import { Orientation } from "./orientation"
 
@@ -10,6 +11,10 @@ const GRID_LINE_FULL_THICKNESS = 1
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
 const GRID_LINE_COLOUR = "#CD853F80"
+const FALLBACK_PIECE_COLOUR = "white"
+const LABEL_COLOUR = "white"
+
+const LABEL_FONT_SIZE = 3
 
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 8
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 8
@@ -35,8 +40,9 @@ const pieceColours = new Map<string, string>([
   ["Z", "#CCCA2A"]
 ])
 
-export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
+export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = ({
   solutionInternalRows,
+  drawingOptions,
 }) => {
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
@@ -80,12 +86,13 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
   }
 
   const drawPiece = (internalRow: InternalRow): JSX.Element[] => {
-    const colour = pieceColours.get(internalRow.label) ?? "white"
-    return internalRow.variation.coordsList.map(coords => {
+    const { label } = internalRow
+    const colour = pieceColours.get(label) ?? FALLBACK_PIECE_COLOUR
+    return internalRow.variation.coordsList.flatMap(coords => {
       const actualRow = internalRow.location.row + coords.row
       const actualCol = internalRow.location.col + coords.col
       const actualCoords = { row: actualRow, col: actualCol }
-      return drawSquare(actualCoords, colour)
+      return [drawSquare(actualCoords, colour)].concat(drawLabel(actualCoords, label))
     })
   }
 
@@ -131,8 +138,38 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
     return drawPiece(fakeInternalRow)
   }
 
+  const drawLabel = (coords: Coords, label: string): JSX.Element[] => {
+
+    if (!drawingOptions.showLabels) return []
+
+    const { row, col } = coords
+    const cx = calculateX(col) + SQUARE_WIDTH / 2
+    const cy = calculateY(row) + SQUARE_WIDTH / 2
+
+    const text =
+      <text
+        key={`value-${row}-${col}`}
+        x={cx}
+        y={cy}
+        fill={LABEL_COLOUR}
+        filter="url(#text-shadow)"
+        fontSize={LABEL_FONT_SIZE}
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        {label}
+      </text>
+
+    return [text]
+  }
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
+      <defs>
+        <filter id="text-shadow">
+          <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" />
+        </filter>
+      </defs>
       {drawHorizontalGridLines()}
       {drawVerticalGridLines()}
       {drawCentreHole()}
