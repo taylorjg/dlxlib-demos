@@ -13,4 +13,9 @@ export const StyledTiles = styled.div`
   grid-template-columns: repeat(auto-fill, min(20rem, calc(90vw)));
   justify-content: center;
   gap: 1rem;
+  @supports not (gap: 2rem) {
+    > *:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
 `
