@@ -2,7 +2,13 @@ import { useHistory } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 
 import { AvailableDemo } from "types"
-import { StyledHeaderNavBar } from "./header-nav-bar.styles"
+import {
+  StyledHeaderNavBar,
+  StyledBackLink,
+  StyledBackLinkArrow,
+  StyledBackLinkText,
+  StyledDemoName
+} from "./header-nav-bar.styles"
 
 export type HeaderNavBarProps = {
   availableDemo: AvailableDemo
@@ -15,13 +21,13 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => 
 
   return (
     <StyledHeaderNavBar data-testid="header-nav-bar">
-      <div>
-        <div style={{ display: "flex", cursor: "pointer" }} onClick={onBack}>
-          <div style={{ display: "flex", alignItems: "center", marginRight: "0.5rem" }}><ArrowBackIcon /></div>
-          <div style={{ display: "flex", alignItems: "center" }}>Back</div>
-        </div>
-      </div>
-      <div>{availableDemo.name}</div>
+      <StyledBackLink onClick={onBack}>
+        <StyledBackLinkArrow>
+          <ArrowBackIcon />
+        </StyledBackLinkArrow>
+        <StyledBackLinkText>Back</StyledBackLinkText>
+      </StyledBackLink>
+      <StyledDemoName>{availableDemo.name}</StyledDemoName>
     </StyledHeaderNavBar>
   )
 }

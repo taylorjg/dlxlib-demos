@@ -5,18 +5,19 @@ import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
+
+const QUEEN_COLOUR = "white"
 const SQUARE_COLOUR_1 = "peru"
 const SQUARE_COLOUR_2 = "sandybrown"
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
+  puzzle,
+  solutionInternalRows
+}) => {
   const { size } = puzzle
 
   const calculateX = (col: number) => col * VIEWBOX_WIDTH / size
   const calculateY = (row: number) => row * VIEWBOX_HEIGHT / size
-
-  const drawBackground = (): JSX.Element => {
-    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
-  }
 
   const drawGrid = (): JSX.Element[] => {
     const allLocations = range(size).flatMap(row =>
@@ -46,6 +47,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
     const { row, col } = coords
     const cx = calculateX(col) + VIEWBOX_WIDTH / size / 2
     const cy = calculateY(row) + VIEWBOX_HEIGHT / size / 2
+    const fontSize = VIEWBOX_WIDTH / size
 
     // Unicode white chess queen
     // https://util.unicode.org/UnicodeJsps/character.jsp?a=2655
@@ -56,7 +58,8 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         key={`queen-${row}-${col}`}
         x={cx}
         y={cy}
-        fill="white"
+        fill={QUEEN_COLOUR}
+        fontSize={fontSize}
         textAnchor="middle"
         dominantBaseline="middle"
       >
@@ -67,7 +70,6 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
 
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
-      {drawBackground()}
       {drawGrid()}
       {drawQueens()}
     </svg>

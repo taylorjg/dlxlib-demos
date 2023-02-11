@@ -5,11 +5,17 @@ import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
+
 const GRID_LINE_FULL_THICKNESS = 1
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 const GRID_LINE_COLOUR = "black"
+
+const BACKGROUND_COLOUR = "white"
 const INITIAL_VALUE_COLOUR = "magenta"
 const CALCULATED_VALUE_COLOUR = "black"
+
+const VALUE_FONTSIZE = 8
+
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 9
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
 
@@ -19,7 +25,15 @@ const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNE
 export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
 
   const drawBackground = (): JSX.Element => {
-    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
+    return (
+      <rect
+        x={0}
+        y={0}
+        width={VIEWBOX_WIDTH}
+        height={VIEWBOX_HEIGHT}
+        fill={BACKGROUND_COLOUR}
+      />
+    )
   }
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
@@ -83,7 +97,6 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
     const fill = isInitialValue ? INITIAL_VALUE_COLOUR : CALCULATED_VALUE_COLOUR
-    const fontSize = "8px"
 
     return (
       <text
@@ -91,7 +104,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         x={cx}
         y={cy}
         fill={fill}
-        fontSize={fontSize}
+        fontSize={VALUE_FONTSIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >

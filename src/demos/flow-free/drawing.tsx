@@ -7,6 +7,14 @@ import { Puzzle } from "./puzzle"
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
+const GRID_LINE_FULL_THICKNESS = 1 / 4
+const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
+
+const BACKGROUND_COLOUR = "black"
+const GRID_LINE_COLOUR = "yellow"
+const FALLBACK_DOT_COLOUR = "white"
+const FALLBACK_LABEL_COLOUR = "white"
+
 const dotColours = new Map<string, string>([
   ["A", "red"],
   ["B", "green"],
@@ -43,9 +51,6 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
   drawingOptions
 }) => {
 
-  const GRID_LINE_FULL_THICKNESS = 1 / 4
-  const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
-  const GRID_LINE_COLOUR = "yellow"
   const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / puzzle.size
   const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / puzzle.size
 
@@ -53,7 +58,15 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
   const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
   const drawBackground = (): JSX.Element => {
-    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="black" />
+    return (
+      <rect
+        x={0}
+        y={0}
+        width={VIEWBOX_WIDTH}
+        height={VIEWBOX_HEIGHT}
+        fill={BACKGROUND_COLOUR}
+      />
+    )
   }
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
@@ -104,7 +117,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_HEIGHT / 2
     const r = SQUARE_WIDTH * 0.35
-    const fill = dotColours.get(label) ?? "white"
+    const fill = dotColours.get(label) ?? FALLBACK_DOT_COLOUR
 
     return (
       <circle
@@ -131,8 +144,8 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
     const { row, col } = coords
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
-    const fill = labelColours.get(label) ?? "white"
-    const fontSize = "8px"
+    const fill = labelColours.get(label) ?? FALLBACK_LABEL_COLOUR
+    const fontSize = VIEWBOX_WIDTH / puzzle.size * 0.5
 
     return (
       <text
@@ -175,7 +188,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
 
     const d = makePathData(internalRow.coordsList.map(coordsToCentreOfSquare))
     const label = internalRow.colourPair.label
-    const colour = dotColours.get(label) ?? "white"
+    const colour = dotColours.get(label) ?? FALLBACK_DOT_COLOUR
 
     return (
       <path

@@ -2,14 +2,18 @@ import { Orientation } from "./orientation"
 import { Drawing } from "./drawing"
 import { InternalRow } from "./internal-row"
 import { piecesWithVariations } from "./pieces-with-variations"
+import { puzzles } from "./puzzles"
+import { first } from "utils"
 
 export const Thumbnail = () => {
+  const puzzle = first(puzzles)
   const solutionInternalRows = makeSolution()
+  const drawingOptions = {}
   return (
     <Drawing
-      puzzle={{}}
+      puzzle={puzzle}
       solutionInternalRows={solutionInternalRows}
-      drawingOptions={{}}
+      drawingOptions={drawingOptions}
     />
   )
 }
