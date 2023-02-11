@@ -3,6 +3,7 @@
 
 import * as dlxlib from "dlxlib/dlx"
 import { Demo as SudokuDemo } from "demos/sudoku/demo"
+import { Demo as PentominoesDemo } from "demos/pentominoes/demo"
 import { Demo as NQueensDemo } from "demos/n-queens/demo"
 import { Demo as FlowFreeDemo } from "demos/flow-free/demo"
 import { Demo as KakuroDemo } from "demos/kakuro/demo"
@@ -10,6 +11,7 @@ import { Demo as NonogramDemo } from "demos/nonogram/demo"
 
 const map = new Map<string, any>([
   ["sudoku", SudokuDemo],
+  ["pentominoes", PentominoesDemo],
   ["n-queens", NQueensDemo],
   ["flow-free", FlowFreeDemo],
   ["kakuro", KakuroDemo],
@@ -58,7 +60,7 @@ const onSolve = (shortName: string, puzzle: any) => {
   }
 
   const dlx = new dlxlib.Dlx()
-  dlx.addListener("step", onStep)
+  // dlx.addListener("step", onStep)
   dlx.addListener("solution", onSolution)
   const solutions = dlx.solve(matrix, options)
 
@@ -74,6 +76,7 @@ self.onmessage = (ev: MessageEvent<any>) => {
       return
     }
   } catch (error) {
+    console.error("error:", error)
     if (error instanceof Error) {
       self.postMessage({ type: "error", message: error.message })
     } else {

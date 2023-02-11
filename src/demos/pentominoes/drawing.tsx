@@ -107,6 +107,9 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
   }
 
   const drawCentreHole = (): JSX.Element[] => {
+
+    if (solutionInternalRows.length === 0) return []
+
     const fakeLabel = ""
     const fakeCoordsList = [
       { row: 0, col: 0 },
