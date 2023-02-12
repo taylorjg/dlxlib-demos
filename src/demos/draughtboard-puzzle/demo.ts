@@ -41,10 +41,10 @@ export class Demo implements IDemo<{}, InternalRow> {
 
   allPossiblePiecePlacements(): InternalRow[] {
     const internalRows: InternalRow[] = []
-    const fixedPiecesLabels = piecesWithVariations.slice(0, 1).map(({ label }) => label)
+    const fixedPieceLabels = piecesWithVariations.slice(0, 1).map(({ label }) => label)
 
     for (const pieceWithVariations of piecesWithVariations) {
-      const variations = fixedPiecesLabels.includes(pieceWithVariations.label)
+      const variations = fixedPieceLabels.includes(pieceWithVariations.label)
         ? pieceWithVariations.variations.slice(0, 1)
         : pieceWithVariations.variations
 
