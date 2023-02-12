@@ -1,6 +1,7 @@
 import { Coords, DrawingProps } from "types"
 import { range } from "utils"
 import { Colour } from "./colour"
+import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
 
 const VIEWBOX_WIDTH = 100
@@ -14,14 +15,17 @@ const GRID_LINE_COLOUR = "#CD853F"
 const SQUARE_COLOUR_BLACK = "black"
 const SQUARE_COLOUR_WHITE = "white"
 
+const LABEL_FONT_SIZE = 3
+
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 8
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 8
 
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
-export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
+export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = ({
   solutionInternalRows,
+  drawingOptions
 }) => {
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
@@ -65,13 +69,16 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
   }
 
   const drawPiece = (internalRow: InternalRow): JSX.Element[] => {
-    return internalRow.variation.squares.map(square => {
+    const { label } = internalRow
+    return internalRow.variation.squares.flatMap(square => {
       const { coords } = square
       const actualRow = internalRow.location.row + coords.row
       const actualCol = internalRow.location.col + coords.col
       const actualCoords = { row: actualRow, col: actualCol }
       const colour = square.colour === Colour.Black ? SQUARE_COLOUR_BLACK : SQUARE_COLOUR_WHITE
-      return drawSquare(actualCoords, colour)
+      const inverseColour = square.colour === Colour.Black ? SQUARE_COLOUR_WHITE : SQUARE_COLOUR_BLACK
+      return [drawSquare(actualCoords, colour)]
+        .concat(drawLabel(actualCoords, label, inverseColour))
     })
   }
 
@@ -90,6 +97,30 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
         fill={colour}
       />
     )
+  }
+
+  const drawLabel = (coords: Coords, label: string, colour: string): JSX.Element[] => {
+
+    if (!drawingOptions.showLabels) return []
+
+    const { row, col } = coords
+    const cx = calculateX(col) + SQUARE_WIDTH / 2
+    const cy = calculateY(row) + SQUARE_WIDTH / 2
+
+    const text =
+      <text
+        key={`label-${row}-${col}`}
+        x={cx}
+        y={cy}
+        fill={colour}
+        fontSize={LABEL_FONT_SIZE}
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        {label}
+      </text>
+
+    return [text]
   }
 
   return (

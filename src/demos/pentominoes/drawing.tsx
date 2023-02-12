@@ -148,7 +148,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
     const text =
       <text
-        key={`value-${row}-${col}`}
+        key={`label-${row}-${col}`}
         x={cx}
         y={cy}
         fill={LABEL_COLOUR}

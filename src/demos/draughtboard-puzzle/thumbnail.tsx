@@ -5,11 +5,12 @@ import { piecesWithVariations } from "./pieces-with-variations"
 
 export const Thumbnail = () => {
   const solutionInternalRows = makeSolution()
+  const drawingOptions = { showLabels: false }
   return (
     <Drawing
       puzzle={{}}
       solutionInternalRows={solutionInternalRows}
-      drawingOptions={{}}
+      drawingOptions={drawingOptions}
     />
   )
 }

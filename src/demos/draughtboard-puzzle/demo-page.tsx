@@ -5,7 +5,7 @@ import { Drawing } from "./drawing"
 export const DemoPage = () => {
 
   const puzzle = {}
-  const drawingOptions = {}
+  const drawingOptions = { showLabels: false }
 
   return (
     <GenericDemoPage
