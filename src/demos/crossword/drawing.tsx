@@ -1,16 +1,31 @@
 import { Coords, DrawingProps } from "types"
 import { first, range } from "utils"
 import { Clue } from "./clue"
+import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, solutionInternalRows }) => {
+export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>> = ({
+  puzzle,
+  solutionInternalRows,
+  drawingOptions
+}) => {
 
   const GRID_LINE_FULL_THICKNESS = 1 / 4
   const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
+
+  const BACKGROUND_COLOUR = "white"
+  const GRID_LINE_COLOUR = "black"
+  const BLOCK_COLOUR = "black"
+  const LETTER_COLOUR = "black"
+  const CLUE_NUMBER_COLOUR = "black"
+
+  const LETTER_FONT_SIZE = 5
+  const CLUE_NUMBER_FONT_SIZE = 1.5
+
   const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / puzzle.size
   const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / puzzle.size
 
@@ -18,7 +33,14 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
   const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
 
   const drawBackground = (): JSX.Element => {
-    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
+    return (
+      <rect
+        x={0}
+        y={0}
+        width={VIEWBOX_WIDTH}
+        height={VIEWBOX_HEIGHT}
+        fill={BACKGROUND_COLOUR}
+      />)
   }
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
@@ -33,7 +55,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
           x2={VIEWBOX_WIDTH}
           y2={y}
           strokeWidth={GRID_LINE_FULL_THICKNESS}
-          stroke="black"
+          stroke={GRID_LINE_COLOUR}
         />
       )
     })
@@ -51,7 +73,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
           x2={x}
           y2={VIEWBOX_HEIGHT}
           strokeWidth={GRID_LINE_FULL_THICKNESS}
-          stroke="black"
+          stroke={GRID_LINE_COLOUR}
         />
       )
     })
@@ -73,12 +95,13 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         y={y}
         width={SQUARE_WIDTH}
         height={SQUARE_HEIGHT}
-        fill="black"
+        fill={BLOCK_COLOUR}
       />
     )
   }
 
   const drawClueNumbers = (): JSX.Element[] => {
+    if (!drawingOptions.showClueNumbers) return []
     return puzzle.clues.map(drawClueNumber)
   }
 
@@ -93,8 +116,8 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         key={`clue-number-${clueNumber}-${clueType}`}
         x={cx}
         y={cy}
-        fill="black"
-        fontSize={1.5}
+        fill={CLUE_NUMBER_COLOUR}
+        fontSize={CLUE_NUMBER_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >
@@ -127,8 +150,8 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         key={`letter-${clueNumber}-${clueType}-${row}-${col}`}
         x={cx}
         y={cy}
-        fill="black"
-        fontSize={5}
+        fill={LETTER_COLOUR}
+        fontSize={LETTER_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >

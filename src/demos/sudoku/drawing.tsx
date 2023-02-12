@@ -14,7 +14,7 @@ const BACKGROUND_COLOUR = "white"
 const INITIAL_VALUE_COLOUR = "magenta"
 const CALCULATED_VALUE_COLOUR = "black"
 
-const VALUE_FONTSIZE = 8
+const VALUE_FONT_SIZE = 8
 
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 9
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 9
@@ -104,7 +104,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         x={cx}
         y={cy}
         fill={fill}
-        fontSize={VALUE_FONTSIZE}
+        fontSize={VALUE_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >

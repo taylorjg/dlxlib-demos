@@ -14,6 +14,7 @@ import * as TetraSticks from "demos/tetrasticks"
 import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
 import * as Nonogram from "demos/nonogram"
+import * as Crossword from "demos/crossword"
 import * as Placeholder from "demos/placeholder"
 import { HomePage } from "pages/home-page"
 import { GlobalStyles } from "./app.styles"
@@ -57,6 +58,9 @@ export const App = () => {
           </Route>
           <Route path="/demo/nonogram" exact>
             <Nonogram.DemoPage />
+          </Route>
+          <Route path="/demo/crossword" exact>
+            <Crossword.DemoPage />
           </Route>
           <Route path="/demo/:shortName" exact>
             <Placeholder.DemoPage />
