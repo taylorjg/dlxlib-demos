@@ -31,14 +31,10 @@ export class Demo implements IDemo<{}, InternalRow> {
       const { coords, colour } = square
       const row = internalRow.location.row + coords.row
       const col = internalRow.location.col + coords.col
-      if (row < 0 || col < 0) return false
-      if (row >= 8 || col >= 8) return false
-      const shouldBeWhite = (row + col) % 2 !== 0
-      if (shouldBeWhite) {
-        if (colour !== Colour.White) return false
-      } else {
-        if (colour !== Colour.Black) return false
-      }
+      if (row < 0 || row >= 8) return false
+      if (col < 0 || col >= 8) return false
+      const requiredColour = (row + col) % 2 !== 0 ? Colour.White : Colour.Black
+      if (colour !== requiredColour) return false
     }
     return true
   }

@@ -1,5 +1,5 @@
 import { DemoPage as GenericDemoPage } from "pages/demo-page"
-// import { DemoControls } from "./demo-controls"
+import { DemoControls } from "./demo-controls"
 import { Drawing } from "./drawing"
 
 export const DemoPage = () => {
@@ -12,7 +12,7 @@ export const DemoPage = () => {
       initiallySelectedPuzzle={puzzle}
       initialDrawingOptions={drawingOptions}
       Drawing={Drawing}
-      // DemoControls={DemoControls}
+      DemoControls={DemoControls}
     />
   )
 }
