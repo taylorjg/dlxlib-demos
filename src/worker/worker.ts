@@ -4,6 +4,7 @@
 import * as dlxlib from "dlxlib/dlx"
 import { Demo as SudokuDemo } from "demos/sudoku/demo"
 import { Demo as PentominoesDemo } from "demos/pentominoes/demo"
+import { Demo as DraughtboardPuzzleDemo } from "demos/draughtboard-puzzle/demo"
 import { Demo as NQueensDemo } from "demos/n-queens/demo"
 import { Demo as FlowFreeDemo } from "demos/flow-free/demo"
 import { Demo as KakuroDemo } from "demos/kakuro/demo"
@@ -12,6 +13,7 @@ import { Demo as NonogramDemo } from "demos/nonogram/demo"
 const map = new Map<string, any>([
   ["sudoku", SudokuDemo],
   ["pentominoes", PentominoesDemo],
+  ["draughtboard-puzzle", DraughtboardPuzzleDemo],
   ["n-queens", NQueensDemo],
   ["flow-free", FlowFreeDemo],
   ["kakuro", KakuroDemo],

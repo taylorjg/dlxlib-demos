@@ -8,6 +8,7 @@ import {
 
 import * as Sudoku from "demos/sudoku"
 import * as Pentominoes from "demos/pentominoes"
+import * as DraughtboardPuzzle from "demos/draughtboard-puzzle"
 import * as NQueens from "demos/n-queens"
 import * as TetraSticks from "demos/tetrasticks"
 import * as FlowFree from "demos/flow-free"
@@ -38,6 +39,9 @@ export const App = () => {
           </Route>
           <Route path="/demo/pentominoes" exact>
             <Pentominoes.DemoPage />
+          </Route>
+          <Route path="/demo/draughtboard-puzzle" exact>
+            <DraughtboardPuzzle.DemoPage />
           </Route>
           <Route path="/demo/n-queens" exact>
             <NQueens.DemoPage />
