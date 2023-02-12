@@ -3,6 +3,10 @@ import styled from "@emotion/styled"
 export const StyledPage = styled.div`
   margin-top: 2rem;
   padding: 2rem;
+  @media (max-width: 600px) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -20,6 +24,7 @@ export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
   border: ${({ hideBorder }) => hideBorder ? "unset" : "2px solid grey"};
   @supports (aspect-ratio: 1) {
     height: 100%;
+    max-height: 90vw;
     aspect-ratio: 1;
   }
   @supports not (aspect-ratio: 1) {

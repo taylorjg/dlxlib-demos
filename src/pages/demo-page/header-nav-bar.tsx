@@ -6,7 +6,7 @@ import {
   StyledHeaderNavBar,
   StyledBackLink,
   StyledBackLinkArrow,
-  StyledBackLinkText,
+  // StyledBackLinkText,
   StyledDemoName
 } from "./header-nav-bar.styles"
 
@@ -25,7 +25,7 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => 
         <StyledBackLinkArrow>
           <ArrowBackIcon />
         </StyledBackLinkArrow>
-        <StyledBackLinkText>Back</StyledBackLinkText>
+        {/* <StyledBackLinkText>Back</StyledBackLinkText> */}
       </StyledBackLink>
       <StyledDemoName>{availableDemo.name}</StyledDemoName>
     </StyledHeaderNavBar>
