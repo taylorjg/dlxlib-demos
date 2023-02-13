@@ -3,10 +3,20 @@ import { DrawingProps } from "types"
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
+const BACKGROUND_COLOUR = "white"
+
 export const Drawing: React.FC<DrawingProps<{}, {}>> = () => {
 
   const drawBackground = (): JSX.Element => {
-    return <rect x={0} y={0} width={VIEWBOX_WIDTH} height={VIEWBOX_HEIGHT} fill="white" />
+    return (
+      <rect
+        x={0}
+        y={0}
+        width={VIEWBOX_WIDTH}
+        height={VIEWBOX_HEIGHT}
+        fill={BACKGROUND_COLOUR}
+      />
+    )
   }
 
   const drawMessage = (): JSX.Element => {

@@ -20,7 +20,7 @@ export const Thumbnail = () => {
     ".13.31.13."
   ]
   const solutionInternalRows = parseSolution(puzzle, solution)
-  const drawingOptions = {}
+  const drawingOptions = { showClues: true }
   return (
     <Drawing
       puzzle={puzzle}
