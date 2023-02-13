@@ -7,9 +7,19 @@ import { RunType } from "./run-type"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
+
 const GRID_LINE_FULL_THICKNESS = 1 / 4
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
+
 const GRID_LINE_COLOUR = "black"
+const BLOCK_COLOUR = "black"
+const CLUE_ARROW_COLOUR = "white"
+const CLUE_SUM_COLOUR = "black"
+const VALUE_COLOUR = "black"
+
+const CLUE_SUM_FONT_SIZE = 3
+const VALUE_FONT_SIZE = 6
+
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 10
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 10
 
@@ -79,7 +89,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
         y={y}
         width={SQUARE_WIDTH}
         height={SQUARE_HEIGHT}
-        fill="black"
+        fill={BLOCK_COLOUR}
       />
     )
   }
@@ -117,28 +127,28 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
     const p5 = [px + SQUARE_WIDTH / 2 + GRID_LINE_FULL_THICKNESS, py + SQUARE_HEIGHT / 2]
     const path = (
       <path
-        key={`across-path-${row}-${col}`}
+        key={`across-arrow-${row}-${col}`}
         d={makePathData([p1, p2, p3, p4, p5])}
-        fill="white"
+        fill={CLUE_ARROW_COLOUR}
       />
     )
 
     const x = calculateX(col) + (SQUARE_WIDTH * 0.75)
     const y = calculateY(row) + (SQUARE_HEIGHT * 0.25)
-    const fontSize = "3"
     const text = (
       <text
         key={`across-sum-${row}-${col}`}
         x={x}
         y={y}
-        fill="black"
-        fontSize={fontSize}
+        fill={CLUE_SUM_COLOUR}
+        fontSize={CLUE_SUM_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >
         {sum}
       </text>
     )
+
     return [path, text]
   }
 
@@ -154,28 +164,28 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
     const p5 = [px + SQUARE_WIDTH / 2, py + SQUARE_HEIGHT / 2 + GRID_LINE_FULL_THICKNESS]
     const path = (
       <path
-        key={`down-path-${row}-${col}`}
+        key={`down-arrow-${row}-${col}`}
         d={makePathData([p1, p2, p3, p4, p5])}
-        fill="white"
+        fill={CLUE_ARROW_COLOUR}
       />
     )
 
     const x = calculateX(col) + (SQUARE_WIDTH * 0.25)
     const y = calculateY(row) + (SQUARE_HEIGHT * 0.75)
-    const fontSize = "3"
     const text = (
       <text
         key={`down-sum-${row}-${col}`}
         x={x}
         y={y}
-        fill="black"
-        fontSize={fontSize}
+        fill={CLUE_SUM_COLOUR}
+        fontSize={CLUE_SUM_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >
         {sum}
       </text>
     )
+
     return [path, text]
   }
 
@@ -197,16 +207,14 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({ puzzle, s
     const { row, col } = coords
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
-    const fill = "black"
-    const fontSize = "8px"
 
     return (
       <text
         key={`value-${row}-${col}`}
         x={cx}
         y={cy}
-        fill={fill}
-        fontSize={fontSize}
+        fill={VALUE_COLOUR}
+        fontSize={VALUE_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
       >

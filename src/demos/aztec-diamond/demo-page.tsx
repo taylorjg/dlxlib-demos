@@ -3,11 +3,12 @@ import { Drawing } from "./drawing"
 
 export const DemoPage = () => {
 
+  const puzzle = {}
   const drawingOptions = {}
 
   return (
     <GenericDemoPage
-      initiallySelectedPuzzle={{}}
+      initiallySelectedPuzzle={puzzle}
       initialDrawingOptions={drawingOptions}
       Drawing={Drawing}
     />

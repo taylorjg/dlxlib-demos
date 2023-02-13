@@ -14,7 +14,7 @@ export const Thumbnail = () => {
   )
 }
 
-const makeSolution = (): InternalRow[] => {
+export const makeSolution = (): InternalRow[] => {
   return [
     makeSolutionInternalRow("I", Orientation.North, false, 3, 2),
     makeSolutionInternalRow("O", Orientation.North, false, 4, 8),

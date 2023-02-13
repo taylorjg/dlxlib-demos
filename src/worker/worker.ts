@@ -7,6 +7,7 @@ import { Demo as PentominoesDemo } from "demos/pentominoes/demo"
 import { Demo as DraughtboardPuzzleDemo } from "demos/draughtboard-puzzle/demo"
 import { Demo as NQueensDemo } from "demos/n-queens/demo"
 import { Demo as TetraSticksDemo } from "demos/tetrasticks/demo"
+import { Demo as AztecDiamondDemo } from "demos/aztec-diamond/demo"
 import { Demo as FlowFreeDemo } from "demos/flow-free/demo"
 import { Demo as KakuroDemo } from "demos/kakuro/demo"
 import { Demo as NonogramDemo } from "demos/nonogram/demo"
@@ -18,6 +19,7 @@ const map = new Map<string, any>([
   ["draughtboard-puzzle", DraughtboardPuzzleDemo],
   ["n-queens", NQueensDemo],
   ["tetrasticks", TetraSticksDemo],
+  ["aztec-diamond", AztecDiamondDemo],
   ["flow-free", FlowFreeDemo],
   ["kakuro", KakuroDemo],
   ["nonogram", NonogramDemo],
