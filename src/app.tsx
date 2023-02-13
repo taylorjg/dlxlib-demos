@@ -12,6 +12,7 @@ import * as DraughtboardPuzzle from "demos/draughtboard-puzzle"
 import * as NQueens from "demos/n-queens"
 import * as TetraSticks from "demos/tetrasticks"
 import * as AztecDiamond from "demos/aztec-diamond"
+import * as RippleEffect from "demos/ripple-effect"
 import * as FlowFree from "demos/flow-free"
 import * as Kakuro from "demos/kakuro"
 import * as Nonogram from "demos/nonogram"
@@ -53,6 +54,9 @@ export const App = () => {
           </Route>
           <Route path="/demo/aztec-diamond" exact>
             <AztecDiamond.DemoPage />
+          </Route>
+          <Route path="/demo/ripple-effect" exact>
+            <RippleEffect.DemoPage />
           </Route>
           <Route path="/demo/flow-free" exact>
             <FlowFree.DemoPage />

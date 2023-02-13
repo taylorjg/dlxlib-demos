@@ -18,8 +18,6 @@ const ROOM_BORDER_COLOUR = "black"
 const INITIAL_VALUE_COLOUR = "magenta"
 const CALCULATED_VALUE_COLOUR = "black"
 
-const VALUE_FONT_SIZE = 8
-
 export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
   puzzle,
   solutionInternalRows
@@ -138,6 +136,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
     const fill = isInitialValue ? INITIAL_VALUE_COLOUR : CALCULATED_VALUE_COLOUR
+    const fontSize = VIEWBOX_WIDTH / puzzle.size * 0.7
 
     return (
       <text
@@ -145,7 +144,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
         x={cx}
         y={cy}
         fill={fill}
-        fontSize={VALUE_FONT_SIZE}
+        fontSize={fontSize}
         textAnchor="middle"
         dominantBaseline="central"
       >
