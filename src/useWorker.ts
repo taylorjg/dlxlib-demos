@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { Mode } from "types"
 
 export const useWorker = () => {
 
@@ -16,13 +17,14 @@ export const useWorker = () => {
   function solve<TPuzzle, TInternalRow>(
     shortName: string,
     puzzle: TPuzzle,
+    mode: Mode,
     onSearchStep: (solutionInternalRows: TInternalRow[]) => void,
     onSolutionFound: (solutionInternalRows: TInternalRow[]) => void,
     onFinished: (numSolutionsFound: number) => void,
     onError: (message: string) => void,
   ) {
     const worker = getWorker()
-    worker.postMessage({ type: "solve", shortName, puzzle })
+    worker.postMessage({ type: "solve", shortName, puzzle, mode })
     worker.onmessage = (ev: MessageEvent<any>) => {
       console.log("[useWorker#solve]", "ev.data.type:", ev.data.type)
 

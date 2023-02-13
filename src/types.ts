@@ -60,3 +60,8 @@ export enum CurrentState {
   Solving,
   Dirty
 }
+
+export enum Mode {
+  FirstSolution,
+  SearchSteps
+}

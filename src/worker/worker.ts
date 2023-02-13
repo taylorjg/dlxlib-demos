@@ -2,6 +2,8 @@
 /* eslint-disable no-restricted-globals */
 
 import * as dlxlib from "dlxlib/dlx"
+import { Mode } from "types"
+
 import { Demo as SudokuDemo } from "demos/sudoku/demo"
 import { Demo as PentominoesDemo } from "demos/pentominoes/demo"
 import { Demo as DraughtboardPuzzleDemo } from "demos/draughtboard-puzzle/demo"
@@ -41,7 +43,7 @@ type SolutionFoundEvent = {
   solutionIndex: number
 }
 
-const onSolve = (shortName: string, puzzle: any) => {
+const onSolve = (shortName: string, puzzle: any, mode: Mode) => {
   const demoConstructor = map.get(shortName)
   if (!demoConstructor) {
     self.postMessage({ type: "unknownDemo" })
@@ -70,7 +72,9 @@ const onSolve = (shortName: string, puzzle: any) => {
   }
 
   const dlx = new dlxlib.Dlx()
-  // dlx.addListener("step", onStep)
+  if (mode === Mode.SearchSteps) {
+    dlx.addListener("step", onStep)
+  }
   dlx.addListener("solution", onSolution)
   const solutions = dlx.solve(matrix, options)
 
@@ -81,8 +85,10 @@ self.onmessage = (ev: MessageEvent<any>) => {
   try {
     console.log("[worker onmessage]", "ev.data.type:", ev.data.type)
     if (ev.data.type === "solve") {
-      const { shortName, puzzle } = ev.data
-      onSolve(shortName, puzzle)
+      const shortName = ev.data.shortName as string
+      const mode = ev.data.mode as Mode
+      const { puzzle } = ev.data
+      onSolve(shortName, puzzle, mode)
       return
     }
   } catch (error) {

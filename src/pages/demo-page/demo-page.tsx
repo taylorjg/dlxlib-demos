@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom"
 import { lookupAvailableDemoByShortName } from "available-demos"
 import { HeaderNavBar } from "./header-nav-bar"
 import { ActionControls } from "./action-controls"
+import { NavigationControls } from "./navigation-controls"
 import {
   StyledPage,
   StyledMainContent,
@@ -10,11 +11,9 @@ import {
   StyledErrorPage,
   StyledError
 } from "./demo-page.styles"
-import { CurrentState, DrawingProps, DemoControlsProps } from "types"
+import { CurrentState, DrawingProps, DemoControlsProps, Mode } from "types"
 import { useWorker } from "useWorker"
 import { last } from "utils"
-
-// enum Mode { FirstSolution, SearchSteps }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class BaseMessage<TInternalRow> {
@@ -72,8 +71,8 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
   const [selectedPuzzle, setSelectedPuzzle] = useState(initiallySelectedPuzzle)
   const [drawingOptions, setDrawingOptions] = useState(initialDrawingOptions)
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
-  const [currentState, setCurrentState] = useState<CurrentState>(CurrentState.Clean)
-  // const [mode, setMode] = useState<Mode>(Mode.FirstSolution)
+  const [currentState, setCurrentState] = useState(CurrentState.Clean)
+  const [mode, setMode] = useState(Mode.FirstSolution)
   const worker = useWorker()
   const messagesRef = useRef<BaseMessage<TInternalRow>[]>([])
   const timerRef = useRef<NodeJS.Timer>()
@@ -147,7 +146,7 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
   const onSolve = () => {
     startTimer()
     setCurrentState(CurrentState.Solving)
-    worker.solve(shortName, selectedPuzzle, onSearchStep, onSolutionFound, onFinished, onError)
+    worker.solve(shortName, selectedPuzzle, mode, onSearchStep, onSolutionFound, onFinished, onError)
   }
 
   const onReset = () => {
@@ -162,6 +161,10 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
 
   const onDrawingOptionsChanged = (newDrawingOptions: TDrawingOptions) => {
     setDrawingOptions(newDrawingOptions)
+  }
+
+  const onModeChanged = (newMode: Mode) => {
+    setMode(newMode)
   }
 
   if (!availableDemo) {
@@ -194,7 +197,8 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
           onDrawingOptionsChanged={onDrawingOptionsChanged}
         />
       )}
-      <ActionControls onSolve={onSolve} onReset={onReset} currentState={currentState} />
+      <NavigationControls currentState={currentState} selectedMode={mode} onModeChanged={onModeChanged} />
+      <ActionControls currentState={currentState} onSolve={onSolve} onReset={onReset} />
     </StyledPage>
   )
 }
