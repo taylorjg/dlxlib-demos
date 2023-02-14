@@ -1,19 +1,18 @@
 import styled from "@emotion/styled"
 
 export const StyledPage = styled.div`
-  margin-top: 2rem;
-  padding: 2rem;
+  padding: 3rem 5rem 0 5rem;
   @media (max-width: 600px) {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 `
 
 export const StyledMainContent = styled.div`
-  padding: 2rem;
+  padding: 2rem 0;
   flex-grow: 1;
   display: flex;
   justify-content: center;
