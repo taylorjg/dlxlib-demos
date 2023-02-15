@@ -50,18 +50,32 @@ const onSolve = (shortName: string, puzzle: any, mode: Mode) => {
     return
   }
   const demo = new demoConstructor()
+  console.log("[worker onSolve]", "building internal rows...")
   const internalRows = demo.buildInternalRows(puzzle)
-  const matrix = internalRows.map((internalRow: any) => demo.internalRowToMatrixRow(internalRow))
+  console.log("[worker onSolve]", "internalRows.length:", internalRows.length)
+  console.log("[worker onSolve]", "building matrix...")
+  const matrix = internalRows.map((internalRow: any) => {
+    const matrixRow = demo.internalRowToMatrixRow(internalRow)
+    return new Uint8Array(matrixRow)
+  })
+  console.log("[worker onSolve]", "matrix size:", `${matrix.length}x${matrix[0].length}`)
   const options: dlxlib.Options = {
     numSolutions: 1,
     numPrimaryColumns: demo.getNumPrimaryColumns(puzzle)
   }
 
+  let searchStepCount = 0
+
   const onStep = (event: SearchStepEvent) => {
-    console.log("[worker onStep]", "stepIndex:", event.stepIndex)
-    const partialSolution = event.partialSolution
-    const solutionInternalRows = partialSolution.map(index => internalRows[index])
-    self.postMessage({ type: "searchStep", solutionInternalRows })
+    searchStepCount++
+    if (searchStepCount % 100 === 0) {
+      console.log("[worker onStep]", "searchStepCount:", searchStepCount)
+    }
+    if (mode === Mode.SearchSteps) {
+      const partialSolution = event.partialSolution
+      const solutionInternalRows = partialSolution.map(index => internalRows[index])
+      self.postMessage({ type: "searchStep", solutionInternalRows })
+    }
   }
 
   const onSolution = (event: SolutionFoundEvent) => {
@@ -72,11 +86,13 @@ const onSolve = (shortName: string, puzzle: any, mode: Mode) => {
   }
 
   const dlx = new dlxlib.Dlx()
-  if (mode === Mode.SearchSteps) {
-    dlx.addListener("step", onStep)
-  }
+  dlx.addListener("step", onStep)
   dlx.addListener("solution", onSolution)
+
+  console.log("[worker onSolve]", "solving matrix...")
   const solutions = dlx.solve(matrix, options)
+  console.log("[worker onSolve]", "searchStepCount:", searchStepCount)
+  console.log("[worker onSolve]", "solutions.length:", solutions.length)
 
   self.postMessage({ type: "finished", numSolutionsFound: solutions.length })
 }

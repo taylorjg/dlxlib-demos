@@ -1,7 +1,7 @@
 import styled from "@emotion/styled"
 
 export const StyledPage = styled.div`
-  padding: 3rem 5rem 0 5rem;
+  padding: 3rem 5rem 2rem 5rem;
   @media (max-width: 600px) {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
