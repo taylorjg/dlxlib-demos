@@ -14,6 +14,7 @@ import {
 import { CurrentState, DrawingProps, DemoControlsProps, Mode } from "types"
 import { useWorker } from "useWorker"
 import { last } from "utils"
+import { createStopToken } from "worker/stop-token"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class BaseMessage<TInternalRow> {
@@ -73,12 +74,19 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
   const [currentState, setCurrentState] = useState(CurrentState.Clean)
   const [mode, setMode] = useState(Mode.FirstSolution)
-  const worker = useWorker()
+  const workerRef = useRef(useWorker())
   const messagesRef = useRef<BaseMessage<TInternalRow>[]>([])
   const timerRef = useRef<NodeJS.Timer>()
 
   useEffect(() => {
-    return stopTimer
+    const worker = workerRef.current
+    return () => {
+      stopTimer()
+      if (worker) {
+        worker.cancel()
+        worker.close()
+      }
+    }
   }, [])
 
   const onTimer = () => {
@@ -143,10 +151,29 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
     messagesRef.current.push(new ErrorMessage(message))
   }
 
+  const onCancelled = (): void => {
+    stopTimer()
+    setCurrentState(CurrentState.Dirty)
+  }
+
   const onSolve = () => {
     startTimer()
     setCurrentState(CurrentState.Solving)
-    worker.solve(shortName, selectedPuzzle, mode, onSearchStep, onSolutionFound, onFinished, onError)
+    const stopToken = createStopToken()
+    workerRef.current.solve(
+      stopToken,
+      shortName,
+      selectedPuzzle,
+      mode,
+      onSearchStep,
+      onSolutionFound,
+      onFinished,
+      onError,
+      onCancelled)
+  }
+
+  const onCancel = () => {
+    workerRef.current.cancel()
   }
 
   const onReset = () => {
@@ -198,7 +225,7 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
         />
       )}
       <NavigationControls currentState={currentState} selectedMode={mode} onModeChanged={onModeChanged} />
-      <ActionControls currentState={currentState} onSolve={onSolve} onReset={onReset} />
+      <ActionControls currentState={currentState} onSolve={onSolve} onCancel={onCancel} onReset={onReset} />
     </StyledPage>
   )
 }

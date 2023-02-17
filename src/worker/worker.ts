@@ -3,6 +3,7 @@
 
 import * as dlxlib from "dlxlib/dlx"
 import { Mode } from "types"
+import { checkStopToken } from "./stop-token"
 
 import { Demo as SudokuDemo } from "demos/sudoku/demo"
 import { Demo as PentominoesDemo } from "demos/pentominoes/demo"
@@ -43,22 +44,40 @@ type SolutionFoundEvent = {
   solutionIndex: number
 }
 
-const onSolve = (shortName: string, puzzle: any, mode: Mode) => {
+const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) => {
+
+  const checkForCancellation = () => {
+    const cancelled = checkStopToken(stopToken)
+    if (cancelled) {
+      console.log("[worker onSolve]", "cancelled!")
+      self.postMessage({ type: "cancelled" })
+    }
+    return cancelled
+  }
+
+  console.log("[worker onSolve]")
   const demoConstructor = map.get(shortName)
   if (!demoConstructor) {
-    self.postMessage({ type: "unknownDemo" })
+    self.postMessage({ type: "error", message: `unknown demo short name, "${shortName}"` })
     return
   }
+
   const demo = new demoConstructor()
+
   console.log("[worker onSolve]", "building internal rows...")
+  // TODO: pass in checkForCancellation
   const internalRows = demo.buildInternalRows(puzzle)
   console.log("[worker onSolve]", "internalRows.length:", internalRows.length)
+  if (checkForCancellation()) return
+
   console.log("[worker onSolve]", "building matrix...")
   const matrix = internalRows.map((internalRow: any) => {
     const matrixRow = demo.internalRowToMatrixRow(internalRow)
     return new Uint8Array(matrixRow)
   })
   console.log("[worker onSolve]", "matrix size:", `${matrix.length}x${matrix[0].length}`)
+  if (checkForCancellation()) return
+
   const options: dlxlib.Options = {
     numSolutions: 1,
     numPrimaryColumns: demo.getNumPrimaryColumns(puzzle)
@@ -90,6 +109,7 @@ const onSolve = (shortName: string, puzzle: any, mode: Mode) => {
   dlx.addListener("solution", onSolution)
 
   console.log("[worker onSolve]", "solving matrix...")
+  // TODO: pass in checkForCancellation
   const solutions = dlx.solve(matrix, options)
   console.log("[worker onSolve]", "searchStepCount:", searchStepCount)
   console.log("[worker onSolve]", "solutions.length:", solutions.length)
@@ -101,10 +121,16 @@ self.onmessage = (ev: MessageEvent<any>) => {
   try {
     console.log("[worker onmessage]", "ev.data.type:", ev.data.type)
     if (ev.data.type === "solve") {
+      const stopToken = ev.data.stopToken as string
       const shortName = ev.data.shortName as string
       const mode = ev.data.mode as Mode
       const { puzzle } = ev.data
-      onSolve(shortName, puzzle, mode)
+      onSolve(stopToken, shortName, puzzle, mode)
+      return
+    }
+
+    if (ev.data.type === "close") {
+      self.close()
       return
     }
   } catch (error) {
