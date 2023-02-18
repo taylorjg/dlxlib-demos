@@ -8,7 +8,7 @@ import { makeSolution as makeThumbnailSolution } from "./thumbnail"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(_puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(_puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
     return this.allPossiblePiecePlacements(5).filter(this.isValidPiecePlacement)
   }
 

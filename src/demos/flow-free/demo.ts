@@ -5,7 +5,7 @@ import { findPaths } from "./path-finder"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
     const internalRows: InternalRow[] = []
     for (const colourPair of puzzle.colourPairs) {
       const paths = findPaths(puzzle, colourPair)

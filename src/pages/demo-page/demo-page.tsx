@@ -174,6 +174,8 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
 
   const onCancel = () => {
     workerRef.current.cancel()
+    stopTimer()
+    setCurrentState(CurrentState.Dirty)
   }
 
   const onReset = () => {

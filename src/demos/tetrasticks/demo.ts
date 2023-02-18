@@ -7,7 +7,7 @@ import { Puzzle } from "./puzzle"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
     return this.allPossiblePiecePlacements(puzzle).filter(this.isValidPiecePlacement)
   }
 

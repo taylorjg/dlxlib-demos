@@ -9,7 +9,7 @@ import { VerticalRunGroup } from "./vertical-run-group"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
 
     type StartingPositionData = {
       startingPosition: number,
@@ -23,6 +23,11 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       const workingSetOfStartingPositions: StartingPositionData[] = []
 
       const recursivelyFindSetsOfStartingPositions = (startPosition: number, remainingLengths: number[]): void => {
+
+        if (internalRows.length % 1000 === 0) {
+          if (checkForCancellation()) return
+        }
+
         if (remainingLengths.length === 0) {
           if (workingSetOfStartingPositions.length === runGroup.lengths.length) {
             const setOfStartingPositions = workingSetOfStartingPositions.slice().reverse()

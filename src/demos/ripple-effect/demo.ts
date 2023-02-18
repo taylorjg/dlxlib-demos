@@ -5,7 +5,7 @@ import { Puzzle } from "./puzzle"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
     const internalRows: InternalRow[] = []
 
     for (const room of puzzle.rooms) {

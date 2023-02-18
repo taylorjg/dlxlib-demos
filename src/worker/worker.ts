@@ -46,9 +46,9 @@ type SolutionFoundEvent = {
 
 const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) => {
 
-  const checkForCancellation = () => {
+  const checkForCancellation = (sendMessage: boolean = false) => {
     const cancelled = checkStopToken(stopToken)
-    if (cancelled) {
+    if (cancelled && sendMessage) {
       console.log("[worker onSolve]", "cancelled!")
       self.postMessage({ type: "cancelled" })
     }
@@ -65,22 +65,29 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   const demo = new demoConstructor()
 
   console.log("[worker onSolve]", "building internal rows...")
-  // TODO: pass in checkForCancellation
-  const internalRows = demo.buildInternalRows(puzzle)
+  const internalRows = demo.buildInternalRows(puzzle, checkForCancellation)
   console.log("[worker onSolve]", "internalRows.length:", internalRows.length)
-  if (checkForCancellation()) return
+  if (checkForCancellation(true)) return
 
   console.log("[worker onSolve]", "building matrix...")
-  const matrix = internalRows.map((internalRow: any) => {
+  const matrix: any[] = []
+  for (let index = 0; index < internalRows.length; index++) {
+    if (index % 1000 === 0) {
+      if (checkForCancellation()) {
+        break
+      }
+    }
+    const internalRow = internalRows[index]
     const matrixRow = demo.internalRowToMatrixRow(internalRow)
-    return new Uint8Array(matrixRow)
-  })
+    matrix.push(new Uint8Array(matrixRow))
+  }
   console.log("[worker onSolve]", "matrix size:", `${matrix.length}x${matrix[0].length}`)
-  if (checkForCancellation()) return
+  if (checkForCancellation(true)) return
 
   const options: dlxlib.Options = {
     numSolutions: 1,
-    numPrimaryColumns: demo.getNumPrimaryColumns(puzzle)
+    numPrimaryColumns: demo.getNumPrimaryColumns(puzzle),
+    checkForCancellation
   }
 
   let searchStepCount = 0
@@ -113,6 +120,7 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   const solutions = dlx.solve(matrix, options)
   console.log("[worker onSolve]", "searchStepCount:", searchStepCount)
   console.log("[worker onSolve]", "solutions.length:", solutions.length)
+  if (checkForCancellation(true)) return
 
   self.postMessage({ type: "finished", numSolutionsFound: solutions.length })
 }

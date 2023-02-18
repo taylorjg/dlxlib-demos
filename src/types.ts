@@ -21,7 +21,7 @@ export type DemoControlsProps<TPuzzle, TDrawingOptions = {}> = {
 }
 
 export interface IDemo<TPuzzle, TInternalRow> {
-  buildInternalRows(puzzle: TPuzzle): TInternalRow[]
+  buildInternalRows(puzzle: TPuzzle, checkForCancellation: () => boolean): TInternalRow[]
   internalRowToMatrixRow(internalRow: TInternalRow): number[]
   getNumPrimaryColumns(puzzle: TPuzzle): number | undefined
 }

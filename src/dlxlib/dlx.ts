@@ -11,7 +11,9 @@ export type PartialSolution = number[]
 
 export type Options = {
   numSolutions?: number
-  numPrimaryColumns?: number
+  numPrimaryColumns?: number,
+  checkForCancellation?: () => boolean
+  checkForCancellationFrequency?: number
 }
 
 export function solve(matrix: Matrix, options: Options) {
@@ -41,7 +43,7 @@ export class Dlx extends EventEmitter {
     this.checkOptions(options)
     const root = buildInternalStructure(matrix, options)
     const searchState = new SearchState(this, root)
-    yield* search(searchState)
+    yield* search(searchState, options)
   }
 
   private checkOptions = (options?: Options): void => {
@@ -71,8 +73,15 @@ const buildInternalStructure = (matrix: Matrix, options?: Options) => {
 
   const root = new ColumnObject()
   const colIndexToListHeader = new Map()
+  let cancelled = false
 
   matrix.forEach((row: MatrixRow, rowIndex: number) => {
+    if (rowIndex % 1000 === 0) {
+      if (options?.checkForCancellation?.()) {
+        cancelled = true
+      }
+    }
+    if (cancelled) return
     let firstDataObjectInThisRow: DataObject | undefined = undefined
     row.forEach((col, colIndex: number) => {
       if (rowIndex === 0) {
@@ -99,7 +108,14 @@ const buildInternalStructure = (matrix: Matrix, options?: Options) => {
 const byAscendingRowIndices = (rowIndex1: number, rowIndex2: number) =>
   rowIndex1 - rowIndex2
 
-function* search(searchState: SearchState): Generator<Solution> {
+function* search(searchState: SearchState, options?: Options): Generator<Solution> {
+
+  const checkForCancellationFrequency = options?.checkForCancellationFrequency ?? 100
+  if (searchState.getStepIndex() % checkForCancellationFrequency === 0) {
+    if (options?.checkForCancellation?.()) {
+      return
+    }
+  }
 
   searchState.raiseSearchStepEvent()
 
@@ -116,7 +132,7 @@ function* search(searchState: SearchState): Generator<Solution> {
   for (let r = c.down; r !== c; r = r.down) {
     searchState.pushRowIndex(r.rowIndex!)
     r.loopRight(j => coverColumn(j.listHeader!))
-    yield* search(searchState)
+    yield* search(searchState, options)
     r.loopLeft(j => uncoverColumn(j.listHeader!))
     searchState.popRowIndex()
   }
@@ -150,6 +166,10 @@ class SearchState {
   private solutionIndex: number = 0
 
   public constructor(private dlx: Dlx, public root: ColumnObject) {
+  }
+
+  public getStepIndex(): number {
+    return this.stepIndex
   }
 
   public isEmpty() {

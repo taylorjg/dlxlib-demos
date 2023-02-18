@@ -10,7 +10,7 @@ const DIGITS = range(9).map(n => n + 1)
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
-  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
     const internalRows: InternalRow[] = []
 
     const createInternalRowsFor = (runs: Run[]): void => {

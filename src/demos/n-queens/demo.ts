@@ -4,7 +4,7 @@ import { Puzzle } from "./puzzle"
 import { InternalRow } from "./internal-row"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
-  buildInternalRows(puzzle: Puzzle): InternalRow[] {
+  buildInternalRows(puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
     const allLocations = range(puzzle.size).flatMap(row =>
       range(puzzle.size).map(col =>
         ({ row, col })))

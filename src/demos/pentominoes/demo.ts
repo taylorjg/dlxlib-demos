@@ -5,7 +5,7 @@ import { piecesWithVariations } from "./pieces-with-variations"
 
 export class Demo implements IDemo<{}, InternalRow> {
 
-  buildInternalRows(puzzle: {}): InternalRow[] {
+  buildInternalRows(puzzle: {}, checkForCancellation: () => boolean): InternalRow[] {
     return this.allPossiblePiecePlacements()
       .filter(internalRow => this.isValidPiecePlacement(internalRow))
   }
