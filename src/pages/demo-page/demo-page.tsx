@@ -74,6 +74,7 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
   const [solutionInternalRows, setSolutionInternalRows] = useState<TInternalRow[]>([])
   const [currentState, setCurrentState] = useState(CurrentState.Clean)
   const [mode, setMode] = useState(Mode.FirstSolution)
+  const [animationSpeed, setAnimationSpeed] = useState(100)
   const workerRef = useRef(useWorker())
   const messagesRef = useRef<BaseMessage<TInternalRow>[]>([])
   const timerRef = useRef<NodeJS.Timer>()
@@ -88,6 +89,15 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (currentState === CurrentState.Solving) {
+      clearInterval(timerRef.current)
+      timerRef.current = setInterval(onTimer, animationSpeed)
+    }
+  },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [animationSpeed])
 
   const onTimer = () => {
     const message = messagesRef.current.shift()
@@ -120,7 +130,7 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
 
   const startTimer = () => {
     messagesRef.current = []
-    timerRef.current = setInterval(onTimer, 100)
+    timerRef.current = setInterval(onTimer, animationSpeed)
   }
 
   const stopTimer = () => {
@@ -196,6 +206,10 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
     setMode(newMode)
   }
 
+  const onAnimationSpeedChanged = (newAnimationSpeed: number) => {
+    setAnimationSpeed(newAnimationSpeed)
+  }
+
   if (!availableDemo) {
     return (
       <StyledErrorPage>
@@ -226,7 +240,13 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
           onDrawingOptionsChanged={onDrawingOptionsChanged}
         />
       )}
-      <NavigationControls currentState={currentState} selectedMode={mode} onModeChanged={onModeChanged} />
+      <NavigationControls
+        currentState={currentState}
+        selectedMode={mode}
+        onModeChanged={onModeChanged}
+        animationSpeed={animationSpeed}
+        onAnimationSpeedChanged={onAnimationSpeedChanged}
+      />
       <ActionControls currentState={currentState} onSolve={onSolve} onCancel={onCancel} onReset={onReset} />
     </StyledPage>
   )
