@@ -26,6 +26,11 @@ export interface IDemo<TPuzzle, TInternalRow> {
   getNumPrimaryColumns(puzzle: TPuzzle): number | undefined
 }
 
+export type Point = {
+  x: number,
+  y: number
+}
+
 export type Coords = {
   row: number,
   col: number
@@ -38,6 +43,9 @@ export const goRight = (coords: Coords): Coords => ({ row: coords.row, col: coor
 
 export const sameCoords = (coords1: Coords, coords2: Coords): boolean =>
   coords1.row === coords2.row && coords1.col === coords2.col
+
+export const addCoords = (coords1: Coords, coords2: Coords): Coords =>
+  ({ row: coords1.row + coords2.row, col: coords1.col + coords2.col })
 
 export const sameCoordsList = (coordsList1: Coords[], coordsList2: Coords[]): boolean => {
   if (coordsList1.length !== coordsList2.length) return false

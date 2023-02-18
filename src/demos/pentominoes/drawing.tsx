@@ -1,5 +1,11 @@
-import { Coords, DrawingProps } from "types"
+import { addCoords, Coords, DrawingProps } from "types"
 import { range } from "utils"
+import {
+  gatherOutsideEdges,
+  outsideEdgesToBorderLocations,
+  collapseLocations,
+  createBorderPathData
+} from "drawing-utils"
 import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
 import { Orientation } from "./orientation"
@@ -12,6 +18,7 @@ const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
 const GRID_LINE_COLOUR = "#CD853F80"
 const FALLBACK_PIECE_COLOUR = "white"
+const PIECE_BORDER_COLOUR = "black"
 const LABEL_COLOUR = "white"
 
 const LABEL_FONT_SIZE = 3
@@ -19,11 +26,13 @@ const LABEL_FONT_SIZE = 3
 const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / 8
 const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 8
 
-// const GAP = 2
-// const HALF_GAP = GAP / 2
-
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
+
+const calculatePoint = (coords: Coords) => ({
+  x: calculateX(coords.col),
+  y: calculateY(coords.row)
+})
 
 const pieceColours = new Map<string, string>([
   ["F", "#CCCCE5"],
@@ -86,31 +95,28 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
   }
 
   const drawPiece = (internalRow: InternalRow): JSX.Element[] => {
-    const { label } = internalRow
+    const { label, variation, location } = internalRow
     const colour = pieceColours.get(label) ?? FALLBACK_PIECE_COLOUR
-    return internalRow.variation.coordsList.flatMap(coords => {
-      const actualRow = internalRow.location.row + coords.row
-      const actualCol = internalRow.location.col + coords.col
-      const actualCoords = { row: actualRow, col: actualCol }
-      return [drawSquare(actualCoords, colour)].concat(drawLabel(actualCoords, label))
-    })
-  }
 
-  const drawSquare = (coords: Coords, colour: string): JSX.Element => {
-    const { row, col } = coords
-    const x = calculateX(col)
-    const y = calculateY(row)
+    const outsideEdges = gatherOutsideEdges(variation.coordsList, location)
+    const borderLocations = outsideEdgesToBorderLocations(outsideEdges)
+    const collapsedBorderLocations = collapseLocations(borderLocations)
+    const borderPoints = collapsedBorderLocations.map(calculatePoint)
+    const d = createBorderPathData(borderPoints, SQUARE_WIDTH * 0.04)
 
-    return (
-      <rect
-        key={`square-${row}-${col}`}
-        x={x}
-        y={y}
-        width={SQUARE_WIDTH}
-        height={SQUARE_HEIGHT}
+    const path =
+      <path
+        key={`piece-${label}`}
+        d={d}
         fill={colour}
+        stroke={PIECE_BORDER_COLOUR}
+        strokeWidth={SQUARE_WIDTH * 0.02}
+        strokeLinejoin="round"
       />
-    )
+
+    const labels = drawLabels(internalRow)
+
+    return [path, ...labels]
   }
 
   const drawCentreHole = (): JSX.Element[] => {
@@ -138,15 +144,22 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     return drawPiece(fakeInternalRow)
   }
 
-  const drawLabel = (coords: Coords, label: string): JSX.Element[] => {
-
+  const drawLabels = (internalRow: InternalRow): JSX.Element[] => {
     if (!drawingOptions.showLabels) return []
+    const { label, variation, location } = internalRow
+    return variation.coordsList.map(coords => {
+      const actualCoords = addCoords(location, coords)
+      return drawLabel(actualCoords, label)
+    })
+  }
+
+  const drawLabel = (coords: Coords, label: string): JSX.Element => {
 
     const { row, col } = coords
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
 
-    const text =
+    return (
       <text
         key={`label-${row}-${col}`}
         x={cx}
@@ -159,8 +172,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
       >
         {label}
       </text>
-
-    return [text]
+    )
   }
 
   return (

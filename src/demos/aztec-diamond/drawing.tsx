@@ -123,12 +123,12 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
 
   const moveTo = (point: number[]): string => {
     const [x, y] = point
-    return `M ${x},${y}`
+    return `M${x},${y}`
   }
 
   const lineTo = (point: number[]): string => {
     const [x, y] = point
-    return `L ${x},${y}`
+    return `L${x},${y}`
   }
 
   const roundedCornerTo = (S: Coords, V: Coords, E: Coords, point: number[]): string => {
@@ -136,7 +136,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
     const largeArcFlag = 0
     const sweepFlag = angle(S, V, E) < 0 ? 1 : 0
     const [x, y] = point
-    return `A ${r} ${r} 0 ${largeArcFlag} ${sweepFlag} ${x},${y}`
+    return `A${r},${r},0,${largeArcFlag},${sweepFlag},${x},${y}`
   }
 
   const drawTetraStick = (internalRow: InternalRow): JSX.Element[] => {

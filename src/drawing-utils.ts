@@ -1,5 +1,25 @@
-import { Coords, sameCoords } from "types"
+import { Coords, Point, sameCoords } from "types"
 import { except, first, last } from "utils"
+
+const moveTo = (point: Point): string => {
+  const { x, y } = point
+  return `M${x},${y}`
+}
+
+const lineTo = (point: Point): string => {
+  const { x, y } = point
+  return `L${x},${y}`
+}
+
+const arcTo = (point: Point, r: number, largeArcFlag: boolean, sweepFlag: boolean): string => {
+  const { x, y } = point
+  const angle = 0
+  const largeArcFlagNumber = Number(largeArcFlag)
+  const sweepFlagNumber = Number(sweepFlag)
+  return `A${r},${r},${angle},${largeArcFlagNumber},${sweepFlagNumber}${x},${y}`
+}
+
+const closePath = () => "Z"
 
 export type OutsideEdge = {
   coords1: Coords,
@@ -10,13 +30,21 @@ const sameOutsideEdge = (outsideEdge1: OutsideEdge, outsideEdge2: OutsideEdge): 
   sameCoords(outsideEdge1.coords1, outsideEdge2.coords1) &&
   sameCoords(outsideEdge1.coords2, outsideEdge2.coords2)
 
-export const gatherOutsideEdges = (coordsList: Coords[]): OutsideEdge[] => {
+export const gatherOutsideEdges = (coordsList: Coords[], location?: Coords): OutsideEdge[] => {
 
   const cellExistsAt = (row: number, col: number): boolean =>
     coordsList.some(coords => coords.row === row && coords.col === col)
 
   const makeOutsideEdge = (row1: number, col1: number, row2: number, col2: number): OutsideEdge =>
-    ({ coords1: { row: row1, col: col1 }, coords2: { row: row2, col: col2 } })
+    location
+      ? ({
+        coords1: { row: row1 + location.row, col: col1 + location.col },
+        coords2: { row: row2 + location.row, col: col2 + location.col }
+      })
+      : ({
+        coords1: { row: row1, col: col1 },
+        coords2: { row: row2, col: col2 }
+      })
 
   const outsideEdges: OutsideEdge[] = []
 
@@ -72,4 +100,100 @@ export const outsideEdgesToBorderLocations = (outsideEdges: OutsideEdge[]): Coor
   }
 
   return borderLocations
+}
+
+export const collapseLocations = (locations: Coords[]): Coords[] => {
+  return locations.filter((location, index) => {
+    const locationBefore = index === 0 ? last(locations) : locations[index - 1]
+    const locationAfter = locations[(index + 1) % locations.length]
+    const directionBefore = determineDirectionFromCoords(locationBefore, location)
+    const directionAfter = determineDirectionFromCoords(location, locationAfter)
+    return directionBefore !== directionAfter
+  })
+}
+
+const isInnerArc = (points: Point[], index: number): boolean => {
+  const point = points[index]
+  const pointBefore = index === 0 ? last(points) : points[index - 1]
+  const pointAfter = points[(index + 1) % points.length]
+  const directionBefore = determineDirectionFromPoints(pointBefore, point)
+  const directionAfter = determineDirectionFromPoints(point, pointAfter)
+  const directions = directionBefore + directionAfter
+  return ["RD", "DL", "LU", "UR"].includes(directions)
+}
+
+const adjustLineStartPoint = (points: Point[], index: number, gap: number): Point => {
+  const maybeGap = isInnerArc(points, index) ? gap : 0
+  const halfGap = gap / 2
+  const point1 = points[index]
+  const point2 = points[(index + 1) % points.length]
+  const { x, y } = point1
+  const direction = determineDirectionFromPoints(point1, point2)
+  switch (direction) {
+    case "U": return { x: x + halfGap, y: y - maybeGap }
+    case "D": return { x: x - halfGap, y: y + maybeGap }
+    case "L": return { x: x - maybeGap, y: y - halfGap }
+    case "R": return { x: x + maybeGap, y: y + halfGap }
+  }
+  throw new Error("[adjustLineStartPoint] unexpected situation!")
+}
+
+const adjustLineEndPoint = (points: Point[], index: number, gap: number): Point => {
+  const nextIndex = (index + 1) % points.length
+  const maybeGap = isInnerArc(points, nextIndex) ? gap : 0
+  const halfGap = gap / 2
+  const point1 = points[index]
+  const point2 = points[nextIndex]
+  const { x, y } = point2
+  const direction = determineDirectionFromPoints(point1, point2)
+  switch (direction) {
+    case "U": return { x: x + halfGap, y: y + maybeGap }
+    case "D": return { x: x - halfGap, y: y - maybeGap }
+    case "L": return { x: x + maybeGap, y: y - halfGap }
+    case "R": return { x: x - maybeGap, y: y + halfGap }
+  }
+  throw new Error("[adjustLineStartPoint] unexpected situation!")
+}
+
+export const createBorderPathData = (points: Point[], gap: number): string => {
+
+  const adjustedPoints: Point[] = []
+
+  for (let index = 0; index < points.length; index++) {
+    adjustedPoints.push(adjustLineStartPoint(points, index, gap))
+    adjustedPoints.push(adjustLineEndPoint(points, index, gap))
+  }
+
+  const pathCommands: string[] = []
+
+  pathCommands.push(moveTo(adjustedPoints[0]))
+
+  for (let index = 1; index < adjustedPoints.length; index++) {
+    const point = adjustedPoints[index]
+    if (index % 2 === 1) {
+      pathCommands.push(lineTo(point))
+    } else {
+      const r = gap / 2
+      const largeArcFlag = false
+      const sweepFlag = isInnerArc(points, (index / 2) % points.length)
+      pathCommands.push(arcTo(point, r, largeArcFlag, sweepFlag))
+    }
+  }
+
+  pathCommands.push(closePath())
+
+  return pathCommands.join(" ")
+}
+
+const determineDirectionFromCoords = (coords1: Coords, coords2: Coords): string => {
+  if (coords1.col === coords2.col) return coords2.row > coords1.row ? "D" : "U"
+  if (coords1.row === coords2.row) return coords2.col > coords1.col ? "R" : "L"
+  throw new Error("[determineDirectionFromCoords] unexpected situation!")
+}
+
+const determineDirectionFromPoints = (point1: Point, point2: Point): string => {
+  const withinTolerance = (value: number) => Math.abs(value) <= 1e-3
+  if (withinTolerance(point1.x - point2.x)) return point2.y > point1.y ? "D" : "U"
+  if (withinTolerance(point1.y - point2.y)) return point2.x > point1.x ? "R" : "L"
+  throw new Error("[determineDirectionFromPoints] unexpected situation!")
 }
