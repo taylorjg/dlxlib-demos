@@ -1,25 +1,6 @@
+import { PathCommands } from "path-commands"
 import { Coords, Point, sameCoords } from "types"
 import { except, first, last } from "utils"
-
-const moveTo = (point: Point): string => {
-  const { x, y } = point
-  return `M${x},${y}`
-}
-
-const lineTo = (point: Point): string => {
-  const { x, y } = point
-  return `L${x},${y}`
-}
-
-const arcTo = (point: Point, r: number, largeArcFlag: boolean, sweepFlag: boolean): string => {
-  const { x, y } = point
-  const angle = 0
-  const largeArcFlagNumber = Number(largeArcFlag)
-  const sweepFlagNumber = Number(sweepFlag)
-  return `A${r},${r},${angle},${largeArcFlagNumber},${sweepFlagNumber}${x},${y}`
-}
-
-const closePath = () => "Z"
 
 export type OutsideEdge = {
   coords1: Coords,
@@ -164,25 +145,25 @@ export const createBorderPathData = (points: Point[], gap: number): string => {
     adjustedPoints.push(adjustLineEndPoint(points, index, gap))
   }
 
-  const pathCommands: string[] = []
+  const pathCommands = new PathCommands()
 
-  pathCommands.push(moveTo(adjustedPoints[0]))
+  pathCommands.moveTo(adjustedPoints[0])
 
   for (let index = 1; index < adjustedPoints.length; index++) {
     const point = adjustedPoints[index]
     if (index % 2 === 1) {
-      pathCommands.push(lineTo(point))
+      pathCommands.lineTo(point)
     } else {
       const r = gap / 2
       const largeArcFlag = false
       const sweepFlag = isInnerArc(points, (index / 2) % points.length)
-      pathCommands.push(arcTo(point, r, largeArcFlag, sweepFlag))
+      pathCommands.arcTo(point, r, largeArcFlag, sweepFlag)
     }
   }
 
-  pathCommands.push(closePath())
+  pathCommands.close()
 
-  return pathCommands.join(" ")
+  return pathCommands.toPathData()
 }
 
 const determineDirectionFromCoords = (coords1: Coords, coords2: Coords): string => {

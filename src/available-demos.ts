@@ -42,6 +42,7 @@ const thumbnailMap = new Map<string, React.FC>([
 
 const hideBorderMap = new Map<string, boolean>([
   ["pentominoes", true],
+  ["draughtboard-puzzle", true],
   ["n-queens", true],
   ["flow-free", true],
   ["tetrasticks", true],

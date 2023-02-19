@@ -59,14 +59,13 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     return rows.map(row => {
       const y = calculateY(row)
       return (
-        <line
+        <rect
           key={`horizontal-grid-line-${row}`}
-          x1={0}
-          y1={y}
-          x2={VIEWBOX_WIDTH}
-          y2={y}
-          strokeWidth={GRID_LINE_FULL_THICKNESS}
-          stroke={GRID_LINE_COLOUR}
+          x={0}
+          y={y - GRID_LINE_HALF_THICKNESS}
+          width={VIEWBOX_WIDTH}
+          height={GRID_LINE_FULL_THICKNESS}
+          fill={GRID_LINE_COLOUR}
         />
       )
     })
@@ -77,14 +76,13 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     return cols.map(col => {
       const x = calculateX(col)
       return (
-        <line
+        <rect
           key={`vertical-grid-line-${col}`}
-          x1={x}
-          y1={0}
-          x2={x}
-          y2={VIEWBOX_HEIGHT}
-          strokeWidth={GRID_LINE_FULL_THICKNESS}
-          stroke={GRID_LINE_COLOUR}
+          x={x - GRID_LINE_HALF_THICKNESS}
+          y={0}
+          width={GRID_LINE_FULL_THICKNESS}
+          height={VIEWBOX_HEIGHT}
+          fill={GRID_LINE_COLOUR}
         />
       )
     })

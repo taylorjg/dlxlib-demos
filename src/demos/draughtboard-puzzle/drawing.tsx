@@ -1,5 +1,10 @@
-import { Coords, DrawingProps } from "types"
+import { Coords, DrawingProps, Point } from "types"
 import { range } from "utils"
+import {
+  gatherOutsideEdges,
+  outsideEdgesToBorderLocations,
+} from "drawing-utils"
+import { PathCommands } from "path-commands"
 import { Colour } from "./colour"
 import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
@@ -10,10 +15,12 @@ const VIEWBOX_HEIGHT = 100
 const GRID_LINE_FULL_THICKNESS = 1
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
-// const GRID_LINE_COLOUR = "#CD853F80"
-const GRID_LINE_COLOUR = "#CD853F"
+const GRID_LINE_COLOUR = "#CD853F80"
+const BLACK_GRID_SQUARE_COLOUR = "#CD853F20"
+const WHITE_GRID_SQUARE_COLOUR = "#CD853F60"
 const SQUARE_COLOUR_BLACK = "black"
 const SQUARE_COLOUR_WHITE = "white"
+const PIECE_BORDER_COLOUR = "#0066CC"
 
 const LABEL_FONT_SIZE = 3
 
@@ -22,6 +29,11 @@ const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / 8
 
 const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
 const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
+
+const calculatePoint = (coords: Coords): Point => ({
+  x: calculateX(coords.col),
+  y: calculateY(coords.row)
+})
 
 export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = ({
   solutionInternalRows,
@@ -64,22 +76,47 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     })
   }
 
+  const fillAlternateGridSquares = (): JSX.Element[] => {
+    const factor = 0.1
+    return range(8).flatMap(row =>
+      range(8).map(col => {
+        const colour = (row + col) % 2 === 0 ? BLACK_GRID_SQUARE_COLOUR : WHITE_GRID_SQUARE_COLOUR
+        const x = calculateX(col) + SQUARE_WIDTH * factor
+        const y = calculateY(row) + SQUARE_HEIGHT * factor
+        const width = SQUARE_WIDTH - SQUARE_WIDTH * factor * 2
+        const height = SQUARE_HEIGHT - SQUARE_WIDTH * factor * 2
+        return (
+          <rect
+            key={`grid-square-${row}-${col}`}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
+            fill={colour}
+          />
+        )
+      }))
+  }
+
   const drawPieces = (): JSX.Element[] => {
     return solutionInternalRows.flatMap(drawPiece)
   }
 
   const drawPiece = (internalRow: InternalRow): JSX.Element[] => {
-    const { label } = internalRow
-    return internalRow.variation.squares.flatMap(square => {
+    const { label, variation, location } = internalRow
+    const squaresAndLabels = variation.squares.flatMap(square => {
       const { coords } = square
-      const actualRow = internalRow.location.row + coords.row
-      const actualCol = internalRow.location.col + coords.col
+      const actualRow = location.row + coords.row
+      const actualCol = location.col + coords.col
       const actualCoords = { row: actualRow, col: actualCol }
       const colour = square.colour === Colour.Black ? SQUARE_COLOUR_BLACK : SQUARE_COLOUR_WHITE
       const inverseColour = square.colour === Colour.Black ? SQUARE_COLOUR_WHITE : SQUARE_COLOUR_BLACK
-      return [drawSquare(actualCoords, colour)]
-        .concat(drawLabel(actualCoords, label, inverseColour))
+      return [
+        drawSquare(actualCoords, colour),
+        ...drawLabel(actualCoords, inverseColour, label)
+      ]
     })
+    return [...squaresAndLabels, drawPieceBorder(internalRow)]
   }
 
   const drawSquare = (coords: Coords, colour: string): JSX.Element => {
@@ -99,7 +136,32 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     )
   }
 
-  const drawLabel = (coords: Coords, label: string, colour: string): JSX.Element[] => {
+  const drawPieceBorder = (internalRow: InternalRow): JSX.Element => {
+    const { label, variation, location } = internalRow
+    const coords = variation.squares.map(({ coords }) => coords)
+    const outsideEdges = gatherOutsideEdges(coords, location)
+    const borderLocations = outsideEdgesToBorderLocations(outsideEdges)
+    const d = createBorderPathData(borderLocations)
+
+    return (
+      <path
+        key={`border-${label}`}
+        d={d}
+        stroke={PIECE_BORDER_COLOUR}
+        strokeWidth={SQUARE_WIDTH * 0.1}
+        fill="none"
+      />
+    )
+  }
+
+  const createBorderPathData = (coords: Coords[]): string => {
+    const points = coords.map(calculatePoint)
+    const pathCommands = new PathCommands()
+    pathCommands.setPoints(points)
+    return pathCommands.toPathData()
+  }
+
+  const drawLabel = (coords: Coords, colour: string, label: string): JSX.Element[] => {
 
     if (!drawingOptions.showLabels) return []
 
@@ -127,6 +189,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       {drawHorizontalGridLines()}
       {drawVerticalGridLines()}
+      {fillAlternateGridSquares()}
       {drawPieces()}
     </svg>
   )
