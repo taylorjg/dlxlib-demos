@@ -55,6 +55,7 @@ export const NavigationControls: React.FC<NavigationControlsProps> = ({
           valueLabelDisplay="auto"
           min={0}
           max={100}
+          step={10}
           value={animationSpeed}
           onChange={handleAnimationSpeedChange}
         />

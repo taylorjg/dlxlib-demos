@@ -1,9 +1,6 @@
 import { Coords, DrawingProps, Point } from "types"
 import { range } from "utils"
-import {
-  gatherOutsideEdges,
-  outsideEdgesToBorderLocations,
-} from "drawing-utils"
+import { gatherOutsideEdges, outsideEdgesToBorderLocations } from "drawing-utils"
 import { PathCommands } from "path-commands"
 import { Colour } from "./colour"
 import { DrawingOptions } from "./demo-controls"
@@ -15,9 +12,9 @@ const VIEWBOX_HEIGHT = 100
 const GRID_LINE_FULL_THICKNESS = 1
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
-const GRID_LINE_COLOUR = "#CD853F80"
-const BLACK_GRID_SQUARE_COLOUR = "#CD853F20"
-const WHITE_GRID_SQUARE_COLOUR = "#CD853F60"
+const GRID_LINE_COLOUR = "#CCCCCC"
+const BLACK_SQUARE_BACKGROUND_COLOUR = "#CCCCCC20"
+const WHITE_SQUARE_BACKGROUND_COLOUR = "#CCCCCC60"
 const SQUARE_COLOUR_BLACK = "black"
 const SQUARE_COLOUR_WHITE = "white"
 const PIECE_BORDER_COLOUR = "#0066CC"
@@ -39,6 +36,15 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
   solutionInternalRows,
   drawingOptions
 }) => {
+
+  const drawGridLines = (): JSX.Element => {
+    return (
+      <g opacity={0.2}>
+        {drawHorizontalGridLines()}
+        {drawVerticalGridLines()}
+      </g>
+    )
+  }
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(9)
@@ -76,18 +82,18 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     })
   }
 
-  const fillAlternateGridSquares = (): JSX.Element[] => {
+  const drawGridSquareBackgrounds = (): JSX.Element[] => {
     const factor = 0.1
     return range(8).flatMap(row =>
       range(8).map(col => {
-        const colour = (row + col) % 2 === 0 ? BLACK_GRID_SQUARE_COLOUR : WHITE_GRID_SQUARE_COLOUR
+        const colour = (row + col) % 2 === 0 ? BLACK_SQUARE_BACKGROUND_COLOUR : WHITE_SQUARE_BACKGROUND_COLOUR
         const x = calculateX(col) + SQUARE_WIDTH * factor
         const y = calculateY(row) + SQUARE_HEIGHT * factor
         const width = SQUARE_WIDTH - SQUARE_WIDTH * factor * 2
         const height = SQUARE_HEIGHT - SQUARE_WIDTH * factor * 2
         return (
           <rect
-            key={`grid-square-${row}-${col}`}
+            key={`square-background-${row}-${col}`}
             x={x}
             y={y}
             width={width}
@@ -126,7 +132,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
     return (
       <rect
-        key={`square-${row}-${col}`}
+        key={`piece-square-rect-${row}-${col}`}
         x={x}
         y={y}
         width={SQUARE_WIDTH}
@@ -145,7 +151,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
     return (
       <path
-        key={`border-${label}`}
+        key={`piece-border-${label}`}
         d={d}
         stroke={PIECE_BORDER_COLOUR}
         strokeWidth={SQUARE_WIDTH * 0.1}
@@ -171,7 +177,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
     const text =
       <text
-        key={`label-${row}-${col}`}
+        key={`piece-square-label-${row}-${col}`}
         x={cx}
         y={cy}
         fill={colour}
@@ -187,9 +193,8 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
-      {drawHorizontalGridLines()}
-      {drawVerticalGridLines()}
-      {fillAlternateGridSquares()}
+      {drawGridLines()}
+      {drawGridSquareBackgrounds()}
       {drawPieces()}
     </svg>
   )

@@ -16,7 +16,7 @@ const VIEWBOX_HEIGHT = 100
 const GRID_LINE_FULL_THICKNESS = 1
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
-const GRID_LINE_COLOUR = "#CD853F80"
+const GRID_LINE_COLOUR = "#CCCCCC"
 const FALLBACK_PIECE_COLOUR = "white"
 const PIECE_BORDER_COLOUR = "black"
 const LABEL_COLOUR = "white"
@@ -53,6 +53,15 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
   solutionInternalRows,
   drawingOptions,
 }) => {
+
+  const drawGridLines = (): JSX.Element => {
+    return (
+      <g opacity={0.2}>
+        {drawHorizontalGridLines()}
+        {drawVerticalGridLines()}
+      </g>
+    )
+  }
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
     const rows = range(9)
@@ -104,7 +113,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
     const path =
       <path
-        key={`piece-${label}`}
+        key={`piece-path-${label}`}
         d={d}
         fill={colour}
         stroke={PIECE_BORDER_COLOUR}
@@ -159,7 +168,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
     return (
       <text
-        key={`label-${row}-${col}`}
+        key={`piece-label-${row}-${col}`}
         x={cx}
         y={cy}
         fill={LABEL_COLOUR}
@@ -180,8 +189,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
           <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" />
         </filter>
       </defs>
-      {drawHorizontalGridLines()}
-      {drawVerticalGridLines()}
+      {drawGridLines()}
       {drawCentreHole()}
       {drawPieces()}
     </svg>
