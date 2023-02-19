@@ -1,15 +1,21 @@
 import { Coords, DrawingProps, Point } from "types"
 import { range } from "utils"
-import { gatherOutsideEdges, outsideEdgesToBorderLocations } from "drawing-utils"
-import { PathCommands } from "path-commands"
+import {
+  gatherOutsideEdges,
+  outsideEdgesToBorderLocations,
+  collapseLocations,
+  createBorderPathData,
+  inset
+} from "drawing-utils"
 import { Colour } from "./colour"
 import { DrawingOptions } from "./demo-controls"
 import { InternalRow } from "./internal-row"
+import { Square } from "./square"
 
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
-const GRID_LINE_FULL_THICKNESS = 1
+const GRID_LINE_FULL_THICKNESS = 0.5
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
 const GRID_LINE_COLOUR = "#CCCCCC"
@@ -39,7 +45,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
   const drawGridLines = (): JSX.Element => {
     return (
-      <g opacity={0.2}>
+      <g opacity={0.1}>
         {drawHorizontalGridLines()}
         {drawVerticalGridLines()}
       </g>
@@ -86,11 +92,15 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     const factor = 0.1
     return range(8).flatMap(row =>
       range(8).map(col => {
-        const colour = (row + col) % 2 === 0 ? BLACK_SQUARE_BACKGROUND_COLOUR : WHITE_SQUARE_BACKGROUND_COLOUR
-        const x = calculateX(col) + SQUARE_WIDTH * factor
-        const y = calculateY(row) + SQUARE_HEIGHT * factor
-        const width = SQUARE_WIDTH - SQUARE_WIDTH * factor * 2
-        const height = SQUARE_HEIGHT - SQUARE_WIDTH * factor * 2
+        const colour = (row + col) % 2 === 0
+          ? BLACK_SQUARE_BACKGROUND_COLOUR
+          : WHITE_SQUARE_BACKGROUND_COLOUR
+        const { x, y, width, height } = inset(
+          calculateX(col),
+          calculateY(row),
+          SQUARE_WIDTH,
+          SQUARE_HEIGHT,
+          factor)
         return (
           <rect
             key={`square-background-${row}-${col}`}
@@ -110,29 +120,60 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
 
   const drawPiece = (internalRow: InternalRow): JSX.Element[] => {
     const { label, variation, location } = internalRow
-    const squaresAndLabels = variation.squares.flatMap(square => {
-      const { coords } = square
-      const actualRow = location.row + coords.row
-      const actualCol = location.col + coords.col
-      const actualCoords = { row: actualRow, col: actualCol }
-      const colour = square.colour === Colour.Black ? SQUARE_COLOUR_BLACK : SQUARE_COLOUR_WHITE
-      const inverseColour = square.colour === Colour.Black ? SQUARE_COLOUR_WHITE : SQUARE_COLOUR_BLACK
-      return [
-        drawSquare(actualCoords, colour),
-        ...drawLabel(actualCoords, inverseColour, label)
-      ]
-    })
-    return [...squaresAndLabels, drawPieceBorder(internalRow)]
+
+    const coords = variation.squares.map(({ coords }) => coords)
+    const outsideEdges = gatherOutsideEdges(coords, location)
+    const borderLocations = outsideEdgesToBorderLocations(outsideEdges)
+    const collapsedBorderLocations = collapseLocations(borderLocations)
+    const borderPoints = collapsedBorderLocations.map(calculatePoint)
+    const d = createBorderPathData(borderPoints, SQUARE_WIDTH * 0.1)
+    const clipPathId = `piece-clip-path-${label}`
+
+    const clipPath = (
+      <clipPath
+        key={clipPathId}
+        id={clipPathId}
+      >
+        <path d={d} />
+      </clipPath>
+    )
+
+    const squares = (
+      <g
+        key={`piece-squares-${label}`}
+        clipPath={`url(#${clipPathId})`}
+      >
+        {variation.squares.map(square => drawSquare(square, location))}
+      </g>
+    )
+
+    const labels = drawLabels(variation.squares, location, label)
+
+    const border = (
+      <path
+        key={`piece-border-${label}`}
+        d={d}
+        stroke={PIECE_BORDER_COLOUR}
+        strokeWidth={SQUARE_WIDTH * 0.05}
+        fill="none"
+      />
+    )
+
+    return [clipPath, squares, ...labels, border]
   }
 
-  const drawSquare = (coords: Coords, colour: string): JSX.Element => {
-    const { row, col } = coords
+  const drawSquare = (square: Square, location: Coords): JSX.Element => {
+    const row = location.row + square.coords.row
+    const col = location.col + square.coords.col
     const x = calculateX(col)
     const y = calculateY(row)
+    const colour = square.colour === Colour.Black
+      ? SQUARE_COLOUR_BLACK
+      : SQUARE_COLOUR_WHITE
 
     return (
       <rect
-        key={`piece-square-rect-${row}-${col}`}
+        key={`piece-square-${row}-${col}`}
         x={x}
         y={y}
         width={SQUARE_WIDTH}
@@ -142,45 +183,26 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
     )
   }
 
-  const drawPieceBorder = (internalRow: InternalRow): JSX.Element => {
-    const { label, variation, location } = internalRow
-    const coords = variation.squares.map(({ coords }) => coords)
-    const outsideEdges = gatherOutsideEdges(coords, location)
-    const borderLocations = outsideEdgesToBorderLocations(outsideEdges)
-    const d = createBorderPathData(borderLocations)
-
-    return (
-      <path
-        key={`piece-border-${label}`}
-        d={d}
-        stroke={PIECE_BORDER_COLOUR}
-        strokeWidth={SQUARE_WIDTH * 0.1}
-        fill="none"
-      />
-    )
-  }
-
-  const createBorderPathData = (coords: Coords[]): string => {
-    const points = coords.map(calculatePoint)
-    const pathCommands = new PathCommands()
-    pathCommands.setPoints(points)
-    return pathCommands.toPathData()
-  }
-
-  const drawLabel = (coords: Coords, colour: string, label: string): JSX.Element[] => {
-
+  const drawLabels = (squares: Square[], location: Coords, label: string): JSX.Element[] => {
     if (!drawingOptions.showLabels) return []
+    return squares.map(square => drawLabel(square, location, label))
+  }
 
-    const { row, col } = coords
+  const drawLabel = (square: Square, location: Coords, label: string): JSX.Element => {
+    const row = location.row + square.coords.row
+    const col = location.col + square.coords.col
     const cx = calculateX(col) + SQUARE_WIDTH / 2
     const cy = calculateY(row) + SQUARE_WIDTH / 2
+    const inverseColour = square.colour === Colour.Black
+      ? SQUARE_COLOUR_WHITE
+      : SQUARE_COLOUR_BLACK
 
-    const text =
+    return (
       <text
         key={`piece-square-label-${row}-${col}`}
         x={cx}
         y={cy}
-        fill={colour}
+        fill={inverseColour}
         fontSize={LABEL_FONT_SIZE}
         textAnchor="middle"
         dominantBaseline="central"
@@ -188,7 +210,7 @@ export const Drawing: React.FC<DrawingProps<{}, InternalRow, DrawingOptions>> = 
         {label}
       </text>
 
-    return [text]
+    )
   }
 
   return (

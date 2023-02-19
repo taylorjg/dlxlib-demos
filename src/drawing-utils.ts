@@ -2,6 +2,28 @@ import { PathCommands } from "path-commands"
 import { Coords, Point, sameCoords } from "types"
 import { except, first, last } from "utils"
 
+export const inset = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  factor: number
+): {
+  x: number,
+  y: number,
+  width: number,
+  height: number
+} => {
+  const fx = width * factor
+  const fy = height * factor
+  return {
+    x: x + fx,
+    y: y + fy,
+    width: width - 2 * fx,
+    height: height - 2 * fy
+  }
+}
+
 export type OutsideEdge = {
   coords1: Coords,
   coords2: Coords
@@ -148,6 +170,7 @@ export const createBorderPathData = (points: Point[], gap: number): string => {
   const pathCommands = new PathCommands()
 
   pathCommands.moveTo(adjustedPoints[0])
+  adjustedPoints.push(adjustedPoints[0])
 
   for (let index = 1; index < adjustedPoints.length; index++) {
     const point = adjustedPoints[index]
@@ -160,8 +183,6 @@ export const createBorderPathData = (points: Point[], gap: number): string => {
       pathCommands.arcTo(point, r, largeArcFlag, sweepFlag)
     }
   }
-
-  pathCommands.close()
 
   return pathCommands.toPathData()
 }

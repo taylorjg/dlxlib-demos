@@ -13,7 +13,7 @@ import { Orientation } from "./orientation"
 const VIEWBOX_WIDTH = 100
 const VIEWBOX_HEIGHT = 100
 
-const GRID_LINE_FULL_THICKNESS = 1
+const GRID_LINE_FULL_THICKNESS = 0.5
 const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
 
 const GRID_LINE_COLOUR = "#CCCCCC"
