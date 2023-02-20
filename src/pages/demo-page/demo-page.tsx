@@ -12,7 +12,7 @@ import {
   StyledError
 } from "./demo-page.styles"
 import { CurrentState, DrawingProps, DemoControlsProps, Mode } from "types"
-import { useWorker } from "useWorker"
+import { useWorker } from "use-worker"
 import { last } from "utils"
 import { createStopToken } from "worker/stop-token"
 

@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import { Mode } from "types"
 import { stop } from "worker/stop-token"
+import { makeWorker } from "use-worker-utils"
 
 export const useWorker = () => {
 
@@ -9,9 +10,7 @@ export const useWorker = () => {
 
   const getWorker = () => {
     if (!workerRef.current) {
-      // https://webpack.js.org/guides/web-workers/
-      const worker = new Worker(new URL('./worker/worker.ts', import.meta.url))
-      workerRef.current = worker
+      workerRef.current = makeWorker()
     }
     return workerRef.current
   }
