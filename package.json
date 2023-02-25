@@ -56,5 +56,11 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
     "gh-pages": "^5.0.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "react-markdown": "<rootDir>/src/__mocks__/react-markdown.tsx",
+      "axios": "axios/dist/node/axios.cjs"
+    }
   }
 }
