@@ -4,7 +4,8 @@ export type AvailableDemo = {
   name: string,
   shortName: string,
   Thumbnail: React.FC,
-  hideBorder: boolean
+  hideBorder: boolean,
+  readmeSource?: string
 }
 
 export type DrawingProps<TPuzzle, TInternalRow, TDrawingOptions = {}> = {

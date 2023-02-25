@@ -12,6 +12,8 @@ import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
 import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail"
 import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
 
+import rippleEffectReadmeSource from "demos/ripple-effect/README.md"
+
 const demoNames = [
   "Sudoku",
   "Pentominoes",
@@ -49,17 +51,25 @@ const hideBorderMap = new Map<string, boolean>([
   ["aztec-diamond", true]
 ])
 
+const readmeSourceMap = new Map<string, string>([
+  ["ripple-effect", rippleEffectReadmeSource]
+])
+
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
 
 export const availableDemos: AvailableDemo[] = demoNames
   .map(name => {
     const shortName = makeShortName(name)
     const hideBorder = hideBorderMap.get(shortName) ?? false
+    const maybeReadmeSource = readmeSourceMap.has(shortName)
+      ? { readmeSource: readmeSourceMap.get(shortName) }
+      : undefined
     return {
       name,
       shortName,
       Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail,
-      hideBorder
+      hideBorder,
+      ...maybeReadmeSource
     }
   })
 
