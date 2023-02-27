@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 import axios from "axios"
 import { StyledContent } from "./readme-modal.styles"
 
@@ -46,7 +47,7 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({
         </Toolbar>
       </AppBar>
       <StyledContent>
-        <ReactMarkdown>{readmeMarkdown}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{readmeMarkdown}</ReactMarkdown>
       </StyledContent>
     </Dialog>
   )
