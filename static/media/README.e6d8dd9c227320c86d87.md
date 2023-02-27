@@ -1,5 +1,16 @@
 ## Details of the DLX Matrix
 
+### Size information
+
+For an `n` x `n` puzzle with max room size `r`:
+
+| Description | Count | Example (n = 8, r = 5) | Example (n = 8, r = 6) |
+| --- | --- | --- | --- |
+| Number of primary columns | n * n * 2 | 128 | 128 |
+| Number of secondary columns | n * n * 4 * r | 1280 | 1536 |
+| Total number of columns | (n * n) + (2 + 4 * r) | 1408 | 1664 |
+| Number of rows in a solution | n * n | 64 | 64 |
+
 ### Primary columns
 
 * One primary column per position (row/col) in the grid.
