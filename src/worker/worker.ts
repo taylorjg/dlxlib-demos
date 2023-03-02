@@ -81,7 +81,9 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
     const matrixRow = demo.internalRowToMatrixRow(internalRow)
     matrix.push(new Uint8Array(matrixRow))
   }
-  console.log("[worker onSolve]", "matrix size:", `${matrix.length}x${matrix[0].length}`)
+  const rowCount = matrix.length
+  const colCount = matrix[0]?.length ?? 0
+  console.log("[worker onSolve]", "matrix size:", `${rowCount}x${colCount}`)
   if (checkForCancellation(true)) return
 
   const options: dlxlib.Options = {
@@ -116,7 +118,6 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   dlx.addListener("solution", onSolution)
 
   console.log("[worker onSolve]", "solving matrix...")
-  // TODO: pass in checkForCancellation
   const solutions = dlx.solve(matrix, options)
   console.log("[worker onSolve]", "searchStepCount:", searchStepCount)
   console.log("[worker onSolve]", "solutions.length:", solutions.length)

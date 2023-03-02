@@ -92,11 +92,13 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     transformCoords: (coords: Coords) => Coords
   ): Coords[] {
     const size = internalRow.puzzle.size
-    const { cell, value } = internalRow
-    const cells: Coords[] = []
+    let cell = internalRow.cell
+    const cells: Coords[] = [cell]
 
-    for (const _ of range(value)) {
-      const { row, col } = transformCoords(cell)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const _ of range(internalRow.value)) {
+      cell = transformCoords(cell)
+      const { row, col } = cell
       if (row >= 0 && row < size && col >= 0 && col < size) {
         cells.push({ row, col })
       }
