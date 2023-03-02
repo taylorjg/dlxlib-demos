@@ -8,7 +8,7 @@ For an `n` x `n` puzzle with max room size `r`:
 | --- | --- | --- | --- |
 | Number of primary columns | n * n * 2 | 128 | 128 |
 | Number of secondary columns | n * n * 4 * r | 1280 | 1536 |
-| Total number of columns | (n * n) + (2 + 4 * r) | 1408 | 1664 |
+| Total number of columns | (n * n) * (2 + 4 * r) | 1408 | 1664 |
 | Number of rows in a solution | n * n | 64 | 64 |
 
 ### Primary columns
@@ -24,15 +24,14 @@ a room with four cells must contain one each of 1, 2, 3 and 4.
 
 ### Secondary columns
 
-There are four sets of secondary columns for each unique number
-that appears in the grid. For example, if the grid consists of a mixture
-of rooms with 1, 2, 3, 4 and 5 cells, then the solved puzzle will
-contain a mixture of 1s, 2s, 3s, 4s and 5s. In this case, we will
+There are four sets of secondary columns (one set for each direction - up, down, left, right)
+for each distinct value that can appear in the solution. For example, if a grid's max room size is 5,
+the distinct values will be 1, 2, 3, 4 and 5. In this case, we will
 have 4 x 5 = 20 sets of secondary columns. The number of columns
-in each set of secondary columns will be numRows x numCols. These sets
+in each set of secondary columns will be `n` x `n`. These sets
 of secondary columns are used to enforce the proximity constraints.
-This is best explained using an example. Say we have a 5 x 5 grid with
-position (0, 0) at bottom left. Lets say that we have a 2 at (1, 3):
+They are best explained using an example. Say we have a 5 x 5 grid with
+position (0, 0) at top left. Lets say that we have a 2 at (1, 1):
 
 ```
 -----
@@ -52,7 +51,7 @@ the positions above that must not contain another 2 (one of these lies off the g
 -----   (00000)
 -----   (00000)
 
-0000000000000000100001000
+0100001000000000000000000
 ```
 
 The second set of secondary columns represents the position of the 2 itself plus
@@ -78,7 +77,7 @@ xx---   (11000)
 -----   (00000)
 -----   (00000)
 
-0000000000000001100000000
+0000011000000000000000000
 ```
 
 The fourth set of secondary columns represents the position of the 2 itself plus
@@ -91,7 +90,7 @@ the positions to the right that must not contain another 2:
 -----   (00000)
 -----   (00000)
 
-0000000000000000111000000
+0000001110000000000000000
 ```
 
 I refer to these up/down/left/right values as the 'ripples' caused by

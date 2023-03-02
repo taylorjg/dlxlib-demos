@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/dlxlib-demos/static/css/main.8bce7456.css",
-    "main.js": "/dlxlib-demos/static/js/main.d4d78f6e.js",
-    "static/js/858.a2ccc13c.chunk.js": "/dlxlib-demos/static/js/858.a2ccc13c.chunk.js",
+    "main.js": "/dlxlib-demos/static/js/main.ce2c3dd2.js",
+    "static/js/858.a3d390ce.chunk.js": "/dlxlib-demos/static/js/858.a3d390ce.chunk.js",
     "static/js/625.b56eb7ce.chunk.js": "/dlxlib-demos/static/js/625.b56eb7ce.chunk.js",
     "static/media/roboto-all-500-normal.woff": "/dlxlib-demos/static/media/roboto-all-500-normal.0ab669b7a0d19b178f57.woff",
     "static/media/roboto-all-700-normal.woff": "/dlxlib-demos/static/media/roboto-all-700-normal.a457fde362a540fcadff.woff",
@@ -32,19 +32,19 @@
     "static/media/roboto-vietnamese-400-normal.woff2": "/dlxlib-demos/static/media/roboto-vietnamese-400-normal.3230f9b040f3c630e0c3.woff2",
     "static/media/roboto-vietnamese-700-normal.woff2": "/dlxlib-demos/static/media/roboto-vietnamese-700-normal.3425a701027d0699e369.woff2",
     "static/media/roboto-vietnamese-300-normal.woff2": "/dlxlib-demos/static/media/roboto-vietnamese-300-normal.32fc45a3d1e8ea11fabc.woff2",
-    "static/media/README.md": "/dlxlib-demos/static/media/README.e6d8dd9c227320c86d87.md",
+    "static/media/README.md": "/dlxlib-demos/static/media/README.109bfc9818eeb7b72145.md",
     "static/media/roboto-greek-ext-500-normal.woff2": "/dlxlib-demos/static/media/roboto-greek-ext-500-normal.6fb9cffb1d3e72bf9293.woff2",
     "static/media/roboto-greek-ext-400-normal.woff2": "/dlxlib-demos/static/media/roboto-greek-ext-400-normal.169619821ea93019d1bb.woff2",
     "static/media/roboto-greek-ext-300-normal.woff2": "/dlxlib-demos/static/media/roboto-greek-ext-300-normal.35b9d6be04b95f0f0530.woff2",
     "static/media/roboto-greek-ext-700-normal.woff2": "/dlxlib-demos/static/media/roboto-greek-ext-700-normal.bd9854c751441ccc1a70.woff2",
     "index.html": "/dlxlib-demos/index.html",
     "main.8bce7456.css.map": "/dlxlib-demos/static/css/main.8bce7456.css.map",
-    "main.d4d78f6e.js.map": "/dlxlib-demos/static/js/main.d4d78f6e.js.map",
-    "858.a2ccc13c.chunk.js.map": "/dlxlib-demos/static/js/858.a2ccc13c.chunk.js.map",
+    "main.ce2c3dd2.js.map": "/dlxlib-demos/static/js/main.ce2c3dd2.js.map",
+    "858.a3d390ce.chunk.js.map": "/dlxlib-demos/static/js/858.a3d390ce.chunk.js.map",
     "625.b56eb7ce.chunk.js.map": "/dlxlib-demos/static/js/625.b56eb7ce.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8bce7456.css",
-    "static/js/main.d4d78f6e.js"
+    "static/js/main.ce2c3dd2.js"
   ]
 }
