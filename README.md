@@ -29,6 +29,41 @@ This web app has been published to GitHub Pages: https://taylorjg.github.io/dlxl
 
 _TODO_
 
+# TODO
+
+* [ ] Add DLX matrix description modal to each demo
+  * [ ] Sudoku
+  * [ ] Pentominoes
+  * [ ] Draughtboard Puzzle
+  * [ ] N Queens
+  * [ ] TetraSticks
+  * [ ] Aztec Diamond
+  * [x] Ripple Effect
+  * [ ] Flow Free
+  * [ ] Kakuro
+  * [ ] Nonogram
+  * [ ] Crossword
+* [ ] Add ability to find all solutions and navigate between them
+* [ ] Add ability to see more information whilst solving:
+  * Stages:
+    * Building the internal rows
+    * Building the DLX matrix
+    * Solving the DLX matrix
+  * Size of DLX matrix
+  * Show accumulated time as solving proceeds:
+    * Show an individual value for each stage
+    * Show a total value
+  * Step count
+  * Solution count
+* [ ] UI/styling improvements to home page
+* [ ] UI/styling improvements to demo page
+* [ ] Responsive UI improvements to home page
+* [ ] Responsive UI improvements to demo page
+* [ ] Add more unit tests
+* [ ] Add some end-to-end tests
+* [ ] Add eslint
+* [ ] Add prettier
+
 # Links
 
 * [Knuth's Algorithm X](https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X)
