@@ -12,6 +12,8 @@ import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
 import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail"
 import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
 
+import pentominoesReadmeSource from "demos/pentominoes/README.md"
+import draughtboardPuzzleReadmeSource from "demos/draughtboard-puzzle/README.md"
 import rippleEffectReadmeSource from "demos/ripple-effect/README.md"
 import flowFreeReadmeSource from "demos/flow-free/README.md"
 
@@ -53,6 +55,8 @@ const hideBorderMap = new Map<string, boolean>([
 ])
 
 const readmeSourceMap = new Map<string, string>([
+  ["pentominoes", pentominoesReadmeSource],
+  ["draughtboard-puzzle", draughtboardPuzzleReadmeSource],
   ["ripple-effect", rippleEffectReadmeSource],
   ["flow-free", flowFreeReadmeSource]
 ])

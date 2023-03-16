@@ -1,4 +1,4 @@
-# Details of the DLX Matrix
+# DLX Matrix Details
 
 ## Rows
 

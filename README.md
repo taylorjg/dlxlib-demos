@@ -33,13 +33,13 @@ _TODO_
 
 * [ ] Add DLX matrix description modal to each demo
   * [ ] Sudoku
-  * [ ] Pentominoes
-  * [ ] Draughtboard Puzzle
+  * [x] Pentominoes
+  * [x] Draughtboard Puzzle
   * [ ] N Queens
   * [ ] TetraSticks
   * [ ] Aztec Diamond
   * [x] Ripple Effect
-  * [ ] Flow Free
+  * [x] Flow Free
   * [ ] Kakuro
   * [ ] Nonogram
   * [ ] Crossword
