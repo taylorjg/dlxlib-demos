@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark"
+import MenuBookIcon from "@mui/icons-material/MenuBook"
 import { ReadmeModal } from "./readme-modal"
 
 import { AvailableDemo } from "types"
@@ -52,7 +52,7 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => 
             <StyledRightArea>
               <StyledHelpLink onClick={openReadmeModal}>
                 <StyledHelpLinkIcon>
-                  <QuestionMarkIcon />
+                  <MenuBookIcon />
                 </StyledHelpLinkIcon>
               </StyledHelpLink>
             </StyledRightArea>

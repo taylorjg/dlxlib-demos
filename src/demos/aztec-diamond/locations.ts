@@ -18,8 +18,8 @@ export const allVerticals: Coords[] =
     })
 
 export const allJunctions: Coords[] =
-  allHorizontals.filter(h => allVerticals.some(v => sameCoords(h, v)))
-    .filter(j => allHorizontals.some(h => sameCoords(h, goLeft(j))))
+  allHorizontals
+    .filter(h1 => allHorizontals.some(h2 => sameCoords(goLeft(h1), h2)))
 
 export const allLocations: Coords[] =
   allHorizontals.concat(allVerticals.filter(v => !allHorizontals.some(h => sameCoords(v, h))))

@@ -107,7 +107,7 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   }
 
   const onSolution = (event: SolutionFoundEvent) => {
-    console.log("[worker onSolution]", "solutionIndex:", event.solutionIndex)
+    console.log("[worker onSolution]", "solutionIndex:", event.solutionIndex, "row count:", event.solution.length)
     const solution = event.solution
     const solutionInternalRows = solution.map(index => internalRows[index])
     self.postMessage({ type: "solutionFound", solutionInternalRows })

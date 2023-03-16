@@ -13,6 +13,7 @@ import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail"
 import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
 
 import rippleEffectReadmeSource from "demos/ripple-effect/README.md"
+import flowFreeReadmeSource from "demos/flow-free/README.md"
 
 const demoNames = [
   "Sudoku",
@@ -52,7 +53,8 @@ const hideBorderMap = new Map<string, boolean>([
 ])
 
 const readmeSourceMap = new Map<string, string>([
-  ["ripple-effect", rippleEffectReadmeSource]
+  ["ripple-effect", rippleEffectReadmeSource],
+  ["flow-free", flowFreeReadmeSource]
 ])
 
 const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
