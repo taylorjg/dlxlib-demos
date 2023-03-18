@@ -1,4 +1,4 @@
-// Unexpected use of 'self'.
+// To fix: Unexpected use of 'self'.
 /* eslint-disable no-restricted-globals */
 
 import * as dlxlib from "dlxlib/dlx"
@@ -31,7 +31,7 @@ const map = new Map<string, any>([
   ["crossword", CrosswordDemo]
 ])
 
-// 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)
+// To fix: 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)
 export { }
 
 type SearchStepEvent = {
@@ -86,9 +86,14 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   console.log("[worker onSolve]", "matrix size:", `${rowCount}x${colCount}`)
   if (checkForCancellation(true)) return
 
+  const numSolutions = 1
+  const numPrimaryColumns = demo.getNumPrimaryColumns(puzzle)
+
+  console.log("[worker onSolve]", "numPrimaryColumns:", numPrimaryColumns)
+
   const options: dlxlib.Options = {
-    numSolutions: 1,
-    numPrimaryColumns: demo.getNumPrimaryColumns(puzzle),
+    numSolutions,
+    numPrimaryColumns,
     checkForCancellation
   }
 

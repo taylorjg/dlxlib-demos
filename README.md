@@ -35,7 +35,7 @@ _TODO_
   * [ ] Sudoku
   * [x] Pentominoes
   * [x] Draughtboard Puzzle
-  * [ ] N Queens
+  * [x] N Queens
   * [ ] TetraSticks
   * [ ] Aztec Diamond
   * [x] Ripple Effect
