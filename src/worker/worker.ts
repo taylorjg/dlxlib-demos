@@ -4,6 +4,7 @@
 import * as dlxlib from "dlxlib/dlx"
 import { Mode } from "types"
 import { checkStopToken } from "./stop-token"
+import { timeIt } from "./time-it"
 
 import { Demo as SudokuDemo } from "demos/sudoku/demo"
 import { Demo as PentominoesDemo } from "demos/pentominoes/demo"
@@ -65,22 +66,25 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   const demo = new demoConstructor()
 
   console.log("[worker onSolve]", "building internal rows...")
-  const internalRows = demo.buildInternalRows(puzzle, checkForCancellation)
+  const internalRows = timeIt("build internal rows", () => demo.buildInternalRows(puzzle, checkForCancellation))
   console.log("[worker onSolve]", "internalRows.length:", internalRows.length)
   if (checkForCancellation(true)) return
 
   console.log("[worker onSolve]", "building matrix...")
-  const matrix: any[] = []
-  for (let index = 0; index < internalRows.length; index++) {
-    if (index % 1000 === 0) {
-      if (checkForCancellation()) {
-        break
+  const matrix: any[] = timeIt("build matrix", () => {
+    const matrix: any[] = []
+    for (let index = 0; index < internalRows.length; index++) {
+      if (index % 1000 === 0) {
+        if (checkForCancellation()) {
+          break
+        }
       }
+      const internalRow = internalRows[index]
+      const matrixRow = demo.internalRowToMatrixRow(internalRow)
+      matrix.push(new Uint8Array(matrixRow))
     }
-    const internalRow = internalRows[index]
-    const matrixRow = demo.internalRowToMatrixRow(internalRow)
-    matrix.push(new Uint8Array(matrixRow))
-  }
+    return matrix
+  })
   const rowCount = matrix.length
   const colCount = matrix[0]?.length ?? 0
   console.log("[worker onSolve]", "matrix size:", `${rowCount}x${colCount}`)
@@ -123,7 +127,7 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   dlx.addListener("solution", onSolution)
 
   console.log("[worker onSolve]", "solving matrix...")
-  const solutions = dlx.solve(matrix, options)
+  const solutions = timeIt("solve matrix", () => dlx.solve(matrix, options))
   console.log("[worker onSolve]", "searchStepCount:", searchStepCount)
   console.log("[worker onSolve]", "solutions.length:", solutions.length)
   if (checkForCancellation(true)) return
@@ -139,7 +143,7 @@ self.onmessage = (ev: MessageEvent<any>) => {
       const shortName = ev.data.shortName as string
       const mode = ev.data.mode as Mode
       const { puzzle } = ev.data
-      onSolve(stopToken, shortName, puzzle, mode)
+      timeIt("onSolve", () => onSolve(stopToken, shortName, puzzle, mode))
       return
     }
 

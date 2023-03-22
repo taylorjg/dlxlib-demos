@@ -12,6 +12,7 @@ import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
 import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail"
 import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
 
+import sudokuReadmeSource from "demos/sudoku/README.md"
 import pentominoesReadmeSource from "demos/pentominoes/README.md"
 import draughtboardPuzzleReadmeSource from "demos/draughtboard-puzzle/README.md"
 import nQueensReadmeSource from "demos/n-queens/README.md"
@@ -56,6 +57,7 @@ const hideBorderMap = new Map<string, boolean>([
 ])
 
 const readmeSourceMap = new Map<string, string>([
+  ["sudoku", sudokuReadmeSource],
   ["pentominoes", pentominoesReadmeSource],
   ["draughtboard-puzzle", draughtboardPuzzleReadmeSource],
   ["n-queens", nQueensReadmeSource],
