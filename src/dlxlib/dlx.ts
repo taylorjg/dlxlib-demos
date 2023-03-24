@@ -2,10 +2,7 @@ import EventEmitter from "events"
 import { DataObject } from "./dataObject"
 import { ColumnObject } from "./columnObject"
 
-export type MatrixValue = any
-export type MatrixRow = MatrixValue[]
-export type Matrix = MatrixRow[]
-
+export type Matrix = Uint8Array[]
 export type Solution = number[]
 export type PartialSolution = number[]
 
@@ -21,10 +18,6 @@ export function solve(matrix: Matrix, options: Options) {
 }
 
 export class Dlx extends EventEmitter {
-
-  public constructor() {
-    super()
-  }
 
   public solve(matrix: Matrix, options?: Options): Solution[] {
     this.checkOptions(options)
@@ -75,7 +68,7 @@ const buildInternalStructure = (matrix: Matrix, options?: Options) => {
   const colIndexToListHeader = new Map()
   let cancelled = false
 
-  matrix.forEach((row: MatrixRow, rowIndex: number) => {
+  matrix.forEach((row: Uint8Array, rowIndex: number) => {
     if (rowIndex % 1000 === 0) {
       if (options?.checkForCancellation?.()) {
         cancelled = true

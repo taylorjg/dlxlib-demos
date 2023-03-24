@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 
 import * as dlxlib from "dlxlib/dlx"
-import { Mode } from "types"
+import { Mode, IDemo } from "types"
 import { checkStopToken } from "./stop-token"
 import { timeIt } from "./time-it"
 
@@ -18,7 +18,9 @@ import { Demo as KakuroDemo } from "demos/kakuro/demo"
 import { Demo as NonogramDemo } from "demos/nonogram/demo"
 import { Demo as CrosswordDemo } from "demos/crossword/demo"
 
-const map = new Map<string, any>([
+type DemoConstructor = new () => IDemo<unknown, unknown>
+
+const map = new Map<string, DemoConstructor>([
   ["sudoku", SudokuDemo],
   ["pentominoes", PentominoesDemo],
   ["draughtboard-puzzle", DraughtboardPuzzleDemo],
@@ -71,8 +73,8 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
   if (checkForCancellation(true)) return
 
   console.log("[worker onSolve]", "building matrix...")
-  const matrix: any[] = timeIt("build matrix", () => {
-    const matrix: any[] = []
+  const matrix = timeIt("build matrix", () => {
+    const matrix: Uint8Array[] = []
     for (let index = 0; index < internalRows.length; index++) {
       if (index % 1000 === 0) {
         if (checkForCancellation()) {
@@ -81,7 +83,7 @@ const onSolve = (stopToken: string, shortName: string, puzzle: any, mode: Mode) 
       }
       const internalRow = internalRows[index]
       const matrixRow = demo.internalRowToMatrixRow(internalRow)
-      matrix.push(new Uint8Array(matrixRow))
+      matrix.push(Uint8Array.from(matrixRow))
     }
     return matrix
   })
