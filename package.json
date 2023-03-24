@@ -34,7 +34,8 @@
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build",
-    "open": "open https://taylorjg.github.io/dlxlib-demos"
+    "open": "open https://taylorjg.github.io/dlxlib-demos",
+    "test:once": "npm test -- --watchAll=false"
   },
   "eslintConfig": {
     "extends": [
