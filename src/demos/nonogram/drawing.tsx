@@ -137,28 +137,37 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
     )
   }
 
-  const drawHorizontalRunGroups = (): JSX.Element[] => {
-    return solutionInternalRows
-      .filter(internalRow => internalRow.runGroup.runGroupType === RunGroupType.Horizontal)
-      .flatMap(drawHorizontalRunGroup)
+  const drawRunGroups = (): JSX.Element[] => {
+    return solutionInternalRows.flatMap(drawRunGroup)
   }
 
-  const drawHorizontalRunGroup = (internalRow: InternalRow): JSX.Element[] => {
-    return internalRow.coordsLists.flatMap(drawHorizontalRun)
+  const drawRunGroup = (internalRow: InternalRow): JSX.Element[] => {
+
+    if (internalRow.runGroup.runGroupType === RunGroupType.Horizontal)
+      return internalRow.coordsLists.flatMap(drawHorizontalRun)
+
+    if (internalRow.runGroup.runGroupType === RunGroupType.Vertical)
+      return internalRow.coordsLists.flatMap(drawVerticalRun)
+
+    return []
   }
 
   const drawHorizontalRun = (coordsList: Coords[]): JSX.Element[] => {
-    return coordsList.map(drawBlock)
+    return coordsList.map(drawBlock("horizontal"))
   }
 
-  const drawBlock = (coords: Coords): JSX.Element => {
+  const drawVerticalRun = (coordsList: Coords[]): JSX.Element[] => {
+    return coordsList.map(drawBlock("vertical"))
+  }
+
+  const drawBlock = (blockType: string) => (coords: Coords): JSX.Element => {
     const { row, col } = coords
     const x = calculateX(col)
     const y = calculateY(row)
 
     return (
       <rect
-        key={`block-${row}-${col}`}
+        key={`block-${blockType}-${row}-${col}`}
         x={x}
         y={y}
         width={SQUARE_WIDTH}
@@ -175,7 +184,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
       {drawVerticalGridLines()}
       {drawHorizontalRunLengths()}
       {drawVerticalRunLengths()}
-      {drawHorizontalRunGroups()}
+      {drawRunGroups()}
     </svg>
   )
 }
