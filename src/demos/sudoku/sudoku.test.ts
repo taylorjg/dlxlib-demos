@@ -1,5 +1,5 @@
 import { findFirstSolution } from "test-helpers"
-import { distinct, range } from "utils"
+import { distinct, first, range } from "utils"
 import { Demo } from "./demo"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
@@ -9,7 +9,7 @@ import { puzzles } from "./puzzles"
 describe("sudoku tests", () => {
   it("can find a valid solution", () => {
     const demo = new Demo()
-    const puzzle = puzzles[0]
+    const puzzle = first(puzzles)
     const solutionInternalRows = findFirstSolution(demo, puzzle)
     checkSolution(puzzle, solutionInternalRows)
   })
