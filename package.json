@@ -1,7 +1,7 @@
 {
   "name": "dlxlib-demos",
   "description": "React/TypeScript web app to demo dlxlib - using Dancing Links (DLX) to solve puzzles like Sudoku, Pentominoes, N Queens, Draughtboard Puzzle, Ripple Effect, TetraSticks, Kakuro, Nonogram, Flow Free, Crossword",
-  "version": "0.0.57",
+  "version": "0.0.58",
   "homepage": "https://taylorjg.github.io/dlxlib-demos",
   "private": true,
   "dependencies": {
