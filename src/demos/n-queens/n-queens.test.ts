@@ -1,9 +1,23 @@
+import { findFirstSolution } from "test-helpers"
+import { distinct } from "utils"
 import { Demo } from "./demo"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
 import { makeThumbnailSolution } from "./thumbnail"
-import { findFirstSolution } from "test-helpers"
-import { distinct } from "utils"
+
+describe("n-queens tests", () => {
+  it("can find a valid solution", () => {
+    const demo = new Demo()
+    const puzzle = { size: 8 }
+    const solutionInternalRows = findFirstSolution(demo, puzzle)
+    checkSolution(puzzle, solutionInternalRows)
+  })
+
+  it("has a valid thumbnail solution", () => {
+    const { puzzle, solutionInternalRows } = makeThumbnailSolution()
+    checkSolution(puzzle, solutionInternalRows)
+  })
+})
 
 const checkSolution = (puzzle: Puzzle, internalRows: InternalRow[]): void => {
   expect(internalRows).toHaveLength(puzzle.size)
@@ -30,17 +44,3 @@ const checkDiagonalsUpperLeftToLowerRight = (puzzle: Puzzle, internalRows: Inter
 const checkDiagonalsUpperRightToLowerLeft = (puzzle: Puzzle, internalRows: InternalRow[]): void => {
   // TODO
 }
-
-describe("n-queens tests", () => {
-  it("can find a valid solution", () => {
-    const demo = new Demo()
-    const puzzle = { size: 8 }
-    const solutionInternalRows = findFirstSolution(demo, puzzle)
-    checkSolution(puzzle, solutionInternalRows)
-  })
-
-  it("has a valid thumbnail solution", () => {
-    const { puzzle, solutionInternalRows } = makeThumbnailSolution()
-    checkSolution(puzzle, solutionInternalRows)
-  })
-})
