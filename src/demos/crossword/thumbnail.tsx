@@ -1,12 +1,9 @@
 import { first } from "utils"
 import { Drawing } from "./drawing"
 import { puzzles } from "./puzzles"
-import { Puzzle } from "./puzzle"
-import { InternalRow } from "./internal-row"
 
 export const Thumbnail = () => {
-  const puzzle = first(puzzles)
-  const solutionInternalRows = makeSolution(puzzle)
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
   const drawingOptions = { showClueNumbers: false }
   return (
     <Drawing
@@ -17,9 +14,11 @@ export const Thumbnail = () => {
   )
 }
 
-const makeSolution = (puzzle: Puzzle): InternalRow[] => {
-  return puzzle.clues.map(clue => {
+export const makeThumbnailSolution = () => {
+  const puzzle = first(puzzles)
+  const solutionInternalRows = puzzle.clues.map(clue => {
     const candidate = first(clue.candidates)
     return { puzzle, clue, candidate }
   })
+  return { puzzle, solutionInternalRows }
 }
