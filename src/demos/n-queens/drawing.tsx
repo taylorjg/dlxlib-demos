@@ -28,6 +28,7 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
       const x = calculateX(col)
       const y = calculateY(row)
       const fill = (row + col) % 2 === 0 ? SQUARE_COLOUR_1 : SQUARE_COLOUR_2
+
       return <rect
         key={`square-${row}-${col}`}
         x={x}

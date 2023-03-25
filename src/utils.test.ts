@@ -56,6 +56,16 @@ describe("utils tests", () => {
     })
   })
 
+  describe("distinct tests", () => {
+    it("returns correct distinct array (numbers)", () => {
+      expect(U.distinct([1, 2, 1, 3, 4, 3, 5, 6])).toEqual([1, 2, 3, 4, 5, 6])
+    })
+
+    it("returns correct distinct array (strings)", () => {
+      expect(U.distinct(["a", "b", "a", "c", "d", "c", "e", "f"])).toEqual(["a", "b", "c", "d", "e", "f"])
+    })
+  })
+
   describe("except tests", () => {
     it("returns values in the first array that are not in the second array", () => {
       const xs = [1, 2, 3, 4, 5]

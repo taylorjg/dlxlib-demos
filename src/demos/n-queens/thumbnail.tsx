@@ -5,9 +5,9 @@ import { Puzzle } from "./puzzle"
 import { InternalRow } from "./internal-row"
 
 export const Thumbnail = () => {
-  const puzzle = last(puzzles)
-  const solutionInternalRows = makeSolution(puzzle)
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
   const drawingOptions = {}
+
   return (
     <Drawing
       puzzle={puzzle}
@@ -15,6 +15,12 @@ export const Thumbnail = () => {
       drawingOptions={drawingOptions}
     />
   )
+}
+
+export const makeThumbnailSolution = () => {
+  const puzzle = last(puzzles)
+  const solutionInternalRows = makeSolution(puzzle)
+  return { puzzle, solutionInternalRows }
 }
 
 const makeSolution = (puzzle: Puzzle): InternalRow[] => {

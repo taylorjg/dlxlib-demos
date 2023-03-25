@@ -4,42 +4,44 @@ export class PathCommands {
 
   private pathCommands: string[]
 
-  constructor() {
+  public constructor() {
     this.pathCommands = []
   }
 
-  moveTo(point: Point): void {
+  public moveTo(point: Point): void {
     const { x, y } = point
     this.pathCommands.push(`M${x},${y}`)
   }
 
-  lineTo(point: Point): void {
+  public lineTo(point: Point): void {
     const { x, y } = point
     this.pathCommands.push(`L${x},${y}`)
   }
 
-  arcTo(point: Point, r: number, largeArcFlag: boolean, sweepFlag: boolean): void {
+  public arcTo(point: Point, r: number, largeArcFlag: boolean, sweepFlag: boolean): void {
     const { x, y } = point
     const angle = 0
     const largeArcFlagNumber = Number(largeArcFlag)
     const sweepFlagNumber = Number(sweepFlag)
-    this.pathCommands.push(`A${r},${r},${angle},${largeArcFlagNumber},${sweepFlagNumber}${x},${y}`)
+    this.pathCommands.push(`A${r},${r},${angle},${largeArcFlagNumber},${sweepFlagNumber},${x},${y}`)
   }
 
-  close(): void {
+  public close(): void {
     this.pathCommands.push("Z")
   }
 
-  setPoints(points: Point[]): void {
-    const [firstPoint, ...remainingPoints] = points
-    this.moveTo(firstPoint)
-    for (const point of remainingPoints) {
-      this.lineTo(point)
-    }
-    this.close()
+  public toPathData(): string {
+    return this.pathCommands.join(" ")
   }
 
-  toPathData(): string {
-    return this.pathCommands.join(" ")
+  public static fromPoints(points: Point[]): PathCommands {
+    const pathCommands = new PathCommands()
+    const [firstPoint, ...remainingPoints] = points
+    pathCommands.moveTo(firstPoint)
+    for (const point of remainingPoints) {
+      pathCommands.lineTo(point)
+    }
+    pathCommands.close()
+    return pathCommands
   }
 }
