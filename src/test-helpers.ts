@@ -1,5 +1,6 @@
 import { IDemo } from "types"
 import { solve } from "dlxlib"
+import { first } from "utils"
 
 export function findFirstSolution<TPuzzle, TInternalRow>(
   demo: IDemo<TPuzzle, TInternalRow>,
@@ -13,5 +14,5 @@ export function findFirstSolution<TPuzzle, TInternalRow>(
   const solutions = solve(matrix, options)
   if (solutions.length === 0) return []
   const lookupInternalRow = (internalRowIndex: number) => internalRows[internalRowIndex]
-  return solutions[0].map(lookupInternalRow)
+  return first(solutions).map(lookupInternalRow)
 }

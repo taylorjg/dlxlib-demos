@@ -1,5 +1,6 @@
 import { findFirstSolution } from "test-helpers"
-import { distinct } from "utils"
+import { Coords, sameCoords } from "types"
+import { distinct, range } from "utils"
 import { Demo } from "./demo"
 import { InternalRow } from "./internal-row"
 import { Puzzle } from "./puzzle"
@@ -38,9 +39,43 @@ const checkCols = (puzzle: Puzzle, internalRows: InternalRow[]): void => {
 }
 
 const checkDiagonalsUpperLeftToLowerRight = (puzzle: Puzzle, internalRows: InternalRow[]): void => {
-  // TODO
+  const { size } = puzzle
+  const diagonalColumnCount = size * 2 - 1
+
+  for (const index of range(diagonalColumnCount)) {
+    const diagonalCoords: Coords[] = []
+    for (const row of range(size)) {
+      for (const col of range(size)) {
+        if (row + col === index) {
+          diagonalCoords.push({ row, col })
+        }
+      }
+    }
+    const count = diagonalCoords
+      .filter(coords => internalRows.some(internalRow => sameCoords(internalRow.coords, coords)))
+      .length
+    expect(count).toBeGreaterThanOrEqual(0)
+    expect(count).toBeLessThanOrEqual(1)
+  }
 }
 
 const checkDiagonalsUpperRightToLowerLeft = (puzzle: Puzzle, internalRows: InternalRow[]): void => {
-  // TODO
+  const { size } = puzzle
+  const diagonalColumnCount = size * 2 - 1
+
+  for (const index of range(diagonalColumnCount)) {
+    const diagonalCoords: Coords[] = []
+    for (const row of range(size)) {
+      for (const col of range(size)) {
+        if (size - 1 - col + row === index) {
+          diagonalCoords.push({ row, col })
+        }
+      }
+    }
+    const count = diagonalCoords
+      .filter(coords => internalRows.some(internalRow => sameCoords(internalRow.coords, coords)))
+      .length
+    expect(count).toBeGreaterThanOrEqual(0)
+    expect(count).toBeLessThanOrEqual(1)
+  }
 }
