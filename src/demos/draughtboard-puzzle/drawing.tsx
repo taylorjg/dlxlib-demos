@@ -40,9 +40,12 @@ const calculatePoint = (coords: Coords): Point => ({
   y: calculateY(coords.row),
 });
 
-export const Drawing: React.FC<
-  DrawingProps<EmptyPuzzle, InternalRow, DrawingOptions>
-> = ({ solutionInternalRows, drawingOptions }) => {
+type LocalDrawingProps = DrawingProps<EmptyPuzzle, InternalRow, DrawingOptions>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
+  solutionInternalRows,
+  drawingOptions,
+}: LocalDrawingProps) => {
   const drawGridLines = (): JSX.Element => {
     return (
       <g opacity={0.1}>

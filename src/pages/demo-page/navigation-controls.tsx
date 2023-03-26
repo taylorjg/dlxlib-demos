@@ -18,13 +18,15 @@ export type NavigationControlsProps = {
   onAnimationSpeedChanged: (animationSpeed: number) => void;
 };
 
-export const NavigationControls: React.FC<NavigationControlsProps> = ({
+export const NavigationControls: React.FunctionComponent<
+  NavigationControlsProps
+> = ({
   currentState,
   selectedMode,
   onModeChanged,
   animationSpeed,
   onAnimationSpeedChanged,
-}) => {
+}: NavigationControlsProps) => {
   const handleSelectedModeChanged = (event: SelectChangeEvent<number>) => {
     const newMode = Number(event.target.value);
     onModeChanged(newMode);

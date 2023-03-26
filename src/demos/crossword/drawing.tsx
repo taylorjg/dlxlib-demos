@@ -8,9 +8,13 @@ import { Puzzle } from "./puzzle";
 const VIEWBOX_WIDTH = 100;
 const VIEWBOX_HEIGHT = 100;
 
-export const Drawing: React.FC<
-  DrawingProps<Puzzle, InternalRow, DrawingOptions>
-> = ({ puzzle, solutionInternalRows, drawingOptions }) => {
+type LocalDrawingProps = DrawingProps<Puzzle, InternalRow, DrawingOptions>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
+  puzzle,
+  solutionInternalRows,
+  drawingOptions,
+}: LocalDrawingProps) => {
   const GRID_LINE_FULL_THICKNESS = 1 / 4;
   const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2;
 

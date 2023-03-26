@@ -24,10 +24,12 @@ const calculateX = (col: number) =>
 const calculateY = (row: number) =>
   row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS;
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
+type LocalDrawingProps = DrawingProps<Puzzle, InternalRow>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
   puzzle,
   solutionInternalRows,
-}) => {
+}: LocalDrawingProps) => {
   const drawBackground = (): JSX.Element => {
     return (
       <rect

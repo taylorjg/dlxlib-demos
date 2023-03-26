@@ -10,10 +10,12 @@ import { Puzzle } from "./puzzle";
 import { puzzles } from "./puzzles";
 import { StyledControls } from "./demo-controls.styles";
 
-export const DemoControls: React.FC<DemoControlsProps<Puzzle>> = ({
+type LocalDemoControlsProps = DemoControlsProps<Puzzle>;
+
+export const DemoControls: React.FunctionComponent<LocalDemoControlsProps> = ({
   selectedPuzzle,
   onSelectedPuzzleChanged,
-}) => {
+}: LocalDemoControlsProps) => {
   const handleSelectedPuzzleChanged = (event: SelectChangeEvent<number>) => {
     const index = Number(event.target.value);
     onSelectedPuzzleChanged(puzzles[index]);

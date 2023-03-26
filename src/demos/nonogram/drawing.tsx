@@ -16,9 +16,13 @@ const GRID_LINE_COLOUR = "black";
 const RUN_LENGTH_COLOUR = "black";
 const BLOCK_COLOUR = "black";
 
-export const Drawing: React.FC<
-  DrawingProps<Puzzle, InternalRow, DrawingOptions>
-> = ({ puzzle, solutionInternalRows, drawingOptions }) => {
+type LocalDrawingProps = DrawingProps<Puzzle, InternalRow, DrawingOptions>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
+  puzzle,
+  solutionInternalRows,
+  drawingOptions,
+}: LocalDrawingProps) => {
   let numMarginSquares = 0;
 
   if (drawingOptions.showClues) {
@@ -161,31 +165,29 @@ export const Drawing: React.FC<
   };
 
   const drawHorizontalRun = (coordsList: Coords[]): JSX.Element[] => {
-    return coordsList.map(drawBlock("horizontal"));
+    return coordsList.map((coords) => drawBlock("horizontal", coords));
   };
 
   const drawVerticalRun = (coordsList: Coords[]): JSX.Element[] => {
-    return coordsList.map(drawBlock("vertical"));
+    return coordsList.map((coords) => drawBlock("vertical", coords));
   };
 
-  const drawBlock =
-    (blockType: string) =>
-    (coords: Coords): JSX.Element => {
-      const { row, col } = coords;
-      const x = calculateX(col);
-      const y = calculateY(row);
+  const drawBlock = (blockType: string, coords: Coords): JSX.Element => {
+    const { row, col } = coords;
+    const x = calculateX(col);
+    const y = calculateY(row);
 
-      return (
-        <rect
-          key={`block-${blockType}-${row}-${col}`}
-          x={x}
-          y={y}
-          width={SQUARE_WIDTH}
-          height={SQUARE_HEIGHT}
-          fill={BLOCK_COLOUR}
-        />
-      );
-    };
+    return (
+      <rect
+        key={`block-${blockType}-${row}-${col}`}
+        x={x}
+        y={y}
+        width={SQUARE_WIDTH}
+        height={SQUARE_HEIGHT}
+        fill={BLOCK_COLOUR}
+      />
+    );
+  };
 
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>

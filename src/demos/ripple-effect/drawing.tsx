@@ -21,10 +21,12 @@ const ROOM_BORDER_COLOUR = "black";
 const INITIAL_VALUE_COLOUR = "magenta";
 const CALCULATED_VALUE_COLOUR = "black";
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
+type LocalDrawingProps = DrawingProps<Puzzle, InternalRow>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
   puzzle,
   solutionInternalRows,
-}) => {
+}: LocalDrawingProps) => {
   const SQUARE_WIDTH =
     (VIEWBOX_WIDTH - ROOM_BORDER_FULL_THICKNESS) / puzzle.size;
   const SQUARE_HEIGHT =

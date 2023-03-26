@@ -20,9 +20,9 @@ export type HeaderNavBarProps = {
   availableDemo: AvailableDemo;
 };
 
-export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({
+export const HeaderNavBar: React.FunctionComponent<HeaderNavBarProps> = ({
   availableDemo,
-}) => {
+}: HeaderNavBarProps) => {
   const history = useHistory();
   const [isReadmeModalOpen, setIsReadmeModalOpen] = useState(false);
 

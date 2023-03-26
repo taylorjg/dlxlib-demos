@@ -13,12 +13,12 @@ export type ReadmeModalProps = {
   onClose: () => void;
 };
 
-export const ReadmeModal: React.FC<ReadmeModalProps> = ({
+export const ReadmeModal: React.FunctionComponent<ReadmeModalProps> = ({
   demoName,
   readmeSource,
   open,
   onClose,
-}) => {
+}: ReadmeModalProps) => {
   const [readmeMarkdown, setReadmeMarkdown] = useState("");
 
   useEffect(() => {

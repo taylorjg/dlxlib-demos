@@ -12,7 +12,9 @@ export type TileProps = {
   demo: AvailableDemo;
 };
 
-export const Tile: React.FC<TileProps> = ({ demo }) => {
+export const Tile: React.FunctionComponent<TileProps> = ({
+  demo,
+}: TileProps) => {
   const history = useHistory();
   return (
     <StyledTile onClick={() => history.push(`/demo/${demo.shortName}`)}>

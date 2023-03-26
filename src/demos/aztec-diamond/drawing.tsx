@@ -44,9 +44,11 @@ const tetraStickColours = new Map<string, string>([
   ["Z", "#008000"],
 ]);
 
-export const Drawing: React.FC<DrawingProps<EmptyPuzzle, InternalRow>> = ({
+type LocalDrawingProps = DrawingProps<EmptyPuzzle, InternalRow>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
   solutionInternalRows,
-}) => {
+}: LocalDrawingProps) => {
   const drawHorizontalGridLines = (): JSX.Element[] => {
     return allHorizontals.map((coords) => {
       const { row, col } = coords;

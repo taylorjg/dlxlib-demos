@@ -45,9 +45,13 @@ const labelColours = new Map<string, string>([
   ["L", "black"],
 ]);
 
-export const Drawing: React.FC<
-  DrawingProps<Puzzle, InternalRow, DrawingOptions>
-> = ({ puzzle, solutionInternalRows, drawingOptions }) => {
+type LocalDrawingProps = DrawingProps<Puzzle, InternalRow, DrawingOptions>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
+  puzzle,
+  solutionInternalRows,
+  drawingOptions,
+}: LocalDrawingProps) => {
   const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / puzzle.size;
   const SQUARE_HEIGHT =
     (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / puzzle.size;

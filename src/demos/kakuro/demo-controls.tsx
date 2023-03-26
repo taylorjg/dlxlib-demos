@@ -7,9 +7,12 @@ export type DrawingOptions = {
   showClues: boolean;
 };
 
-export const DemoControls: React.FC<
-  DemoControlsProps<Puzzle, DrawingOptions>
-> = ({ drawingOptions, onDrawingOptionsChanged }) => {
+type LocalDemoControlsProps = DemoControlsProps<Puzzle, DrawingOptions>;
+
+export const DemoControls: React.FunctionComponent<LocalDemoControlsProps> = ({
+  drawingOptions,
+  onDrawingOptionsChanged,
+}: LocalDemoControlsProps) => {
   const handleShowCluesChanged = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {

@@ -10,10 +10,12 @@ const QUEEN_COLOUR = "white";
 const SQUARE_COLOUR_1 = "peru";
 const SQUARE_COLOUR_2 = "sandybrown";
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
+type LocalDrawingProps = DrawingProps<Puzzle, InternalRow>;
+
+export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
   puzzle,
   solutionInternalRows,
-}) => {
+}: LocalDrawingProps) => {
   const { size } = puzzle;
 
   const calculateX = (col: number) => (col * VIEWBOX_WIDTH) / size;

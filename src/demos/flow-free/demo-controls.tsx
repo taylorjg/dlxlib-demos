@@ -18,14 +18,14 @@ export type DrawingOptions = {
   showLabels: boolean;
 };
 
-export const DemoControls: React.FC<
-  DemoControlsProps<Puzzle, DrawingOptions>
-> = ({
+type LocalDemoControlsProps = DemoControlsProps<Puzzle, DrawingOptions>;
+
+export const DemoControls: React.FunctionComponent<LocalDemoControlsProps> = ({
   selectedPuzzle,
   drawingOptions,
   onSelectedPuzzleChanged,
   onDrawingOptionsChanged,
-}) => {
+}: LocalDemoControlsProps) => {
   const handleSelectedPuzzleChanged = (event: SelectChangeEvent<number>) => {
     const index = Number(event.target.value);
     onSelectedPuzzleChanged(puzzles[index]);

@@ -218,7 +218,8 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
     return (
       <StyledErrorPage>
         <StyledError>
-          Oops! It looks like no demo exists with short name, &quot;{shortName}&quot;.
+          Oops! It looks like no demo exists with short name, &quot;{shortName}
+          &quot;.
         </StyledError>
       </StyledErrorPage>
     );

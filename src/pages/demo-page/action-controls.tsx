@@ -10,12 +10,12 @@ export type ActionControlsProps = {
   onReset: () => void;
 };
 
-export const ActionControls: React.FC<ActionControlsProps> = ({
+export const ActionControls: React.FunctionComponent<ActionControlsProps> = ({
   currentState,
   onSolve,
   onCancel,
   onReset,
-}) => {
+}: ActionControlsProps) => {
   return (
     <StyledActionControls>
       <Button onClick={onSolve} disabled={currentState !== CurrentState.Clean}>
