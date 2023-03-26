@@ -4,7 +4,7 @@ import { InternalRow } from "./internal-row"
 import { allHorizontals, allJunctions, allVerticals } from "./locations"
 import { piecesWithVariations } from "./pieces-with-variations"
 import { Puzzle } from "./puzzle"
-import { makeSolution as makeThumbnailSolution } from "./thumbnail"
+import { makeThumbnailSolution } from "./thumbnail"
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
 
@@ -52,7 +52,8 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
 
   allPossiblePiecePlacements(numFixedPieces: number): InternalRow[] {
     const internalRows: InternalRow[] = []
-    const fixedInternalRows = makeThumbnailSolution().slice(0, numFixedPieces)
+    const { solutionInternalRows } = makeThumbnailSolution()
+    const fixedInternalRows = solutionInternalRows.slice(0, numFixedPieces)
 
     for (const pieceWithVariations of piecesWithVariations) {
       const fixedInternalRow = fixedInternalRows.find(fir => (

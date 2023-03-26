@@ -5,6 +5,7 @@ import { puzzles } from "./puzzles"
 export const Thumbnail = () => {
   const { puzzle, solutionInternalRows } = makeThumbnailSolution()
   const drawingOptions = { showClueNumbers: false }
+
   return (
     <Drawing
       puzzle={puzzle}

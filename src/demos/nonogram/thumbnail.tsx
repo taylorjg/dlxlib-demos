@@ -8,6 +8,7 @@ import { puzzles } from "./puzzles"
 export const Thumbnail = () => {
   const { puzzle, solutionInternalRows } = makeThumbnailSolution()
   const drawingOptions = { showClues: true }
+
   return (
     <Drawing
       puzzle={puzzle}

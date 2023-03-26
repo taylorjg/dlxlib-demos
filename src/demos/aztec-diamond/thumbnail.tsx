@@ -4,17 +4,25 @@ import { InternalRow } from "./internal-row"
 import { piecesWithVariations } from "./pieces-with-variations"
 
 export const Thumbnail = () => {
-  const solutionInternalRows = makeSolution()
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
+  const drawingOptions = {}
+
   return (
     <Drawing
-      puzzle={{}}
+      puzzle={puzzle}
       solutionInternalRows={solutionInternalRows}
-      drawingOptions={{}}
+      drawingOptions={drawingOptions}
     />
   )
 }
 
-export const makeSolution = (): InternalRow[] => {
+export const makeThumbnailSolution = () => {
+  const puzzle = {}
+  const solutionInternalRows = makeSolution()
+  return { puzzle, solutionInternalRows }
+}
+
+const makeSolution = (): InternalRow[] => {
   return [
     makeSolutionInternalRow("I", Orientation.North, false, 3, 2),
     makeSolutionInternalRow("O", Orientation.North, false, 4, 8),

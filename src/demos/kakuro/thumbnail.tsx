@@ -6,6 +6,19 @@ import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
 
 export const Thumbnail = () => {
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
+  const drawingOptions = { showClues: true }
+
+  return (
+    <Drawing
+      puzzle={puzzle}
+      solutionInternalRows={solutionInternalRows}
+      drawingOptions={drawingOptions}
+    />
+  )
+}
+
+export const makeThumbnailSolution = () => {
   const puzzle = first(puzzles)
   const solution = [
     "..........",
@@ -20,14 +33,7 @@ export const Thumbnail = () => {
     ".13.31.13."
   ]
   const solutionInternalRows = parseSolution(puzzle, solution)
-  const drawingOptions = { showClues: true }
-  return (
-    <Drawing
-      puzzle={puzzle}
-      solutionInternalRows={solutionInternalRows}
-      drawingOptions={drawingOptions}
-    />
-  )
+  return { puzzle, solutionInternalRows }
 }
 
 const parseSolution = (puzzle: Puzzle, solution: string[]): InternalRow[] => {

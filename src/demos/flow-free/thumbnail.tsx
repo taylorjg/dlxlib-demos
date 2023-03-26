@@ -6,9 +6,9 @@ import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
 
 export const Thumbnail = () => {
-  const puzzle = first(puzzles)
-  const solutionInternalRows = makeSolution(puzzle)
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
   const drawingOptions = { showLabels: false }
+
   return (
     <Drawing
       puzzle={puzzle}
@@ -16,6 +16,12 @@ export const Thumbnail = () => {
       drawingOptions={drawingOptions}
     />
   )
+}
+
+export const makeThumbnailSolution = () => {
+  const puzzle = first(puzzles)
+  const solutionInternalRows = makeSolution(puzzle)
+  return { puzzle, solutionInternalRows }
 }
 
 const makeSolution = (puzzle: Puzzle): InternalRow[] => {
