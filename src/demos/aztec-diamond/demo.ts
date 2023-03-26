@@ -3,12 +3,11 @@ import { range } from "utils"
 import { InternalRow } from "./internal-row"
 import { allHorizontals, allJunctions, allVerticals } from "./locations"
 import { piecesWithVariations } from "./pieces-with-variations"
-import { Puzzle } from "./puzzle"
 import { makeThumbnailSolution } from "./thumbnail"
 
-export class Demo implements IDemo<Puzzle, InternalRow> {
+export class Demo implements IDemo<{}, InternalRow> {
 
-  buildInternalRows(_puzzle: Puzzle, checkForCancellation: () => boolean): InternalRow[] {
+  buildInternalRows(_puzzle: {}, checkForCancellation: () => boolean): InternalRow[] {
     return this.allPossiblePiecePlacements(5).filter(this.isValidPiecePlacement)
   }
 
@@ -23,7 +22,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       .concat(junctionsColumns)
   }
 
-  getNumPrimaryColumns(_puzzle: Puzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: {}): number | undefined {
     const numPieces = piecesWithVariations.length
     const numHorizontals = allHorizontals.length
     const numVerticals = allVerticals.length

@@ -1,7 +1,6 @@
 import { Coords, DrawingProps, sameCoords } from "types"
 import { first, last, range } from "utils"
 import { InternalRow } from "./internal-row"
-import { Puzzle } from "./puzzle"
 import { allHorizontals, allVerticals } from "./locations"
 
 const VIEWBOX_WIDTH = 100
@@ -41,7 +40,7 @@ const tetraStickColours = new Map<string, string>([
   ["Z", "#008000"]
 ])
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow>> = ({
+export const Drawing: React.FC<DrawingProps<{}, InternalRow>> = ({
   solutionInternalRows,
 }) => {
 
