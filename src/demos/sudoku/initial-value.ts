@@ -1,6 +1,6 @@
-import { Coords } from "types"
+import { Coords } from "types";
 
 export type InitialValue = {
-  coords: Coords,
-  value: number
-}
+  coords: Coords;
+  value: number;
+};

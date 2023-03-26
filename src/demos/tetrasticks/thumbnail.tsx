@@ -1,14 +1,14 @@
-import { Orientation } from "./orientation"
-import { Drawing } from "./drawing"
-import { InternalRow } from "./internal-row"
-import { piecesWithVariations } from "./pieces-with-variations"
-import { puzzles } from "./puzzles"
-import { first } from "utils"
-import { Puzzle } from "./puzzle"
+import { Orientation } from "./orientation";
+import { Drawing } from "./drawing";
+import { InternalRow } from "./internal-row";
+import { piecesWithVariations } from "./pieces-with-variations";
+import { puzzles } from "./puzzles";
+import { first } from "utils";
+import { Puzzle } from "./puzzle";
 
 export const Thumbnail = () => {
-  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
-  const drawingOptions = {}
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution();
+  const drawingOptions = {};
 
   return (
     <Drawing
@@ -16,14 +16,14 @@ export const Thumbnail = () => {
       solutionInternalRows={solutionInternalRows}
       drawingOptions={drawingOptions}
     />
-  )
-}
+  );
+};
 
 export const makeThumbnailSolution = () => {
-  const puzzle = first(puzzles)
-  const solutionInternalRows = makeSolution(puzzle)
-  return { puzzle, solutionInternalRows }
-}
+  const puzzle = first(puzzles);
+  const solutionInternalRows = makeSolution(puzzle);
+  return { puzzle, solutionInternalRows };
+};
 
 const makeSolution = (puzzle: Puzzle): InternalRow[] => {
   return [
@@ -41,9 +41,9 @@ const makeSolution = (puzzle: Puzzle): InternalRow[] => {
     makeSolutionInternalRow(puzzle, "W", Orientation.East, true, 2, 2),
     makeSolutionInternalRow(puzzle, "X", Orientation.North, false, 0, 0),
     makeSolutionInternalRow(puzzle, "Y", Orientation.North, false, 1, 4),
-    makeSolutionInternalRow(puzzle, "Z", Orientation.North, false, 1, 3)
-  ]
-}
+    makeSolutionInternalRow(puzzle, "Z", Orientation.North, false, 1, 3),
+  ];
+};
 
 const makeSolutionInternalRow = (
   puzzle: Puzzle,
@@ -53,15 +53,16 @@ const makeSolutionInternalRow = (
   row: number,
   col: number
 ): InternalRow => {
-
   for (const pwv of piecesWithVariations) {
     if (pwv.label === label) {
-      const variation = pwv.variations.find(v => v.orientation === orientation && v.reflected === reflected)
+      const variation = pwv.variations.find(
+        (v) => v.orientation === orientation && v.reflected === reflected
+      );
       if (variation) {
-        const location = { row, col }
-        return { puzzle, label, variation, location }
+        const location = { row, col };
+        return { puzzle, label, variation, location };
       }
     }
   }
-  throw new Error("[makeSolutionInternalRow] failed to find variation")
-}
+  throw new Error("[makeSolutionInternalRow] failed to find variation");
+};

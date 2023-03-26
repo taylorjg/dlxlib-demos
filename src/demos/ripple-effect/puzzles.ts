@@ -1,67 +1,80 @@
+import { Coords, sameCoords } from "types";
+import { maxBy, range } from "utils";
+import { InitialValue } from "./initial-value";
+import { Puzzle } from "./puzzle";
+import { Room } from "./room";
 
-import { Coords, sameCoords } from "types"
-import { maxBy, range } from "utils"
-import { InitialValue } from "./initial-value"
-import { Puzzle } from "./puzzle"
-import { Room } from "./room"
+const parsePuzzle = (
+  name: string,
+  roomLines: string[],
+  initialValueLines: string[]
+): Puzzle => {
+  const size = roomLines.length;
+  const initialValues = parseInitialValues(initialValueLines);
+  const rooms = parseRooms(roomLines, initialValues);
+  const maxValue = maxBy(rooms, (room) => room.cells.length);
+  return { name, size, maxValue, rooms, initialValues };
+};
 
-const parsePuzzle = (name: string, roomLines: string[], initialValueLines: string[]): Puzzle => {
-  const size = roomLines.length
-  const initialValues = parseInitialValues(initialValueLines)
-  const rooms = parseRooms(roomLines, initialValues)
-  const maxValue = maxBy(rooms, room => room.cells.length)
-  return { name, size, maxValue, rooms, initialValues }
-}
-
-const parseRooms = (roomLines: string[], initialValues: InitialValue[]): Room[] => {
-  const rowCount = roomLines.length
-  const colCount = roomLines[0].length
-  const dict = new Map<string, Coords[]>()
+const parseRooms = (
+  roomLines: string[],
+  initialValues: InitialValue[]
+): Room[] => {
+  const rowCount = roomLines.length;
+  const colCount = roomLines[0].length;
+  const dict = new Map<string, Coords[]>();
 
   for (const row of range(rowCount)) {
     for (const col of range(colCount)) {
-      const cell = { row, col }
-      const label = roomLines[row][col]
-      const coordsList = dict.get(label)
+      const cell = { row, col };
+      const label = roomLines[row][col];
+      const coordsList = dict.get(label);
       if (coordsList) {
-        coordsList.push(cell)
+        coordsList.push(cell);
       } else {
-        dict.set(label, [cell])
+        dict.set(label, [cell]);
       }
     }
   }
 
-  const rooms: Room[] = []
-  let startIndex = 0
+  const rooms: Room[] = [];
+  let startIndex = 0;
 
   for (const [label, cells] of dict) {
-    const initialValuesInThisRoom = initialValues.filter(iv => cells.some(cell => sameCoords(cell, iv.cell)))
-    const room = { label, cells, initialValues: initialValuesInThisRoom, startIndex }
-    rooms.push(room)
-    startIndex += cells.length
+    const initialValuesInThisRoom = initialValues.filter((iv) =>
+      cells.some((cell) => sameCoords(cell, iv.cell))
+    );
+    const room = {
+      label,
+      cells,
+      initialValues: initialValuesInThisRoom,
+      startIndex,
+    };
+    rooms.push(room);
+    startIndex += cells.length;
   }
 
-  return rooms
-}
+  return rooms;
+};
 
 const parseInitialValues = (initialValueLines: string[]): InitialValue[] => {
-  const rowCount = initialValueLines.length
-  const colCount = initialValueLines[0].length
-  const initialValues: InitialValue[] = []
+  const rowCount = initialValueLines.length;
+  const colCount = initialValueLines[0].length;
+  const initialValues: InitialValue[] = [];
 
   for (const row of range(rowCount)) {
     for (const col of range(colCount)) {
-      const value = Number(initialValueLines[row][col])
+      const value = Number(initialValueLines[row][col]);
       if (Number.isInteger(value)) {
-        const cell = { row, col }
-        const initialValue = { cell, value }
-        initialValues.push(initialValue)
+        const cell = { row, col };
+        const initialValue = { cell, value };
+        initialValues.push(initialValue);
       }
     }
   }
 
-  return initialValues
-}
+  return initialValues;
+};
 
 export const puzzles = [
   // https://krazydad.com/ripple/sfiles/RIP_CH_8x8_v1_4pp_b1.pdf
@@ -77,7 +90,7 @@ export const puzzles = [
       "AMJIIKLL",
       "NMJOPKQL",
       "NMJOPPQL",
-      "NNROPPQS"
+      "NNROPPQS",
     ],
     [
       "2----5--",
@@ -87,7 +100,7 @@ export const puzzles = [
       "------4-",
       "-----2--",
       "--------",
-      "--------"
+      "--------",
     ]
   ),
   // https://krazydad.com/ripple/sfiles/RIP_CH_8x8_v1_4pp_b1.pdf
@@ -103,7 +116,7 @@ export const puzzles = [
       "EMKKNLLL",
       "MMKNNOLP",
       "MMQQOOPP",
-      "RQQQOOPP"
+      "RQQQOOPP",
     ],
     [
       "------3-",
@@ -113,7 +126,7 @@ export const puzzles = [
       "5----1--",
       "--------",
       "-1----1-",
-      "--------"
+      "--------",
     ]
   ),
   // https://krazydad.com/ripple/sfiles/RIP_ST_10x10_v1_4pp_b1.pdf
@@ -131,7 +144,7 @@ export const puzzles = [
       "TWLXYYYYUV",
       "TZZaaabYUV",
       "TcZZZdbYeV",
-      "fcZggggYeh"
+      "fcZggggYeh",
     ],
     [
       "----54--1-",
@@ -143,7 +156,7 @@ export const puzzles = [
       "------6--4",
       "----------",
       "---2-----3",
-      "-----4----"
+      "-----4----",
     ]
-  )
-]
+  ),
+];

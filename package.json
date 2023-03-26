@@ -35,7 +35,9 @@
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build",
     "open": "open https://taylorjg.github.io/dlxlib-demos",
-    "test:once": "npm test -- --watchAll=false"
+    "test:once": "npm test -- --watchAll=false",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint --fix ."
   },
   "eslintConfig": {
     "extends": [
@@ -57,7 +59,15 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3",
-    "gh-pages": "^5.0.0"
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
+    "prettier": "^2.8.7"
   },
   "jest": {
     "moduleNameMapper": {

@@ -10,98 +10,106 @@ const makePuzzle = (
   acrossClueCandidates: Map<number, string[]>,
   downClueCandidates: Map<number, string[]>
 ): Puzzle => {
-  const size = grid.length
-  const blocks = findBlocks(grid)
-  const { acrossClues, downClues } = findClues(grid)
-  const clues: Clue[] = []
+  const size = grid.length;
+  const blocks = findBlocks(grid);
+  const { acrossClues, downClues } = findClues(grid);
+  const clues: Clue[] = [];
 
   for (const [clueNumber, coordsList] of acrossClues) {
-    const candidates = acrossClueCandidates.get(clueNumber)!
-    const clueType = ClueType.Across
-    const clue = { clueType, clueNumber, coordsList, candidates }
-    clues.push(clue)
+    const candidates = acrossClueCandidates.get(clueNumber)!;
+    const clueType = ClueType.Across;
+    const clue = { clueType, clueNumber, coordsList, candidates };
+    clues.push(clue);
   }
 
   for (const [clueNumber, coordsList] of downClues) {
-    const candidates = downClueCandidates.get(clueNumber)!
-    const clueType = ClueType.Down
-    const clue = { clueType, clueNumber, coordsList, candidates }
-    clues.push(clue)
+    const candidates = downClueCandidates.get(clueNumber)!;
+    const clueType = ClueType.Down;
+    const clue = { clueType, clueNumber, coordsList, candidates };
+    clues.push(clue);
   }
 
   const allAcrossSquares = clues
-    .filter(clue => clue.clueType === ClueType.Across)
-    .flatMap(clue => clue.coordsList)
+    .filter((clue) => clue.clueType === ClueType.Across)
+    .flatMap((clue) => clue.coordsList);
 
   const allDownSquares = clues
-    .filter(clue => clue.clueType === ClueType.Down)
-    .flatMap(clue => clue.coordsList)
+    .filter((clue) => clue.clueType === ClueType.Down)
+    .flatMap((clue) => clue.coordsList);
 
-  const crossCheckingSquares = intersect(allAcrossSquares, allDownSquares, sameCoords)
+  const crossCheckingSquares = intersect(
+    allAcrossSquares,
+    allDownSquares,
+    sameCoords
+  );
 
-  return { name, size, blocks, clues, crossCheckingSquares }
-}
+  return { name, size, blocks, clues, crossCheckingSquares };
+};
 
 const findBlocks = (grid: string[]): Coords[] => {
-  const blocks: Coords[] = []
-  const size = grid.length
+  const blocks: Coords[] = [];
+  const size = grid.length;
   for (const row of range(size)) {
     for (const col of range(size)) {
       if (grid[row][col] === "X") {
-        const block = { row, col }
-        blocks.push(block)
+        const block = { row, col };
+        blocks.push(block);
       }
     }
   }
-  return blocks
-}
+  return blocks;
+};
 
 const findClues = (
   grid: string[]
-): { acrossClues: Map<number, Coords[]>, downClues: Map<number, Coords[]> } => {
-  const acrossClues = new Map<number, Coords[]>()
-  const downClues = new Map<number, Coords[]>()
+): { acrossClues: Map<number, Coords[]>; downClues: Map<number, Coords[]> } => {
+  const acrossClues = new Map<number, Coords[]>();
+  const downClues = new Map<number, Coords[]>();
 
-  const size = grid.length
-  const isBlock = (row: number, col: number) => row < 0 || row >= size || col < 0 || col >= size || grid[row][col] === "X"
-  const leftIsBlock = (row: number, col: number) => isBlock(row, col - 1)
-  const rightIsBlock = (row: number, col: number) => isBlock(row, col + 1)
-  const upIsBlock = (row: number, col: number) => isBlock(row - 1, col)
-  const downIsBlock = (row: number, col: number) => isBlock(row + 1, col)
+  const size = grid.length;
+  const isBlock = (row: number, col: number) =>
+    row < 0 || row >= size || col < 0 || col >= size || grid[row][col] === "X";
+  const leftIsBlock = (row: number, col: number) => isBlock(row, col - 1);
+  const rightIsBlock = (row: number, col: number) => isBlock(row, col + 1);
+  const upIsBlock = (row: number, col: number) => isBlock(row - 1, col);
+  const downIsBlock = (row: number, col: number) => isBlock(row + 1, col);
 
-  const findCoordsList = (coords: Coords, advance: (coords: Coords) => Coords): Coords[] => {
-    const coordsList = [coords]
-    let currentCoords = coords
-    for (; ;) {
-      currentCoords = advance(currentCoords)
-      if (isBlock(currentCoords.row, currentCoords.col)) break
-      coordsList.push(currentCoords)
+  const findCoordsList = (
+    coords: Coords,
+    advance: (coords: Coords) => Coords
+  ): Coords[] => {
+    const coordsList = [coords];
+    let currentCoords = coords;
+    for (;;) {
+      currentCoords = advance(currentCoords);
+      if (isBlock(currentCoords.row, currentCoords.col)) break;
+      coordsList.push(currentCoords);
     }
-    return coordsList
-  }
+    return coordsList;
+  };
 
-  let nextClueNumber = 1
+  let nextClueNumber = 1;
 
   for (const row of range(size)) {
     for (const col of range(size)) {
-      if (grid[row][col] === "X") continue
-      const newAcrossClue = leftIsBlock(row, col) && !rightIsBlock(row, col)
-      const newDownClue = upIsBlock(row, col) && !downIsBlock(row, col)
-      const coords = { row, col }
+      if (grid[row][col] === "X") continue;
+      const newAcrossClue = leftIsBlock(row, col) && !rightIsBlock(row, col);
+      const newDownClue = upIsBlock(row, col) && !downIsBlock(row, col);
+      const coords = { row, col };
       if (newAcrossClue) {
-        const coordsList = findCoordsList(coords, goRight)
-        acrossClues.set(nextClueNumber, coordsList)
+        const coordsList = findCoordsList(coords, goRight);
+        acrossClues.set(nextClueNumber, coordsList);
       }
       if (newDownClue) {
-        const coordsList = findCoordsList(coords, goDown)
-        downClues.set(nextClueNumber, coordsList)
+        const coordsList = findCoordsList(coords, goDown);
+        downClues.set(nextClueNumber, coordsList);
       }
-      if (newAcrossClue || newDownClue) nextClueNumber++
+      if (newAcrossClue || newDownClue) nextClueNumber++;
     }
   }
 
-  return { acrossClues, downClues }
-}
+  return { acrossClues, downClues };
+};
 
 export const puzzles = [
   makePuzzle(
@@ -119,7 +127,7 @@ export const puzzles = [
       ".X.X.X.X.X.X.",
       ".........X...",
       ".X.X.X.X.X.X.",
-      "XX....X......"
+      "XX....X......",
     ],
     new Map<number, string[]>([
       [1, ["heifer"]], // young cow
@@ -135,7 +143,7 @@ export const puzzles = [
       [24, ["primitive", "inelegant"]], //  crude
       [25, ["mug", "ass", "nit"]], // fool
       [26, ["dusk"]], // twilight
-      [27, ["jester", "gagman", "mummer"]] // clown
+      [27, ["jester", "gagman", "mummer"]], // clown
     ]),
     new Map<number, string[]>([
       [1, ["hairdo"]], // perm, e.g.
@@ -151,7 +159,7 @@ export const puzzles = [
       [18, ["trail", "dally", "tarry"]], // lag
       [19, ["cougar"]], // puma
       [21, ["epics"]], // spice (anag)
-      [23, ["tempt", "court"]] // entice
+      [23, ["tempt", "court"]], // entice
     ])
-  )
-]
+  ),
+];

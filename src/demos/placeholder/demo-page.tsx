@@ -1,5 +1,5 @@
-import { DemoPage as GenericDemoPage } from "pages/demo-page"
-import { Drawing } from "./drawing"
+import { DemoPage as GenericDemoPage } from "pages/demo-page";
+import { Drawing } from "./drawing";
 
 export const DemoPage = () => {
   return (
@@ -8,5 +8,5 @@ export const DemoPage = () => {
       initialDrawingOptions={{}}
       Drawing={Drawing}
     />
-  )
-}
+  );
+};

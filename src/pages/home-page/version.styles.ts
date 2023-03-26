@@ -1,9 +1,9 @@
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 export const StyledVersion = styled.span`
   font-size: small;
   font-style: italic;
   position: fixed;
-  top: .25rem;
-  right: .5rem;
-`
+  top: 0.25rem;
+  right: 0.5rem;
+`;

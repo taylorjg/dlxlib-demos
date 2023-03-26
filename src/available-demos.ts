@@ -1,23 +1,23 @@
 import { AvailableDemo } from "types";
-import { Thumbnail as SudokuThumbnail } from "demos/sudoku/thumbnail"
-import { Thumbnail as PentominoesThumbnail } from "demos/pentominoes/thumbnail"
-import { Thumbnail as DraughtboardPuzzleThumbnail } from "demos/draughtboard-puzzle/thumbnail"
-import { Thumbnail as NQueensThumbnail } from "demos/n-queens/thumbnail"
-import { Thumbnail as TetraSticksThumbnail } from "demos/tetrasticks/thumbnail"
-import { Thumbnail as AztecDiamondThumbnail } from "demos/aztec-diamond/thumbnail"
-import { Thumbnail as RippleEffectThumbnail } from "demos/ripple-effect/thumbnail"
-import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail"
-import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail"
-import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail"
-import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail"
-import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail"
+import { Thumbnail as SudokuThumbnail } from "demos/sudoku/thumbnail";
+import { Thumbnail as PentominoesThumbnail } from "demos/pentominoes/thumbnail";
+import { Thumbnail as DraughtboardPuzzleThumbnail } from "demos/draughtboard-puzzle/thumbnail";
+import { Thumbnail as NQueensThumbnail } from "demos/n-queens/thumbnail";
+import { Thumbnail as TetraSticksThumbnail } from "demos/tetrasticks/thumbnail";
+import { Thumbnail as AztecDiamondThumbnail } from "demos/aztec-diamond/thumbnail";
+import { Thumbnail as RippleEffectThumbnail } from "demos/ripple-effect/thumbnail";
+import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail";
+import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail";
+import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail";
+import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail";
+import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail";
 
-import sudokuReadmeSource from "demos/sudoku/README.md"
-import pentominoesReadmeSource from "demos/pentominoes/README.md"
-import draughtboardPuzzleReadmeSource from "demos/draughtboard-puzzle/README.md"
-import nQueensReadmeSource from "demos/n-queens/README.md"
-import rippleEffectReadmeSource from "demos/ripple-effect/README.md"
-import flowFreeReadmeSource from "demos/flow-free/README.md"
+import sudokuReadmeSource from "demos/sudoku/README.md";
+import pentominoesReadmeSource from "demos/pentominoes/README.md";
+import draughtboardPuzzleReadmeSource from "demos/draughtboard-puzzle/README.md";
+import nQueensReadmeSource from "demos/n-queens/README.md";
+import rippleEffectReadmeSource from "demos/ripple-effect/README.md";
+import flowFreeReadmeSource from "demos/flow-free/README.md";
 
 const demoNames = [
   "Sudoku",
@@ -30,8 +30,8 @@ const demoNames = [
   "Flow Free",
   "Kakuro",
   "Nonogram",
-  "Crossword"
-]
+  "Crossword",
+];
 
 const thumbnailMap = new Map<string, React.FC>([
   ["sudoku", SudokuThumbnail],
@@ -44,8 +44,8 @@ const thumbnailMap = new Map<string, React.FC>([
   ["flow-free", FlowFreeThumbnail],
   ["kakuro", KakuroThumbnail],
   ["nonogram", NonogramThumbnail],
-  ["crossword", CrosswordThumbnail]
-])
+  ["crossword", CrosswordThumbnail],
+]);
 
 const hideBorderMap = new Map<string, boolean>([
   ["pentominoes", true],
@@ -53,8 +53,8 @@ const hideBorderMap = new Map<string, boolean>([
   ["n-queens", true],
   ["flow-free", true],
   ["tetrasticks", true],
-  ["aztec-diamond", true]
-])
+  ["aztec-diamond", true],
+]);
 
 const readmeSourceMap = new Map<string, string>([
   ["sudoku", sudokuReadmeSource],
@@ -62,27 +62,29 @@ const readmeSourceMap = new Map<string, string>([
   ["draughtboard-puzzle", draughtboardPuzzleReadmeSource],
   ["n-queens", nQueensReadmeSource],
   ["ripple-effect", rippleEffectReadmeSource],
-  ["flow-free", flowFreeReadmeSource]
-])
+  ["flow-free", flowFreeReadmeSource],
+]);
 
-const makeShortName = (name: string): string => name.toLowerCase().replace(/\s/g, "-")
+const makeShortName = (name: string): string =>
+  name.toLowerCase().replace(/\s/g, "-");
 
-export const availableDemos: AvailableDemo[] = demoNames
-  .map(name => {
-    const shortName = makeShortName(name)
-    const hideBorder = hideBorderMap.get(shortName) ?? false
-    const maybeReadmeSource = readmeSourceMap.has(shortName)
-      ? { readmeSource: readmeSourceMap.get(shortName) }
-      : undefined
-    return {
-      name,
-      shortName,
-      Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail,
-      hideBorder,
-      ...maybeReadmeSource
-    }
-  })
+export const availableDemos: AvailableDemo[] = demoNames.map((name) => {
+  const shortName = makeShortName(name);
+  const hideBorder = hideBorderMap.get(shortName) ?? false;
+  const maybeReadmeSource = readmeSourceMap.has(shortName)
+    ? { readmeSource: readmeSourceMap.get(shortName) }
+    : undefined;
+  return {
+    name,
+    shortName,
+    Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail,
+    hideBorder,
+    ...maybeReadmeSource,
+  };
+});
 
 export const lookupAvailableDemoByShortName = (shortName: string) => {
-  return availableDemos.find(availableDemo => availableDemo.shortName === shortName)
-}
+  return availableDemos.find(
+    (availableDemo) => availableDemo.shortName === shortName
+  );
+};

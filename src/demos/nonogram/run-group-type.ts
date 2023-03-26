@@ -1,4 +1,4 @@
 export enum RunGroupType {
   Horizontal,
-  Vertical
+  Vertical,
 }

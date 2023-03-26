@@ -1,8 +1,8 @@
-import { Coords } from "types"
-import { Variation } from "./variation"
+import { Coords } from "types";
+import { Variation } from "./variation";
 
 export type InternalRow = {
-  label: string,
-  variation: Variation,
-  location: Coords
-}
+  label: string;
+  variation: Variation;
+  location: Coords;
+};

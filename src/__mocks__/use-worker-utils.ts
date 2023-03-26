@@ -2,5 +2,5 @@
 export const makeWorker = () => {
   return {
     // TODO
-  }
-}
+  };
+};

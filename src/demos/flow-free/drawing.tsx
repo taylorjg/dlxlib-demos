@@ -1,19 +1,19 @@
-import { Coords, DrawingProps } from "types"
-import { range } from "utils"
-import { InternalRow } from "./internal-row"
-import { DrawingOptions } from "./demo-controls"
-import { Puzzle } from "./puzzle"
+import { Coords, DrawingProps } from "types";
+import { range } from "utils";
+import { InternalRow } from "./internal-row";
+import { DrawingOptions } from "./demo-controls";
+import { Puzzle } from "./puzzle";
 
-const VIEWBOX_WIDTH = 100
-const VIEWBOX_HEIGHT = 100
+const VIEWBOX_WIDTH = 100;
+const VIEWBOX_HEIGHT = 100;
 
-const GRID_LINE_FULL_THICKNESS = 1 / 4
-const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2
+const GRID_LINE_FULL_THICKNESS = 1 / 4;
+const GRID_LINE_HALF_THICKNESS = GRID_LINE_FULL_THICKNESS / 2;
 
-const BACKGROUND_COLOUR = "black"
-const GRID_LINE_COLOUR = "yellow"
-const FALLBACK_DOT_COLOUR = "white"
-const FALLBACK_LABEL_COLOUR = "white"
+const BACKGROUND_COLOUR = "black";
+const GRID_LINE_COLOUR = "yellow";
+const FALLBACK_DOT_COLOUR = "white";
+const FALLBACK_LABEL_COLOUR = "white";
 
 const dotColours = new Map<string, string>([
   ["A", "red"],
@@ -27,8 +27,8 @@ const dotColours = new Map<string, string>([
   ["I", "purple"],
   ["J", "white"],
   ["K", "grey"],
-  ["L", "limegreen"]
-])
+  ["L", "limegreen"],
+]);
 
 const labelColours = new Map<string, string>([
   ["A", "white"],
@@ -42,20 +42,20 @@ const labelColours = new Map<string, string>([
   ["I", "white"],
   ["J", "black"],
   ["K", "black"],
-  ["L", "black"]
-])
+  ["L", "black"],
+]);
 
-export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>> = ({
-  puzzle,
-  solutionInternalRows,
-  drawingOptions
-}) => {
+export const Drawing: React.FC<
+  DrawingProps<Puzzle, InternalRow, DrawingOptions>
+> = ({ puzzle, solutionInternalRows, drawingOptions }) => {
+  const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / puzzle.size;
+  const SQUARE_HEIGHT =
+    (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / puzzle.size;
 
-  const SQUARE_WIDTH = (VIEWBOX_WIDTH - GRID_LINE_FULL_THICKNESS) / puzzle.size
-  const SQUARE_HEIGHT = (VIEWBOX_HEIGHT - GRID_LINE_FULL_THICKNESS) / puzzle.size
-
-  const calculateX = (col: number) => col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS
-  const calculateY = (row: number) => row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS
+  const calculateX = (col: number) =>
+    col * SQUARE_WIDTH + GRID_LINE_HALF_THICKNESS;
+  const calculateY = (row: number) =>
+    row * SQUARE_HEIGHT + GRID_LINE_HALF_THICKNESS;
 
   const drawBackground = (): JSX.Element => {
     return (
@@ -66,13 +66,13 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
         height={VIEWBOX_HEIGHT}
         fill={BACKGROUND_COLOUR}
       />
-    )
-  }
+    );
+  };
 
   const drawHorizontalGridLines = (): JSX.Element[] => {
-    const rows = range(puzzle.size + 1)
-    return rows.map(row => {
-      const y = calculateY(row)
+    const rows = range(puzzle.size + 1);
+    return rows.map((row) => {
+      const y = calculateY(row);
       return (
         <line
           key={`horizontal-grid-line-${row}`}
@@ -83,14 +83,14 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
           strokeWidth={GRID_LINE_FULL_THICKNESS}
           stroke={GRID_LINE_COLOUR}
         />
-      )
-    })
-  }
+      );
+    });
+  };
 
   const drawVerticalGridLines = (): JSX.Element[] => {
-    const cols = range(puzzle.size + 1)
-    return cols.map(col => {
-      const x = calculateX(col)
+    const cols = range(puzzle.size + 1);
+    return cols.map((col) => {
+      const x = calculateX(col);
       return (
         <line
           key={`vertical-grid-line-${col}`}
@@ -101,51 +101,45 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
           strokeWidth={GRID_LINE_FULL_THICKNESS}
           stroke={GRID_LINE_COLOUR}
         />
-      )
-    })
-  }
+      );
+    });
+  };
 
   const drawColourPairDots = (): JSX.Element[] => {
-    return puzzle.colourPairs.flatMap(colourPair => [
+    return puzzle.colourPairs.flatMap((colourPair) => [
       drawDot(colourPair.label, colourPair.start),
       drawDot(colourPair.label, colourPair.end),
-    ])
-  }
+    ]);
+  };
 
   const drawDot = (label: string, coords: Coords): JSX.Element => {
-    const { row, col } = coords
-    const cx = calculateX(col) + SQUARE_WIDTH / 2
-    const cy = calculateY(row) + SQUARE_HEIGHT / 2
-    const r = SQUARE_WIDTH * 0.35
-    const fill = dotColours.get(label) ?? FALLBACK_DOT_COLOUR
+    const { row, col } = coords;
+    const cx = calculateX(col) + SQUARE_WIDTH / 2;
+    const cy = calculateY(row) + SQUARE_HEIGHT / 2;
+    const r = SQUARE_WIDTH * 0.35;
+    const fill = dotColours.get(label) ?? FALLBACK_DOT_COLOUR;
 
     return (
-      <circle
-        key={`dot-${row}-${col}`}
-        cx={cx}
-        cy={cy}
-        r={r}
-        fill={fill}
-      />
-    )
-  }
+      <circle key={`dot-${row}-${col}`} cx={cx} cy={cy} r={r} fill={fill} />
+    );
+  };
 
   const drawColourPairLabels = (): JSX.Element[] => {
     if (drawingOptions.showLabels) {
-      return puzzle.colourPairs.flatMap(colourPair => [
+      return puzzle.colourPairs.flatMap((colourPair) => [
         drawLabel(colourPair.label, colourPair.start),
-        drawLabel(colourPair.label, colourPair.end)
-      ])
+        drawLabel(colourPair.label, colourPair.end),
+      ]);
     }
-    return []
-  }
+    return [];
+  };
 
   const drawLabel = (label: string, coords: Coords): JSX.Element => {
-    const { row, col } = coords
-    const cx = calculateX(col) + SQUARE_WIDTH / 2
-    const cy = calculateY(row) + SQUARE_WIDTH / 2
-    const fill = labelColours.get(label) ?? FALLBACK_LABEL_COLOUR
-    const fontSize = VIEWBOX_WIDTH / puzzle.size * 0.5
+    const { row, col } = coords;
+    const cx = calculateX(col) + SQUARE_WIDTH / 2;
+    const cy = calculateY(row) + SQUARE_WIDTH / 2;
+    const fill = labelColours.get(label) ?? FALLBACK_LABEL_COLOUR;
+    const fontSize = (VIEWBOX_WIDTH / puzzle.size) * 0.5;
 
     return (
       <text
@@ -159,36 +153,35 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
       >
         {label}
       </text>
-    )
-  }
+    );
+  };
 
   const drawPipes = (): JSX.Element[] => {
-    return solutionInternalRows.map(internalRow => {
-      return drawPipe(internalRow)
-    })
-  }
+    return solutionInternalRows.map((internalRow) => {
+      return drawPipe(internalRow);
+    });
+  };
 
   const makePathData = (points: number[][]): string => {
-    const [firstPoint, ...remainingPoints] = points
-    const pathCommands: string[] = []
-    pathCommands.push(`M${firstPoint[0]},${firstPoint[1]}`)
+    const [firstPoint, ...remainingPoints] = points;
+    const pathCommands: string[] = [];
+    pathCommands.push(`M${firstPoint[0]},${firstPoint[1]}`);
     for (const point of remainingPoints) {
-      pathCommands.push(`L${point[0]},${point[1]}`)
+      pathCommands.push(`L${point[0]},${point[1]}`);
     }
-    return pathCommands.join(" ")
-  }
+    return pathCommands.join(" ");
+  };
 
   const drawPipe = (internalRow: InternalRow): JSX.Element => {
-
     const coordsToCentreOfSquare = (coords: Coords): number[] => {
-      const x = calculateX(coords.col) + SQUARE_WIDTH / 2
-      const y = calculateY(coords.row) + SQUARE_HEIGHT / 2
-      return [x, y]
-    }
+      const x = calculateX(coords.col) + SQUARE_WIDTH / 2;
+      const y = calculateY(coords.row) + SQUARE_HEIGHT / 2;
+      return [x, y];
+    };
 
-    const d = makePathData(internalRow.coordsList.map(coordsToCentreOfSquare))
-    const label = internalRow.colourPair.label
-    const colour = dotColours.get(label) ?? FALLBACK_DOT_COLOUR
+    const d = makePathData(internalRow.coordsList.map(coordsToCentreOfSquare));
+    const label = internalRow.colourPair.label;
+    const colour = dotColours.get(label) ?? FALLBACK_DOT_COLOUR;
 
     return (
       <path
@@ -199,8 +192,8 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
         strokeLinejoin="round"
         fill="none"
       />
-    )
-  }
+    );
+  };
 
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
@@ -211,5 +204,5 @@ export const Drawing: React.FC<DrawingProps<Puzzle, InternalRow, DrawingOptions>
       {drawPipes()}
       {drawColourPairLabels()}
     </svg>
-  )
-}
+  );
+};

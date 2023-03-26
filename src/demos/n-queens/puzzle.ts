@@ -1,3 +1,3 @@
 export type Puzzle = {
-  size: number
-}
+  size: number;
+};

@@ -1,22 +1,22 @@
-import { FormLabel, FormControlLabel, Switch, FormGroup } from "@mui/material"
-import { DemoControlsProps } from "types"
-import { Puzzle } from "./puzzle"
-import { StyledControls } from "./demo-controls.styles"
+import { FormLabel, FormControlLabel, Switch, FormGroup } from "@mui/material";
+import { DemoControlsProps } from "types";
+import { Puzzle } from "./puzzle";
+import { StyledControls } from "./demo-controls.styles";
 
 export type DrawingOptions = {
-  showClues: boolean
-}
+  showClues: boolean;
+};
 
-export const DemoControls: React.FC<DemoControlsProps<Puzzle, DrawingOptions>> = ({
-  drawingOptions,
-  onDrawingOptionsChanged
-}) => {
-
-  const handleShowCluesChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const showClues = event.target.checked
-    const newDrawingOptions = { ...drawingOptions, showClues }
-    onDrawingOptionsChanged(newDrawingOptions)
-  }
+export const DemoControls: React.FC<
+  DemoControlsProps<Puzzle, DrawingOptions>
+> = ({ drawingOptions, onDrawingOptionsChanged }) => {
+  const handleShowCluesChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const showClues = event.target.checked;
+    const newDrawingOptions = { ...drawingOptions, showClues };
+    onDrawingOptionsChanged(newDrawingOptions);
+  };
 
   return (
     <StyledControls>
@@ -37,5 +37,5 @@ export const DemoControls: React.FC<DemoControlsProps<Puzzle, DrawingOptions>> =
         />
       </FormGroup>
     </StyledControls>
-  )
-}
+  );
+};

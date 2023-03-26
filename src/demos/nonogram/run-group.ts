@@ -1,6 +1,6 @@
-import { RunGroupType } from "./run-group-type"
+import { RunGroupType } from "./run-group-type";
 
 export type RunGroup = {
-  runGroupType: RunGroupType
-  lengths: number[]
-}
+  runGroupType: RunGroupType;
+  lengths: number[];
+};

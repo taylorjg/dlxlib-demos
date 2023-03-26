@@ -1,9 +1,9 @@
-import { Coords } from "types"
-import { ColourPair } from "./colour-pair"
-import { Puzzle } from "./puzzle"
+import { Coords } from "types";
+import { ColourPair } from "./colour-pair";
+import { Puzzle } from "./puzzle";
 
 export type InternalRow = {
-  puzzle: Puzzle,
-  colourPair: ColourPair,
-  coordsList: Coords[]
-}
+  puzzle: Puzzle;
+  colourPair: ColourPair;
+  coordsList: Coords[];
+};

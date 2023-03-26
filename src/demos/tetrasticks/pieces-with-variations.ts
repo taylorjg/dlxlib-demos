@@ -1,8 +1,13 @@
-import { Orientation } from "./orientation"
-import { Piece } from "./piece"
-import { pieces } from "./pieces"
-import { PieceWithVariations } from "./piece-with-variations"
-import { normalisedRepresentation, reflect, rotateCW, Variation } from "./variation"
+import { Orientation } from "./orientation";
+import { Piece } from "./piece";
+import { pieces } from "./pieces";
+import { PieceWithVariations } from "./piece-with-variations";
+import {
+  normalisedRepresentation,
+  reflect,
+  rotateCW,
+  Variation,
+} from "./variation";
 
 const findUniqueVariations = (piece: Piece): PieceWithVariations => {
   const north = {
@@ -11,37 +16,41 @@ const findUniqueVariations = (piece: Piece): PieceWithVariations => {
     horizontals: piece.horizontals,
     verticals: piece.verticals,
     junctions: piece.junctions,
-    polyLines: piece.polyLines
-  }
-  const northReflected = reflect(north)
+    polyLines: piece.polyLines,
+  };
+  const northReflected = reflect(north);
 
-  const east = rotateCW(north)
-  const eastReflected = reflect(east)
+  const east = rotateCW(north);
+  const eastReflected = reflect(east);
 
-  const south = rotateCW(east)
-  const southReflected = reflect(south)
+  const south = rotateCW(east);
+  const southReflected = reflect(south);
 
-  const west = rotateCW(south)
-  const westReflected = reflect(west)
+  const west = rotateCW(south);
+  const westReflected = reflect(west);
 
   const allVariations = [
-    north, northReflected,
-    east, eastReflected,
-    south, southReflected,
-    west, westReflected
-  ]
+    north,
+    northReflected,
+    east,
+    eastReflected,
+    south,
+    southReflected,
+    west,
+    westReflected,
+  ];
 
-  const representations = new Set<string>()
-  const uniqueVariations: Variation[] = []
-  allVariations.forEach(variation => {
-    const representation = normalisedRepresentation(variation)
+  const representations = new Set<string>();
+  const uniqueVariations: Variation[] = [];
+  allVariations.forEach((variation) => {
+    const representation = normalisedRepresentation(variation);
     if (!representations.has(representation)) {
-      representations.add(representation)
-      uniqueVariations.push(variation)
+      representations.add(representation);
+      uniqueVariations.push(variation);
     }
-  })
+  });
 
-  return { label: piece.label, variations: uniqueVariations }
-}
+  return { label: piece.label, variations: uniqueVariations };
+};
 
-export const piecesWithVariations = pieces.map(findUniqueVariations)
+export const piecesWithVariations = pieces.map(findUniqueVariations);

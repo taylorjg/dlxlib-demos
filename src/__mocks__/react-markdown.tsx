@@ -1,9 +1,7 @@
-const ReactMarkdown: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return (
-    <>
-      {children}
-    </>
-  )
-}
+const ReactMarkdown: React.FunctionComponent<React.PropsWithChildren> = ({
+  children,
+}: React.PropsWithChildren) => {
+  return <>{children}</>;
+};
 
-export default ReactMarkdown
+export default ReactMarkdown;

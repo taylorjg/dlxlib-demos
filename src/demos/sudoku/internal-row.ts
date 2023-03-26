@@ -1,7 +1,7 @@
-import { Coords } from "types"
+import { Coords } from "types";
 
 export type InternalRow = {
-  coords: Coords
-  value: number,
-  isInitialValue: boolean
-}
+  coords: Coords;
+  value: number;
+  isInitialValue: boolean;
+};

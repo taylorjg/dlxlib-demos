@@ -1,11 +1,11 @@
-import { Orientation } from "./orientation"
-import { Drawing } from "./drawing"
-import { InternalRow } from "./internal-row"
-import { piecesWithVariations } from "./pieces-with-variations"
+import { Orientation } from "./orientation";
+import { Drawing } from "./drawing";
+import { InternalRow } from "./internal-row";
+import { piecesWithVariations } from "./pieces-with-variations";
 
 export const Thumbnail = () => {
-  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
-  const drawingOptions = { showLabels: false }
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution();
+  const drawingOptions = { showLabels: false };
 
   return (
     <Drawing
@@ -13,14 +13,14 @@ export const Thumbnail = () => {
       solutionInternalRows={solutionInternalRows}
       drawingOptions={drawingOptions}
     />
-  )
-}
+  );
+};
 
 export const makeThumbnailSolution = () => {
-  const puzzle = {}
-  const solutionInternalRows = makeSolution()
-  return { puzzle, solutionInternalRows }
-}
+  const puzzle = {};
+  const solutionInternalRows = makeSolution();
+  return { puzzle, solutionInternalRows };
+};
 
 const makeSolution = (): InternalRow[] => {
   return [
@@ -37,9 +37,9 @@ const makeSolution = (): InternalRow[] => {
     makeSolutionInternalRow("K", Orientation.North, 5, 4),
     makeSolutionInternalRow("L", Orientation.East, 0, 0),
     makeSolutionInternalRow("M", Orientation.North, 4, 3),
-    makeSolutionInternalRow("N", Orientation.East, 2, 2)
-  ]
-}
+    makeSolutionInternalRow("N", Orientation.East, 2, 2),
+  ];
+};
 
 const makeSolutionInternalRow = (
   label: string,
@@ -49,12 +49,14 @@ const makeSolutionInternalRow = (
 ): InternalRow => {
   for (const pwv of piecesWithVariations) {
     if (pwv.label === label) {
-      const variation = pwv.variations.find(v => v.orientation === orientation)
+      const variation = pwv.variations.find(
+        (v) => v.orientation === orientation
+      );
       if (variation) {
-        const location = { row, col }
-        return { label, variation, location }
+        const location = { row, col };
+        return { label, variation, location };
       }
     }
   }
-  throw new Error("[makeSolutionInternalRow] failed to find variation")
-}
+  throw new Error("[makeSolutionInternalRow] failed to find variation");
+};

@@ -1,33 +1,48 @@
-import { FormControl, FormLabel, FormControlLabel, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, FormGroup } from "@mui/material"
-import { DemoControlsProps } from "types"
-import { Puzzle } from "./puzzle"
-import { puzzles } from "./puzzles"
-import { StyledControls } from "./demo-controls.styles"
+import {
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Switch,
+  FormGroup,
+} from "@mui/material";
+import { DemoControlsProps } from "types";
+import { Puzzle } from "./puzzle";
+import { puzzles } from "./puzzles";
+import { StyledControls } from "./demo-controls.styles";
 
 export type DrawingOptions = {
-  showClues: boolean
-}
+  showClues: boolean;
+};
 
-export const DemoControls: React.FC<DemoControlsProps<Puzzle, DrawingOptions>> = ({
+export const DemoControls: React.FC<
+  DemoControlsProps<Puzzle, DrawingOptions>
+> = ({
   selectedPuzzle,
   drawingOptions,
   onSelectedPuzzleChanged,
-  onDrawingOptionsChanged
+  onDrawingOptionsChanged,
 }) => {
-
   const handleSelectedPuzzleChanged = (event: SelectChangeEvent<number>) => {
-    const index = Number(event.target.value)
-    onSelectedPuzzleChanged(puzzles[index])
-  }
+    const index = Number(event.target.value);
+    onSelectedPuzzleChanged(puzzles[index]);
+  };
 
-  const handleShowCluesChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const showClues = event.target.checked
-    const newDrawingOptions = { ...drawingOptions, showClues }
-    onDrawingOptionsChanged(newDrawingOptions)
-  }
+  const handleShowCluesChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const showClues = event.target.checked;
+    const newDrawingOptions = { ...drawingOptions, showClues };
+    onDrawingOptionsChanged(newDrawingOptions);
+  };
 
-  const selectedIndex = puzzles.findIndex(puzzle => puzzle === selectedPuzzle)
-  const selectPuzzleLabel = "Select a puzzle"
+  const selectedIndex = puzzles.findIndex(
+    (puzzle) => puzzle === selectedPuzzle
+  );
+  const selectPuzzleLabel = "Select a puzzle";
 
   return (
     <StyledControls>
@@ -39,9 +54,11 @@ export const DemoControls: React.FC<DemoControlsProps<Puzzle, DrawingOptions>> =
           label={selectPuzzleLabel}
           onChange={handleSelectedPuzzleChanged}
         >
-          {puzzles.map((puzzle, index) =>
-            <MenuItem key={index} value={index}>{puzzle.name}</MenuItem>
-          )}
+          {puzzles.map((puzzle, index) => (
+            <MenuItem key={index} value={index}>
+              {puzzle.name}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
 
@@ -62,5 +79,5 @@ export const DemoControls: React.FC<DemoControlsProps<Puzzle, DrawingOptions>> =
         />
       </FormGroup>
     </StyledControls>
-  )
-}
+  );
+};

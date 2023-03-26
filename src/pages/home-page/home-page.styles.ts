@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 export const StyledPage = styled.div`
   margin-top: 2rem;
@@ -18,4 +18,4 @@ export const StyledTiles = styled.div`
       margin-right: 1rem;
     }
   }
-`
+`;

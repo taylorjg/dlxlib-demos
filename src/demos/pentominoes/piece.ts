@@ -1,4 +1,4 @@
 export type Piece = {
-  label: string,
-  pattern: string[]
-}
+  label: string;
+  pattern: string[];
+};

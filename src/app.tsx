@@ -1,31 +1,27 @@
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material"
-import { Global } from "@emotion/react"
-import {
-  HashRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom"
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { Global } from "@emotion/react";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import * as Sudoku from "demos/sudoku"
-import * as Pentominoes from "demos/pentominoes"
-import * as DraughtboardPuzzle from "demos/draughtboard-puzzle"
-import * as NQueens from "demos/n-queens"
-import * as TetraSticks from "demos/tetrasticks"
-import * as AztecDiamond from "demos/aztec-diamond"
-import * as RippleEffect from "demos/ripple-effect"
-import * as FlowFree from "demos/flow-free"
-import * as Kakuro from "demos/kakuro"
-import * as Nonogram from "demos/nonogram"
-import * as Crossword from "demos/crossword"
-import * as Placeholder from "demos/placeholder"
-import { HomePage } from "pages/home-page"
-import { GlobalStyles } from "./app.styles"
+import * as Sudoku from "demos/sudoku";
+import * as Pentominoes from "demos/pentominoes";
+import * as DraughtboardPuzzle from "demos/draughtboard-puzzle";
+import * as NQueens from "demos/n-queens";
+import * as TetraSticks from "demos/tetrasticks";
+import * as AztecDiamond from "demos/aztec-diamond";
+import * as RippleEffect from "demos/ripple-effect";
+import * as FlowFree from "demos/flow-free";
+import * as Kakuro from "demos/kakuro";
+import * as Nonogram from "demos/nonogram";
+import * as Crossword from "demos/crossword";
+import * as Placeholder from "demos/placeholder";
+import { HomePage } from "pages/home-page";
+import { GlobalStyles } from "./app.styles";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "dark"
-  }
-})
+    mode: "dark",
+  },
+});
 
 export const App = () => {
   return (
@@ -76,5 +72,5 @@ export const App = () => {
         </Switch>
       </Router>
     </ThemeProvider>
-  )
-}
+  );
+};

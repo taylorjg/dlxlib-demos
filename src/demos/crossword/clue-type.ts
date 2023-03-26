@@ -1,1 +1,4 @@
-export enum ClueType { Across, Down }
+export enum ClueType {
+  Across,
+  Down,
+}

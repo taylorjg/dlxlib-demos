@@ -1,1 +1,4 @@
-export enum Colour { Black, White }
+export enum Colour {
+  Black,
+  White,
+}

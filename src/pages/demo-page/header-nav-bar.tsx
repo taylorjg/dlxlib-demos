@@ -1,10 +1,10 @@
-import { useState } from "react"
-import { useHistory } from "react-router-dom"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import MenuBookIcon from "@mui/icons-material/MenuBook"
-import { ReadmeModal } from "./readme-modal"
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import { ReadmeModal } from "./readme-modal";
 
-import { AvailableDemo } from "types"
+import { AvailableDemo } from "types";
 import {
   StyledHeaderNavBar,
   StyledBackLink,
@@ -14,30 +14,31 @@ import {
   StyledRightArea,
   StyledHelpLink,
   StyledHelpLinkIcon,
-} from "./header-nav-bar.styles"
+} from "./header-nav-bar.styles";
 
 export type HeaderNavBarProps = {
-  availableDemo: AvailableDemo
-}
+  availableDemo: AvailableDemo;
+};
 
-export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => {
-  const history = useHistory()
-  const [isReadmeModalOpen, setIsReadmeModalOpen] = useState(false)
+export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({
+  availableDemo,
+}) => {
+  const history = useHistory();
+  const [isReadmeModalOpen, setIsReadmeModalOpen] = useState(false);
 
-  const onBack = () => history.push("/")
+  const onBack = () => history.push("/");
 
   const openReadmeModal = () => {
-    setIsReadmeModalOpen(true)
-  }
+    setIsReadmeModalOpen(true);
+  };
 
   const closeReadmeModal = () => {
-    setIsReadmeModalOpen(false)
-  }
+    setIsReadmeModalOpen(false);
+  };
 
   return (
     <>
       <StyledHeaderNavBar data-testid="header-nav-bar">
-
         <StyledBackLink onClick={onBack}>
           <StyledBackLinkIcon>
             <ArrowBackIcon />
@@ -64,8 +65,7 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => 
             />
           </>
         )}
-
       </StyledHeaderNavBar>
     </>
-  )
-}
+  );
+};

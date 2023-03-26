@@ -1,10 +1,9 @@
-import { DemoPage as GenericDemoPage } from "pages/demo-page"
-import { Drawing } from "./drawing"
+import { DemoPage as GenericDemoPage } from "pages/demo-page";
+import { Drawing } from "./drawing";
 
 export const DemoPage = () => {
-
-  const puzzle = {}
-  const drawingOptions = {}
+  const puzzle = {};
+  const drawingOptions = {};
 
   return (
     <GenericDemoPage
@@ -12,5 +11,5 @@ export const DemoPage = () => {
       initialDrawingOptions={drawingOptions}
       Drawing={Drawing}
     />
-  )
-}
+  );
+};

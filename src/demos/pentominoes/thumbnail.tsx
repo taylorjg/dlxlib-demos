@@ -1,11 +1,11 @@
-import { Orientation } from "./orientation"
-import { Drawing } from "./drawing"
-import { InternalRow } from "./internal-row"
-import { piecesWithVariations } from "./pieces-with-variations"
+import { Orientation } from "./orientation";
+import { Drawing } from "./drawing";
+import { InternalRow } from "./internal-row";
+import { piecesWithVariations } from "./pieces-with-variations";
 
 export const Thumbnail = () => {
-  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
-  const drawingOptions = { showLabels: false }
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution();
+  const drawingOptions = { showLabels: false };
 
   return (
     <Drawing
@@ -13,14 +13,14 @@ export const Thumbnail = () => {
       solutionInternalRows={solutionInternalRows}
       drawingOptions={drawingOptions}
     />
-  )
-}
+  );
+};
 
 export const makeThumbnailSolution = () => {
-  const puzzle = {}
-  const solutionInternalRows = makeSolution()
-  return { puzzle, solutionInternalRows }
-}
+  const puzzle = {};
+  const solutionInternalRows = makeSolution();
+  return { puzzle, solutionInternalRows };
+};
 
 const makeSolution = (): InternalRow[] => {
   return [
@@ -35,9 +35,9 @@ const makeSolution = (): InternalRow[] => {
     makeSolutionInternalRow("W", Orientation.East, false, 0, 3),
     makeSolutionInternalRow("X", Orientation.North, false, 1, 4),
     makeSolutionInternalRow("Y", Orientation.East, true, 5, 0),
-    makeSolutionInternalRow("Z", Orientation.North, true, 4, 4)
-  ]
-}
+    makeSolutionInternalRow("Z", Orientation.North, true, 4, 4),
+  ];
+};
 
 const makeSolutionInternalRow = (
   label: string,
@@ -48,12 +48,14 @@ const makeSolutionInternalRow = (
 ): InternalRow => {
   for (const pwv of piecesWithVariations) {
     if (pwv.label === label) {
-      const variation = pwv.variations.find(v => v.orientation === orientation && v.reflected === reflected)
+      const variation = pwv.variations.find(
+        (v) => v.orientation === orientation && v.reflected === reflected
+      );
       if (variation) {
-        const location = { row, col }
-        return { label, variation, location }
+        const location = { row, col };
+        return { label, variation, location };
       }
     }
   }
-  throw new Error("[makeSolutionInternalRow] failed to find variation")
-}
+  throw new Error("[makeSolutionInternalRow] failed to find variation");
+};

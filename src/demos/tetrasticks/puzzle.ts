@@ -1,5 +1,5 @@
-import { Piece } from "./piece"
+import { Piece } from "./piece";
 
 export type Puzzle = {
-  pieceToOmit: Piece
-}
+  pieceToOmit: Piece;
+};

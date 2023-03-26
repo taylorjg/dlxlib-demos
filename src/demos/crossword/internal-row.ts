@@ -1,8 +1,8 @@
-import { Clue } from "./clue"
-import { Puzzle } from "./puzzle"
+import { Clue } from "./clue";
+import { Puzzle } from "./puzzle";
 
 export type InternalRow = {
-  puzzle: Puzzle,
-  clue: Clue,
-  candidate: string
-}
+  puzzle: Puzzle;
+  clue: Clue;
+  candidate: string;
+};

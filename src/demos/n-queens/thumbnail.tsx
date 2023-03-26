@@ -1,12 +1,12 @@
-import { last } from "utils"
-import { Drawing } from "./drawing"
-import { puzzles } from "./puzzles"
-import { Puzzle } from "./puzzle"
-import { InternalRow } from "./internal-row"
+import { last } from "utils";
+import { Drawing } from "./drawing";
+import { puzzles } from "./puzzles";
+import { Puzzle } from "./puzzle";
+import { InternalRow } from "./internal-row";
 
 export const Thumbnail = () => {
-  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
-  const drawingOptions = {}
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution();
+  const drawingOptions = {};
 
   return (
     <Drawing
@@ -14,14 +14,14 @@ export const Thumbnail = () => {
       solutionInternalRows={solutionInternalRows}
       drawingOptions={drawingOptions}
     />
-  )
-}
+  );
+};
 
 export const makeThumbnailSolution = () => {
-  const puzzle = last(puzzles)
-  const solutionInternalRows = makeSolution(puzzle)
-  return { puzzle, solutionInternalRows }
-}
+  const puzzle = last(puzzles);
+  const solutionInternalRows = makeSolution(puzzle);
+  return { puzzle, solutionInternalRows };
+};
 
 const makeSolution = (puzzle: Puzzle): InternalRow[] => {
   return [
@@ -32,11 +32,15 @@ const makeSolution = (puzzle: Puzzle): InternalRow[] => {
     makeInternalRow(puzzle, 4, 2),
     makeInternalRow(puzzle, 5, 6),
     makeInternalRow(puzzle, 6, 1),
-    makeInternalRow(puzzle, 7, 3)
-  ]
-}
+    makeInternalRow(puzzle, 7, 3),
+  ];
+};
 
-const makeInternalRow = (puzzle: Puzzle, row: number, col: number): InternalRow => {
-  const coords = { row, col }
-  return { puzzle, coords }
-}
+const makeInternalRow = (
+  puzzle: Puzzle,
+  row: number,
+  col: number
+): InternalRow => {
+  const coords = { row, col };
+  return { puzzle, coords };
+};

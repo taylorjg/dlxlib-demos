@@ -1,6 +1,6 @@
-import { Variation } from "./variation"
+import { Variation } from "./variation";
 
 export type PieceWithVariations = {
-  label: string,
-  variations: Variation[]
-}
+  label: string;
+  variations: Variation[];
+};

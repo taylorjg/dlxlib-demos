@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 export const StyledPage = styled.div`
   padding: 3rem 5rem 2rem 5rem;
@@ -9,7 +9,7 @@ export const StyledPage = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-`
+`;
 
 export const StyledMainContent = styled.div`
   padding: 2rem 0;
@@ -17,10 +17,10 @@ export const StyledMainContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
-  border: ${({ hideBorder }) => hideBorder ? "unset" : "2px solid grey"};
+  border: ${({ hideBorder }) => (hideBorder ? "unset" : "2px solid grey")};
   @supports (aspect-ratio: 1) {
     height: 100%;
     max-height: 90vw;
@@ -30,7 +30,7 @@ export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
     width: min(50vw, 50vh);
     height: min(50vw, 50vh);
   }
-`
+`;
 
 export const StyledErrorPage = styled.div`
   width: 100%;
@@ -40,9 +40,9 @@ export const StyledErrorPage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 export const StyledError = styled.div`
   border: 1px solid grey;
   padding: 1rem;
-`
+`;

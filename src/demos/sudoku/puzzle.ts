@@ -1,6 +1,6 @@
-import { InitialValue } from "./initial-value"
+import { InitialValue } from "./initial-value";
 
 export type Puzzle = {
-  name: string,
-  initialValues: InitialValue[]
-}
+  name: string;
+  initialValues: InitialValue[];
+};

@@ -1,4 +1,4 @@
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 export const StyledControls = styled.div`
   display: flex;
@@ -10,4 +10,4 @@ export const StyledControls = styled.div`
       margin-right: 2rem;
     }
   }
-`
+`;

@@ -1,3 +1,3 @@
-export * from "./demo"
-export * from "./demo-page"
-export * from "./thumbnail"
+export * from "./demo";
+export * from "./demo-page";
+export * from "./thumbnail";
