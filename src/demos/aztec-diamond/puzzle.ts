@@ -1,2 +1,1 @@
-export type Puzzle = {
-}
+export type Puzzle = {}
