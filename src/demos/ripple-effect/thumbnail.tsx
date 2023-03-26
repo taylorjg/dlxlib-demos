@@ -6,7 +6,7 @@ import { Puzzle } from "./puzzle"
 import { puzzles } from "./puzzles"
 
 export const Thumbnail = () => {
-  const { puzzle, solutionInternalRows } = makeThumbnailSoution()
+  const { puzzle, solutionInternalRows } = makeThumbnailSolution()
   const drawingOptions = {}
 
   return (
@@ -18,7 +18,7 @@ export const Thumbnail = () => {
   )
 }
 
-export const makeThumbnailSoution = () => {
+export const makeThumbnailSolution = () => {
   const puzzle = first(puzzles)
   const solution = [
     "23124521",
