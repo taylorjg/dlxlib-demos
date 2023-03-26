@@ -1,3 +1,5 @@
+![CI workflow status](https://github.com/taylorjg/dlxlib-demos/actions/workflows/ci.yml/badge.svg)
+
 # Description
 
 This web app demonstrates how to use Donald Knuth's Algorithm X to solve the following puzzles:
