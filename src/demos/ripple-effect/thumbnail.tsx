@@ -46,7 +46,10 @@ const parseSolution = (puzzle: Puzzle, solution: string[]): InternalRow[] => {
       );
       const room = puzzle.rooms.find((room) =>
         room.cells.some((roomCell) => sameCoords(roomCell, cell))
-      )!;
+      );
+      if (!room) {
+        throw new Error(`[parseSolution] failed to find room`);
+      }
       const internalRow = { puzzle, cell, value, isInitialValue, room };
       internalRows.push(internalRow);
     }

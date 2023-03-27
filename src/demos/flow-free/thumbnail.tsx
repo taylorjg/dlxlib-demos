@@ -39,7 +39,12 @@ const makeInternalRow = (
   label: string,
   coordsListString: string
 ): InternalRow => {
-  const colourPair = puzzle.colourPairs.find((cp) => cp.label === label)!;
+  const colourPair = puzzle.colourPairs.find((cp) => cp.label === label);
+  if (!colourPair) {
+    throw new Error(
+      `[makeInternalRow] failed to lookup colour pair for label ${label}`
+    );
+  }
   const coordsList = parseCoordsListString(coordsListString);
   return { puzzle, colourPair, coordsList };
 };

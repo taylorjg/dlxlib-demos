@@ -43,13 +43,19 @@ const parseSolution = (puzzle: Puzzle, solution: string[]): InternalRow[] => {
   const solutionInternalRows: InternalRow[] = [];
 
   for (const runGroup of puzzle.horizontalRunGroups) {
-    const coordsLists = horizontalRunsDict.get(runGroup.row)!;
+    const coordsLists = horizontalRunsDict.get(runGroup.row);
+    if (!coordsLists) {
+      throw new Error(`[parseSolution] row not in horizontalRunsDict`);
+    }
     const solutionInternalRow = { puzzle, runGroup, coordsLists };
     solutionInternalRows.push(solutionInternalRow);
   }
 
   for (const runGroup of puzzle.verticalRunGroups) {
-    const coordsLists = verticalRunsDict.get(runGroup.col)!;
+    const coordsLists = verticalRunsDict.get(runGroup.col);
+    if (!coordsLists) {
+      throw new Error(`[parseSolution] col not in verticalRunsDict`);
+    }
     const solutionInternalRow = { puzzle, runGroup, coordsLists };
     solutionInternalRows.push(solutionInternalRow);
   }

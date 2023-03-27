@@ -16,14 +16,24 @@ const makePuzzle = (
   const clues: Clue[] = [];
 
   for (const [clueNumber, coordsList] of acrossClues) {
-    const candidates = acrossClueCandidates.get(clueNumber)!;
+    const candidates = acrossClueCandidates.get(clueNumber);
+    if (!candidates) {
+      throw new Error(
+        `[makePuzzle] failed to find candidates for across clue number ${clueNumber}`
+      );
+    }
     const clueType = ClueType.Across;
     const clue = { clueType, clueNumber, coordsList, candidates };
     clues.push(clue);
   }
 
   for (const [clueNumber, coordsList] of downClues) {
-    const candidates = downClueCandidates.get(clueNumber)!;
+    const candidates = downClueCandidates.get(clueNumber);
+    if (!candidates) {
+      throw new Error(
+        `[makePuzzle] failed to find candidates for down clue number ${clueNumber}`
+      );
+    }
     const clueType = ClueType.Down;
     const clue = { clueType, clueNumber, coordsList, candidates };
     clues.push(clue);

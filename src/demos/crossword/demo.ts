@@ -59,7 +59,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
 
   encodeLetter(letter: string, clueType: ClueType): number[] {
     const upperLetter = letter.toLocaleUpperCase();
-    const index = upperLetter.codePointAt(0)! - "A".codePointAt(0)!;
+    const index = upperLetter.charCodeAt(0) - "A".charCodeAt(0);
     const [onValue, offValue] = clueType === ClueType.Across ? [1, 0] : [0, 1];
     const columns = Array(26).fill(offValue);
     columns[index] = onValue;

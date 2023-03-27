@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import EventEmitter from "events";
 import { DataObject } from "./dataObject";
 import { ColumnObject } from "./columnObject";

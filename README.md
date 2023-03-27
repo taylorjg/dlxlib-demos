@@ -61,10 +61,10 @@ _TODO_
 * [ ] UI/styling improvements to demo page
 * [ ] Responsive UI improvements to home page
 * [ ] Responsive UI improvements to demo page
-* [ ] Add more unit tests
+* [x] Add more unit tests
 * [ ] Add some end-to-end tests
-* [ ] Add eslint
-* [ ] Add prettier
+* [x] Add eslint
+* [x] Add prettier
 
 # Links
 

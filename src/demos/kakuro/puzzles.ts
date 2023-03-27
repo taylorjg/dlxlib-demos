@@ -62,21 +62,23 @@ const findRun = (
 };
 
 const findHorizontalRuns = (unknowns: Coords[], clues: Clue[]): Run[] => {
-  return clues
-    .filter((clue) => clue.acrossSum !== undefined)
-    .map((clue) => {
+  return clues.flatMap((clue) => {
+    if (clue.acrossSum) {
       const coordsList = findRun(unknowns, clue.coords, goRight);
-      return { runType: RunType.Horizontal, coordsList, sum: clue.acrossSum! };
-    });
+      return [{ runType: RunType.Horizontal, coordsList, sum: clue.acrossSum }];
+    }
+    return [];
+  });
 };
 
 const findVerticalRuns = (unknowns: Coords[], clues: Clue[]): Run[] => {
-  return clues
-    .filter((clue) => clue.downSum !== undefined)
-    .map((clue) => {
+  return clues.flatMap((clue) => {
+    if (clue.downSum) {
       const coordsList = findRun(unknowns, clue.coords, goDown);
-      return { runType: RunType.Vertical, coordsList, sum: clue.downSum! };
-    });
+      return { runType: RunType.Vertical, coordsList, sum: clue.downSum };
+    }
+    return [];
+  });
 };
 
 const parseClues = (
@@ -97,7 +99,10 @@ const parseClue = (
   const bits = clueString.split(":").map((s) => s.trim());
   const label = bits[0];
   const sumsString = bits[1];
-  const coords = labelDict.get(label)!;
+  const coords = labelDict.get(label);
+  if (!coords) {
+    throw new Error(`[parseClue] failed to find label ${label} in labelDict`);
+  }
 
   const parseSum = (sumString: string): number | undefined => {
     const sum = Number(sumString);

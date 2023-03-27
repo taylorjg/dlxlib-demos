@@ -92,11 +92,21 @@ export const outsideEdgesToBorderLocations = (
   const borderLocations: Coords[] = [];
   const seenOutsideEdges: OutsideEdge[] = [];
 
-  const findNextOutsideEdge = (coords: Coords): OutsideEdge =>
-    except(outsideEdges, seenOutsideEdges, sameOutsideEdge).find(
+  const findNextOutsideEdge = (coords: Coords): OutsideEdge => {
+    const unseenOutsideEdges = except(
+      outsideEdges,
+      seenOutsideEdges,
+      sameOutsideEdge
+    );
+    const nextOutsideEdge = unseenOutsideEdges.find(
       ({ coords1, coords2 }) =>
         sameCoords(coords1, coords) || sameCoords(coords2, coords)
-    )!;
+    );
+    if (!nextOutsideEdge) {
+      throw new Error(`[findNextOutsideEdge] failed to find next outside edge`);
+    }
+    return nextOutsideEdge;
+  };
 
   const firstOutsideEdge = first(outsideEdges);
   borderLocations.push(firstOutsideEdge.coords1);
