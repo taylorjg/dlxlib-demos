@@ -1,5 +1,12 @@
 import { useRef } from "react";
-import { Mode } from "types";
+import {
+  Mode,
+  WorkerToUIErrorMessage,
+  WorkerToUIFinishedMessage,
+  WorkerToUIMessage,
+  WorkerToUISearchStepMessage,
+  WorkerToUISolutionFoundMessage,
+} from "types";
 import { stop } from "worker/stop-token";
 import { makeWorker } from "use-worker-utils";
 
@@ -28,31 +35,33 @@ export const useWorker = () => {
     stopTokenRef.current = stopToken;
     const worker = getWorker();
     worker.postMessage({ type: "solve", stopToken, shortName, puzzle, mode });
-    worker.onmessage = (ev: MessageEvent<any>) => {
+    worker.onmessage = (ev: MessageEvent<WorkerToUIMessage>) => {
       console.log("[useWorker#solve]", "ev.data.type:", ev.data.type);
 
       if (ev.data.type === "searchStep") {
-        const solutionInternalRows = ev.data
-          .solutionInternalRows as TInternalRow[];
-        onSearchStep(solutionInternalRows);
+        const message = ev.data as WorkerToUISearchStepMessage;
+        const { solutionInternalRows } = message;
+        onSearchStep(solutionInternalRows as TInternalRow[]);
       }
 
       if (ev.data.type === "solutionFound") {
-        const solutionInternalRows = ev.data
-          .solutionInternalRows as TInternalRow[];
-        onSolutionFound(solutionInternalRows);
+        const message = ev.data as WorkerToUISolutionFoundMessage;
+        const { solutionInternalRows } = message;
+        onSolutionFound(solutionInternalRows as TInternalRow[]);
       }
 
       if (ev.data.type === "finished") {
-        const numSolutionsFound = ev.data.numSolutionsFound as number;
+        const message = ev.data as WorkerToUIFinishedMessage;
+        const { numSolutionsFound } = message;
         onFinished(numSolutionsFound);
         _cleanup();
       }
 
       if (ev.data.type === "error") {
-        const message = ev.data.message as string;
-        console.log("[useWorker#solve]", "error message:", message);
-        onError(message);
+        const message = ev.data as WorkerToUIErrorMessage;
+        const { errorMessage } = message;
+        console.log("[useWorker#solve]", "errorMessage:", errorMessage);
+        onError(errorMessage);
         _cleanup();
       }
 

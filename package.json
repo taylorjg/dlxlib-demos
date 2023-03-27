@@ -36,8 +36,8 @@
     "predeploy": "npm run build",
     "open": "open https://taylorjg.github.io/dlxlib-demos",
     "test:once": "npm test -- --watchAll=false",
-    "eslint": "eslint .",
-    "eslint:fix": "eslint --fix ."
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "eslintConfig": {
     "extends": [

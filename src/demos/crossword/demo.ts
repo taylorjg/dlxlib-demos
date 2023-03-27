@@ -7,7 +7,7 @@ import { Puzzle } from "./puzzle";
 export class Demo implements IDemo<Puzzle, InternalRow> {
   buildInternalRows(
     puzzle: Puzzle,
-    checkForCancellation: () => boolean
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     const internalRows: InternalRow[] = [];
 
@@ -25,7 +25,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     return this.makeColumns(internalRow);
   }
 
-  getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: Puzzle): number | undefined {
     return undefined;
   }
 

@@ -6,7 +6,7 @@ import { findPaths } from "./path-finder";
 export class Demo implements IDemo<Puzzle, InternalRow> {
   buildInternalRows(
     puzzle: Puzzle,
-    checkForCancellation: () => boolean
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     const internalRows: InternalRow[] = [];
     for (const colourPair of puzzle.colourPairs) {
@@ -29,7 +29,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     return columns;
   }
 
-  getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: Puzzle): number | undefined {
     return undefined;
   }
 }

@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ["react", "react-hooks", "@typescript-eslint"],
   rules: {
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     "react/react-in-jsx-scope": ["off"],
   },
   settings: {

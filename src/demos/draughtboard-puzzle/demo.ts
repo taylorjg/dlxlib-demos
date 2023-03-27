@@ -6,8 +6,8 @@ import { piecesWithVariations } from "./pieces-with-variations";
 
 export class Demo implements IDemo<EmptyPuzzle, InternalRow> {
   buildInternalRows(
-    puzzle: EmptyPuzzle,
-    checkForCancellation: () => boolean
+    _puzzle: EmptyPuzzle,
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     return this.allPossiblePiecePlacements().filter((internalRow) =>
       this.isValidPiecePlacement(internalRow)
@@ -20,7 +20,7 @@ export class Demo implements IDemo<EmptyPuzzle, InternalRow> {
     return pieceColumns.concat(locationColumns);
   }
 
-  getNumPrimaryColumns(puzzle: EmptyPuzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: EmptyPuzzle): number | undefined {
     return undefined;
   }
 

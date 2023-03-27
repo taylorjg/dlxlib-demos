@@ -6,7 +6,7 @@ import { Puzzle } from "./puzzle";
 export class Demo implements IDemo<Puzzle, InternalRow> {
   buildInternalRows(
     puzzle: Puzzle,
-    checkForCancellation: () => boolean
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     const internalRows: InternalRow[] = [];
 
@@ -67,7 +67,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
 
   makeRippleColumns(internalRow: InternalRow): number[] {
     const { size, maxValue } = internalRow.puzzle;
-    const arrayOfArrays: number[][] = range(maxValue * 4).map((_) =>
+    const arrayOfArrays: number[][] = range(maxValue * 4).map(() =>
       Array(size * size).fill(0)
     );
     const baseIndex = (internalRow.value - 1) * 4;

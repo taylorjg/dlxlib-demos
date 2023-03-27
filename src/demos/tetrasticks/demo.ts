@@ -8,7 +8,7 @@ import { Puzzle } from "./puzzle";
 export class Demo implements IDemo<Puzzle, InternalRow> {
   buildInternalRows(
     puzzle: Puzzle,
-    checkForCancellation: () => boolean
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     return this.allPossiblePiecePlacements(puzzle).filter(
       this.isValidPiecePlacement
@@ -26,7 +26,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       .concat(junctionsColumns);
   }
 
-  getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: Puzzle): number | undefined {
     const numPieces = 15;
     const numHorizontals = 30;
     const numVerticals = 30;

@@ -105,3 +105,48 @@ export enum Mode {
   FirstSolution,
   SearchSteps,
 }
+
+export type UIToWorkerSolveMessage = {
+  type: string;
+  stopToken: string;
+  shortName: string;
+  puzzle: unknown;
+  mode: Mode;
+};
+
+export type UIToWorkerCloseMessage = {
+  type: string;
+};
+
+export type UIToWorkerMessage = UIToWorkerSolveMessage | UIToWorkerCloseMessage;
+
+export type WorkerToUISearchStepMessage = {
+  type: string;
+  solutionInternalRows: unknown[];
+};
+
+export type WorkerToUISolutionFoundMessage = {
+  type: string;
+  solutionInternalRows: unknown[];
+};
+
+export type WorkerToUIFinishedMessage = {
+  type: string;
+  numSolutionsFound: number;
+};
+
+export type WorkerToUIErrorMessage = {
+  type: string;
+  errorMessage: string;
+};
+
+export type WorkerToUICancelledMessage = {
+  type: string;
+};
+
+export type WorkerToUIMessage =
+  | WorkerToUISearchStepMessage
+  | WorkerToUISolutionFoundMessage
+  | WorkerToUIFinishedMessage
+  | WorkerToUIErrorMessage
+  | WorkerToUICancelledMessage;

@@ -7,7 +7,7 @@ import { Puzzle } from "./puzzle";
 export class Demo implements IDemo<Puzzle, InternalRow> {
   buildInternalRows(
     puzzle: Puzzle,
-    checkForCancellation: () => boolean
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     const allCoords = range(9).flatMap((row) =>
       range(9).map((col) => ({ row, col }))
@@ -57,7 +57,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     return Math.floor(row - (row % 3) + col / 3);
   }
 
-  getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: Puzzle): number | undefined {
     return undefined;
   }
 }

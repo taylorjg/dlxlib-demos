@@ -7,8 +7,8 @@ import { makeThumbnailSolution } from "./thumbnail";
 
 export class Demo implements IDemo<EmptyPuzzle, InternalRow> {
   buildInternalRows(
-    puzzle: EmptyPuzzle,
-    checkForCancellation: () => boolean
+    _puzzle: EmptyPuzzle,
+    _checkForCancellation: () => boolean
   ): InternalRow[] {
     return this.allPossiblePiecePlacements(5).filter(
       this.isValidPiecePlacement
@@ -26,7 +26,7 @@ export class Demo implements IDemo<EmptyPuzzle, InternalRow> {
       .concat(junctionsColumns);
   }
 
-  getNumPrimaryColumns(puzzle: EmptyPuzzle): number | undefined {
+  getNumPrimaryColumns(_puzzle: EmptyPuzzle): number | undefined {
     const numPieces = piecesWithVariations.length;
     const numHorizontals = allHorizontals.length;
     const numVerticals = allVerticals.length;

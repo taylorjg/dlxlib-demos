@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 
 import * as dlxlib from "dlxlib/dlx";
-import { Mode, IDemo } from "types";
+import { Mode, IDemo, UIToWorkerMessage, UIToWorkerSolveMessage } from "types";
 import { checkStopToken } from "./stop-token";
 import { timeIt } from "./time-it";
 
@@ -50,7 +50,7 @@ type SolutionFoundEvent = {
 const onSolve = (
   stopToken: string,
   shortName: string,
-  puzzle: any,
+  puzzle: unknown,
   mode: Mode
 ) => {
   const checkForCancellation = (sendMessage = false) => {
@@ -154,14 +154,12 @@ const onSolve = (
   self.postMessage({ type: "finished", numSolutionsFound: solutions.length });
 };
 
-self.onmessage = (ev: MessageEvent<any>) => {
+self.onmessage = (ev: MessageEvent<UIToWorkerMessage>) => {
   try {
     console.log("[worker onmessage]", "ev.data.type:", ev.data.type);
     if (ev.data.type === "solve") {
-      const stopToken = ev.data.stopToken as string;
-      const shortName = ev.data.shortName as string;
-      const mode = ev.data.mode as Mode;
-      const { puzzle } = ev.data;
+      const message = ev.data as UIToWorkerSolveMessage;
+      const { stopToken, shortName, puzzle, mode } = message;
       timeIt("onSolve", () => onSolve(stopToken, shortName, puzzle, mode));
       return;
     }
@@ -173,9 +171,9 @@ self.onmessage = (ev: MessageEvent<any>) => {
   } catch (error) {
     console.error("error:", error);
     if (error instanceof Error) {
-      self.postMessage({ type: "error", message: error.message });
+      self.postMessage({ type: "error", errorMessage: error.message });
     } else {
-      self.postMessage({ type: "error", message: String(error) });
+      self.postMessage({ type: "error", errorMessage: String(error) });
     }
   }
 };
