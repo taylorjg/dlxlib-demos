@@ -221,18 +221,36 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     return range(internalRow.run.coordsList.length).map((index) => {
       const coords = internalRow.run.coordsList[index];
       const value = internalRow.values[index];
-      return drawValue(coords, value);
+      return drawValue("horizontal", coords, value);
     });
   };
 
-  const drawValue = (coords: Coords, value: number): JSX.Element => {
+  const drawVerticalRuns = (): JSX.Element[] => {
+    return solutionInternalRows
+      .filter((internalRow) => internalRow.run.runType === RunType.Vertical)
+      .flatMap(drawVerticalRun);
+  };
+
+  const drawVerticalRun = (internalRow: InternalRow): JSX.Element[] => {
+    return range(internalRow.run.coordsList.length).map((index) => {
+      const coords = internalRow.run.coordsList[index];
+      const value = internalRow.values[index];
+      return drawValue("vertical", coords, value);
+    });
+  };
+
+  const drawValue = (
+    runType: string,
+    coords: Coords,
+    value: number
+  ): JSX.Element => {
     const { row, col } = coords;
     const cx = calculateX(col) + SQUARE_WIDTH / 2;
     const cy = calculateY(row) + SQUARE_WIDTH / 2;
 
     return (
       <text
-        key={`value-${row}-${col}`}
+        key={`value-${runType}-${row}-${col}`}
         x={cx}
         y={cy}
         fill={VALUE_COLOUR}
@@ -253,6 +271,7 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
       {drawBlocks()}
       {drawClues()}
       {drawHorizontalRuns()}
+      {drawVerticalRuns()}
     </svg>
   );
 };
