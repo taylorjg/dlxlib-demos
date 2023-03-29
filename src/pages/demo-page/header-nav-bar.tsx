@@ -40,7 +40,7 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => 
 
         <StyledBackLink onClick={onBack}>
           <StyledBackLinkIcon>
-            <ArrowBackIcon />
+            <ArrowBackIcon titleAccess="Back to home page" />
           </StyledBackLinkIcon>
           {/* <StyledBackLinkText>Back</StyledBackLinkText> */}
         </StyledBackLink>
@@ -52,7 +52,7 @@ export const HeaderNavBar: React.FC<HeaderNavBarProps> = ({ availableDemo }) => 
             <StyledRightArea>
               <StyledHelpLink onClick={openReadmeModal}>
                 <StyledHelpLinkIcon>
-                  <MenuBookIcon />
+                  <MenuBookIcon titleAccess="Show DLX matrix details" />
                 </StyledHelpLinkIcon>
               </StyledHelpLink>
             </StyledRightArea>
