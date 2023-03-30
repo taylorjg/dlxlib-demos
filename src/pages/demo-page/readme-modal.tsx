@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Dialog,
+  IconButton,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -19,6 +27,9 @@ export const ReadmeModal: React.FunctionComponent<ReadmeModalProps> = ({
   open,
   onClose,
 }: ReadmeModalProps) => {
+  const theme = useTheme();
+  const mediaQuery = theme.breakpoints.down("md");
+  const isSmallScreen = useMediaQuery(mediaQuery);
   const [readmeMarkdown, setReadmeMarkdown] = useState("");
 
   useEffect(() => {
@@ -30,7 +41,13 @@ export const ReadmeModal: React.FunctionComponent<ReadmeModalProps> = ({
   });
 
   return (
-    <Dialog fullScreen open={open} onClose={onClose}>
+    <Dialog
+      fullScreen={isSmallScreen}
+      maxWidth="md"
+      fullWidth={true}
+      open={open}
+      onClose={onClose}
+    >
       <AppBar sx={{ position: "relative" }}>
         <Toolbar>
           <IconButton
@@ -42,7 +59,7 @@ export const ReadmeModal: React.FunctionComponent<ReadmeModalProps> = ({
             <CloseIcon />
           </IconButton>
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            {demoName}
+            DLX Matrix Details: {demoName}
           </Typography>
         </Toolbar>
       </AppBar>
