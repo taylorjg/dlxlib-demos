@@ -1,5 +1,3 @@
-# DLX Matrix Details
-
 ## Rows
 
 ### Description
