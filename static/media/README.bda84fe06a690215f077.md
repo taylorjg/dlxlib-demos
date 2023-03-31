@@ -3,7 +3,9 @@
 ### Description
 
 Each piece can be placed on the board at many different locations. We also have orientation
-to consider. We can eliminate some possibilities due to symmetry. We end up with many rows for each piece
+to consider. We can eliminate some possibilities due to symmetry. In addition, we only consider
+placements that honour the board colours i.e. the colours of the squares that make up each piece
+must match the colours of the board squares that they cover. We end up with many rows for each piece
 with each row describing a specific combination of piece, location and orientation. A solution
 will have a row for each piece.
 
