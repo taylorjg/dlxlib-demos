@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
 
+export const StyledTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const StyledContent = styled.div`
-  padding: 1rem 2rem;
   table {
     border-collapse: collapse;
   }

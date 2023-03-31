@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  AppBar,
   Dialog,
+  DialogTitle,
+  DialogContent,
   IconButton,
-  Toolbar,
   Typography,
   useMediaQuery,
   useTheme,
@@ -12,7 +12,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import axios from "axios";
-import { StyledContent } from "./readme-modal.styles";
+import { StyledContent, StyledTitle } from "./readme-modal.styles";
 
 export type ReadmeModalProps = {
   demoName: string;
@@ -48,26 +48,23 @@ export const ReadmeModal: React.FunctionComponent<ReadmeModalProps> = ({
       open={open}
       onClose={onClose}
     >
-      <AppBar sx={{ position: "relative" }}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={onClose}
-            aria-label="close"
-          >
+      <DialogTitle>
+        <StyledTitle>
+          <Typography variant="h5" component="div">
+            {demoName}
+          </Typography>
+          <IconButton onClick={onClose} aria-label="close">
             <CloseIcon />
           </IconButton>
-          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            DLX Matrix Details: {demoName}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <StyledContent>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {readmeMarkdown}
-        </ReactMarkdown>
-      </StyledContent>
+        </StyledTitle>
+      </DialogTitle>
+      <DialogContent dividers>
+        <StyledContent>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {readmeMarkdown}
+          </ReactMarkdown>
+        </StyledContent>
+      </DialogContent>
     </Dialog>
   );
 };
