@@ -6,7 +6,7 @@ export const GlobalStyles = css`
   #root {
     margin: 0;
     padding: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
   }
 `;
