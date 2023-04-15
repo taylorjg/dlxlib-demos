@@ -7,8 +7,12 @@ export const GlobalStyles = css`
     margin: 0;
     padding: 0;
     width: 100vw; /* fallback */
-    width: 100dvw;
+    @supports (width: 100dvw) {
+      width: 100dvw;
+    }
     height: 100vh; /* fallback */
-    height: 100dvh;
+    @supports (height: 100dvh) {
+      height: 100dvh;
+    }
   }
 `;
