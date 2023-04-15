@@ -6,9 +6,9 @@ export const GlobalStyles = css`
   #root {
     margin: 0;
     padding: 0;
-    width: 100dvw;
     width: 100vw; /* fallback */
-    height: 100dvh;
+    width: 100dvw;
     height: 100vh; /* fallback */
+    height: 100dvh;
   }
 `;

@@ -8,8 +8,8 @@ export const StyledPage = styled.div`
   }
   display: flex;
   flex-direction: column;
-  height: 100dvh;
   height: 100vh; /* fallback */
+  height: 100dvh;
 `;
 
 export const StyledMainContent = styled.div`
