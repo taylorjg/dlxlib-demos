@@ -4,8 +4,8 @@ export const StyledTile = styled.div`
   padding-left: 1rem;
   display: grid;
   grid-template-columns: 3fr 4fr;
-  max-width: min(20rem, 90dvw);
-  min-height: calc(min(20rem, 90dvw) * 9 / 16);
+  max-width: min(20rem, 90vw);
+  min-height: calc(min(20rem, 90vw) * 9 / 16);
   border: 1px solid grey;
   cursor: pointer;
 `;
@@ -24,6 +24,6 @@ export const StyledRightColumn = styled.div`
 
 export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
   border: ${({ hideBorder }) => (hideBorder ? "unset" : "1px solid grey")};
-  width: calc(min(20rem, 90dvw) * 3 / 7);
-  height: calc(min(20rem, 90dvw) * 3 / 7);
+  width: calc(min(20rem, 90vw) * 3 / 7);
+  height: calc(min(20rem, 90vw) * 3 / 7);
 `;

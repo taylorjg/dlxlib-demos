@@ -10,7 +10,7 @@ export const StyledTiles = styled.div`
   width: 100%;
   height: fit-content;
   display: grid;
-  grid-template-columns: repeat(auto-fill, min(20rem, calc(90dvw)));
+  grid-template-columns: repeat(auto-fill, min(20rem, 90vw));
   justify-content: center;
   gap: 1rem;
 `;

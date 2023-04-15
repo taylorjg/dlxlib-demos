@@ -26,12 +26,12 @@ export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
   border: ${({ hideBorder }) => (hideBorder ? "unset" : "2px solid grey")};
   @supports (aspect-ratio: 1) {
     height: 100%;
-    max-height: 90dvw;
+    max-height: 90vw;
     aspect-ratio: 1;
   }
   @supports not (aspect-ratio: 1) {
-    width: min(50dvw, 50dvh);
-    height: min(50dvw, 50dvh);
+    width: min(50vw, 50vh);
+    height: min(50vw, 50vh);
   }
 `;
 
