@@ -8,10 +8,8 @@ export const StyledPage = styled.div`
   }
   display: flex;
   flex-direction: column;
-  height: 100vh; /* fallback */
-  @supports (height: 100dvh) {
-    height: 100dvh;
-  }
+  height: 100vh; /* fallback if dvh on next line is not recognised */
+  height: 100dvh;
 `;
 
 export const StyledMainContent = styled.div`
@@ -25,9 +23,9 @@ export const StyledMainContent = styled.div`
 export const StyledDrawingWrapper = styled.div<{ hideBorder: boolean }>`
   border: ${({ hideBorder }) => (hideBorder ? "unset" : "2px solid grey")};
   @supports (aspect-ratio: 1) {
+    aspect-ratio: 1;
     height: 100%;
     max-height: 90vw;
-    aspect-ratio: 1;
   }
   @supports not (aspect-ratio: 1) {
     width: min(50vw, 50vh);
