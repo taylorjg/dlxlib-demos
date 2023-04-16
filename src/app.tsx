@@ -15,7 +15,8 @@ import * as Nonogram from "demos/nonogram";
 import * as Crossword from "demos/crossword";
 import * as Placeholder from "demos/placeholder";
 import { HomePage } from "pages/home-page";
-import { GlobalStyles } from "./app.styles";
+import { Header } from "header";
+import { GlobalStyles } from "app.styles";
 
 const darkTheme = createTheme({
   palette: {
@@ -28,6 +29,7 @@ export const App = () => {
     <ThemeProvider theme={darkTheme}>
       <Global styles={GlobalStyles} />
       <CssBaseline />
+      <Header />
       <Router>
         <Switch>
           <Route path="/" exact>

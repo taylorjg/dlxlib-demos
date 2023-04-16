@@ -14,8 +14,15 @@
   <style>
     #gh-star {
       position: fixed;
-      top: .5rem;
-      left: .5rem;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+    #gh-star span {
+      height: 2rem;
+      padding-left: 0.5rem;
+      display: flex;
+      align-items: center;
     }
   </style>
   <!-- Google tag (gtag.js) -->
@@ -31,11 +38,11 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <span id="gh-star">
+  <div id="gh-star">
     <a class="github-button" href="https://github.com/taylorjg/dlxlib-demos"
       data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star"
       data-show-count="true" aria-label="Star taylorjg/dlxlib-demos on GitHub">Star</a>
-  </span>
+  </div>
   <div id="root"></div>
 </body>
 

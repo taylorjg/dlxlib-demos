@@ -8,7 +8,7 @@ export const StyledPage = styled.div`
   }
   display: flex;
   flex-direction: column;
-  height: 100vh; /* fallback if dvh on next line is not recognised */
+  height: 90vh; /* fallback if dvh on next line is not recognised */
   height: 100dvh;
 `;
 
