@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { lookupAvailableDemoByShortName } from "available-demos";
@@ -6,7 +7,9 @@ import { ActionControls } from "./action-controls";
 import { NavigationControls } from "./navigation-controls";
 import {
   StyledPage,
-  StyledMainContent,
+  StyledGrid,
+  StyledControlsContent,
+  StyledDrawingContent,
   StyledDrawingWrapper,
   StyledErrorPage,
   StyledError,
@@ -228,36 +231,40 @@ export function DemoPage<TPuzzle, TInternalRow, TDrawingOptions>(
   return (
     <StyledPage>
       <HeaderNavBar availableDemo={availableDemo} />
-      <StyledMainContent>
-        <StyledDrawingWrapper hideBorder={availableDemo.hideBorder}>
-          <Drawing
-            puzzle={selectedPuzzle}
-            solutionInternalRows={solutionInternalRows}
-            drawingOptions={drawingOptions}
+      <StyledGrid>
+        <StyledDrawingContent>
+          <StyledDrawingWrapper hideBorder={availableDemo.hideBorder}>
+            <Drawing
+              puzzle={selectedPuzzle}
+              solutionInternalRows={solutionInternalRows}
+              drawingOptions={drawingOptions}
+            />
+          </StyledDrawingWrapper>
+        </StyledDrawingContent>
+        <StyledControlsContent>
+          {DemoControls && (
+            <DemoControls
+              selectedPuzzle={selectedPuzzle}
+              drawingOptions={drawingOptions}
+              onSelectedPuzzleChanged={onSelectedPuzzleChanged}
+              onDrawingOptionsChanged={onDrawingOptionsChanged}
+            />
+          )}
+          <NavigationControls
+            currentState={currentState}
+            selectedMode={mode}
+            onModeChanged={onModeChanged}
+            animationSpeed={animationSpeed}
+            onAnimationSpeedChanged={onAnimationSpeedChanged}
           />
-        </StyledDrawingWrapper>
-      </StyledMainContent>
-      {DemoControls && (
-        <DemoControls
-          selectedPuzzle={selectedPuzzle}
-          drawingOptions={drawingOptions}
-          onSelectedPuzzleChanged={onSelectedPuzzleChanged}
-          onDrawingOptionsChanged={onDrawingOptionsChanged}
-        />
-      )}
-      <NavigationControls
-        currentState={currentState}
-        selectedMode={mode}
-        onModeChanged={onModeChanged}
-        animationSpeed={animationSpeed}
-        onAnimationSpeedChanged={onAnimationSpeedChanged}
-      />
-      <ActionControls
-        currentState={currentState}
-        onSolve={onSolve}
-        onCancel={onCancel}
-        onReset={onReset}
-      />
+          <ActionControls
+            currentState={currentState}
+            onSolve={onSolve}
+            onCancel={onCancel}
+            onReset={onReset}
+          />
+        </StyledControlsContent>
+      </StyledGrid>
     </StyledPage>
   );
 }
