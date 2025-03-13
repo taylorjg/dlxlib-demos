@@ -199,6 +199,36 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     );
   };
 
+  const drawShadedSquaresForPipes = (): JSX.Element[] => {
+    return solutionInternalRows.flatMap((internalRow) => {
+      return drawShadedSquaresForPipe(internalRow);
+    });
+  };
+
+  const drawShadedSquaresForPipe = (
+    internalRow: InternalRow
+  ): JSX.Element[] => {
+    return internalRow.coordsList.map((coords) => {
+      const { row, col } = coords;
+      const x = calculateX(col);
+      const y = calculateY(row);
+      const label = internalRow.colourPair.label;
+      const colour = dotColours.get(label) ?? FALLBACK_DOT_COLOUR;
+
+      return (
+        <rect
+          key={`shade-${row}-${col}`}
+          x={x}
+          y={y}
+          width={SQUARE_WIDTH}
+          height={SQUARE_HEIGHT}
+          fill={colour}
+          fillOpacity={0.4}
+        />
+      );
+    });
+  };
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       {drawBackground()}
@@ -206,6 +236,7 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
       {drawVerticalGridLines()}
       {drawColourPairDots()}
       {drawPipes()}
+      {drawShadedSquaresForPipes()}
       {drawColourPairLabels()}
     </svg>
   );
