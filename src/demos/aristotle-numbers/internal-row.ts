@@ -1,7 +1,6 @@
-import { Puzzle } from "./puzzle";
+import { Run } from "./run";
 
 export type InternalRow = {
-  puzzle: Puzzle;
-  cellId: number;
-  value: number;
+  run: Run;
+  values: number[];
 };

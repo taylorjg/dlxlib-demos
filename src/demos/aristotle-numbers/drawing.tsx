@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { DrawingProps } from "types";
 import { InternalRow } from "./internal-row";
 import { Puzzle } from "./puzzle";
+import { RunType } from "./run-type";
+import { range } from "utils";
 
 const VIEWBOX_WIDTH = 100;
 const VIEWBOX_HEIGHT = 100;
@@ -51,9 +51,7 @@ const calculateCentreY = (cellId: number) => {
 type LocalDrawingProps = DrawingProps<Puzzle, InternalRow>;
 
 export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
-  puzzle,
   solutionInternalRows,
-  drawingOptions,
 }: LocalDrawingProps) => {
   const drawBackground = (): JSX.Element => {
     return (
@@ -132,6 +130,35 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     return pathCommands.join(" ");
   };
 
+  const drawHorizontalRun = (internalRow: InternalRow): JSX.Element[] => {
+    return range(internalRow.run.cellIds.length).flatMap((index) => {
+      const cellId = internalRow.run.cellIds[index];
+      const value = internalRow.values[index];
+      return drawPiece(cellId, value);
+    });
+  };
+
+  const drawHorizontalRuns = (): JSX.Element[] => {
+    return solutionInternalRows
+      .filter((internalRow) => internalRow.run.runType === RunType.Horizontal)
+      .flatMap(drawHorizontalRun);
+  };
+
+  const drawBoardCutOut = (): JSX.Element[] => {
+    return range(19).map((cellId) => {
+      const cx = calculateCentreX(cellId);
+      const cy = calculateCentreY(cellId);
+      const points = calculateHexagonPoints(cx, cy, PIECE_HEIGHT / 2 + 0.1);
+      return (
+        <path
+          key={`cutout-${cellId}`}
+          d={makePathData(points)}
+          fill="#654321"
+        />
+      );
+    });
+  };
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <defs>
@@ -164,30 +191,8 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
         </pattern>
       </defs>
       {drawBackground()}
-
-      {drawPiece(0, 1)}
-      {drawPiece(1, 2)}
-      {drawPiece(2, 3)}
-
-      {drawPiece(3, 4)}
-      {drawPiece(4, 5)}
-      {drawPiece(5, 6)}
-      {drawPiece(6, 7)}
-
-      {drawPiece(7, 8)}
-      {drawPiece(8, 9)}
-      {drawPiece(9, 10)}
-      {drawPiece(10, 11)}
-      {drawPiece(11, 12)}
-
-      {drawPiece(12, 13)}
-      {drawPiece(13, 14)}
-      {drawPiece(14, 15)}
-      {drawPiece(15, 16)}
-
-      {drawPiece(16, 17)}
-      {drawPiece(17, 18)}
-      {drawPiece(18, 19)}
+      {drawBoardCutOut()}
+      {drawHorizontalRuns()}
     </svg>
   );
 };
