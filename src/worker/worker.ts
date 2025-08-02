@@ -17,6 +17,7 @@ import { Demo as FlowFreeDemo } from "demos/flow-free/demo";
 import { Demo as KakuroDemo } from "demos/kakuro/demo";
 import { Demo as NonogramDemo } from "demos/nonogram/demo";
 import { Demo as CrosswordDemo } from "demos/crossword/demo";
+import { Demo as AristotleNumbersDemo } from "demos/aristotle-numbers/demo";
 
 type DemoConstructor = new () => IDemo<unknown, unknown>;
 
@@ -32,6 +33,7 @@ const map = new Map<string, DemoConstructor>([
   ["kakuro", KakuroDemo],
   ["nonogram", NonogramDemo],
   ["crossword", CrosswordDemo],
+  ["aristotle's-number-puzzle", AristotleNumbersDemo],
 ]);
 
 // To fix: 'worker.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.ts(1208)

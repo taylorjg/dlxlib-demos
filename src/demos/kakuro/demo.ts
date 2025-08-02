@@ -117,7 +117,9 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     run: Run,
     values: number[]
   ): number[] {
-    const columns = Array(puzzle.unknowns.length * 9).fill(0);
+    const encodedValueLength = DIGITS.length;
+    const columns = Array(puzzle.unknowns.length * encodedValueLength).fill(0);
+
     for (const index of range(run.coordsList.length)) {
       const value = values[index];
       const encodedValue =
@@ -126,11 +128,12 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
           : this.encodeValueInverse(value);
       const unknown = run.coordsList[index];
       const unknownIndex = this.findUnknownIndex(puzzle, unknown);
-      for (const encodedValueIndex of range(9)) {
-        columns[unknownIndex * 9 + encodedValueIndex] =
+      for (const encodedValueIndex of range(encodedValueLength)) {
+        columns[unknownIndex * encodedValueLength + encodedValueIndex] =
           encodedValue[encodedValueIndex];
       }
     }
+
     return columns;
   }
 
@@ -139,7 +142,9 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     run: Run,
     values: number[]
   ): number[] {
-    const columns = Array(puzzle.unknowns.length * 9).fill(0);
+    const encodedValueLength = DIGITS.length;
+    const columns = Array(puzzle.unknowns.length * encodedValueLength).fill(0);
+
     for (const index of range(run.coordsList.length)) {
       const value = values[index];
       const encodedValue =
@@ -148,23 +153,24 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
           : this.encodeValueInverse(value);
       const unknown = run.coordsList[index];
       const unknownIndex = this.findUnknownIndex(puzzle, unknown);
-      for (const encodedValueIndex of range(9)) {
-        columns[unknownIndex * 9 + encodedValueIndex] =
+      for (const encodedValueIndex of range(encodedValueLength)) {
+        columns[unknownIndex * encodedValueLength + encodedValueIndex] =
           encodedValue[encodedValueIndex];
       }
     }
+
     return columns;
   }
 
   encodeValueNormal(value: number): number[] {
-    const columns = Array(9).fill(0);
+    const columns = Array(DIGITS.length).fill(0);
     const index = value - 1;
     columns[index] = 1;
     return columns;
   }
 
   encodeValueInverse(value: number): number[] {
-    const columns = Array(9).fill(1);
+    const columns = Array(DIGITS.length).fill(1);
     const index = value - 1;
     columns[index] = 0;
     return columns;

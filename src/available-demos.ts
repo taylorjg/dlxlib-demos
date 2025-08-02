@@ -10,6 +10,7 @@ import { Thumbnail as FlowFreeThumbnail } from "demos/flow-free/thumbnail";
 import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail";
 import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail";
 import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail";
+import { Thumbnail as AristotleNumbersThumbnail } from "demos/aristotle-numbers/thumbnail";
 import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail";
 
 import sudokuReadmeSource from "demos/sudoku/README.md";
@@ -31,6 +32,7 @@ const demoNames = [
   "Kakuro",
   "Nonogram",
   "Crossword",
+  "Aristotle's Number Puzzle",
 ];
 
 const thumbnailMap = new Map<string, React.FC>([
@@ -45,6 +47,7 @@ const thumbnailMap = new Map<string, React.FC>([
   ["kakuro", KakuroThumbnail],
   ["nonogram", NonogramThumbnail],
   ["crossword", CrosswordThumbnail],
+  ["aristotle's-number-puzzle", AristotleNumbersThumbnail],
 ]);
 
 const hideBorderMap = new Map<string, boolean>([
@@ -54,6 +57,7 @@ const hideBorderMap = new Map<string, boolean>([
   ["flow-free", true],
   ["tetrasticks", true],
   ["aztec-diamond", true],
+  ["aristotle's-number-puzzle", true],
 ]);
 
 const readmeSourceMap = new Map<string, string>([

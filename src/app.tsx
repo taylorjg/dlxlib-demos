@@ -13,6 +13,7 @@ import * as FlowFree from "demos/flow-free";
 import * as Kakuro from "demos/kakuro";
 import * as Nonogram from "demos/nonogram";
 import * as Crossword from "demos/crossword";
+import * as AristotleNumbers from "demos/aristotle-numbers";
 import * as Placeholder from "demos/placeholder";
 import { HomePage } from "pages/home-page";
 import { Header } from "header";
@@ -67,6 +68,9 @@ export const App = () => {
           </Route>
           <Route path="/demo/crossword" exact>
             <Crossword.DemoPage />
+          </Route>
+          <Route path="/demo/aristotle's-number-puzzle" exact>
+            <AristotleNumbers.DemoPage />
           </Route>
           <Route path="/demo/:shortName" exact>
             <Placeholder.DemoPage />
