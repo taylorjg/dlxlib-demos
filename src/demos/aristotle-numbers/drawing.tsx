@@ -89,7 +89,13 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     const cy = calculateCentreY(cellId);
     const points = calculateHexagonPoints(cx, cy, PIECE_HEIGHT / 2 - 0.25);
 
-    return <path d={makePathData(points)} fill="url(#piece)" />;
+    return (
+      <path
+        key={`hexagon-${cellId}`}
+        d={makePathData(points)}
+        fill="url(#piece)"
+      />
+    );
   };
 
   const drawValue = (cellId: number, value: number): JSX.Element => {
@@ -98,6 +104,7 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
 
     return (
       <text
+        key={`value-${cellId}`}
         x={cx}
         y={cy}
         textAnchor="middle"
