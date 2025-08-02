@@ -11,7 +11,6 @@ import { Thumbnail as KakuroThumbnail } from "demos/kakuro/thumbnail";
 import { Thumbnail as NonogramThumbnail } from "demos/nonogram/thumbnail";
 import { Thumbnail as CrosswordThumbnail } from "demos/crossword/thumbnail";
 import { Thumbnail as AristotleNumbersThumbnail } from "demos/aristotle-numbers/thumbnail";
-import { Thumbnail as PlaceholderThumbnail } from "demos/placeholder/thumbnail";
 
 import sudokuReadmeSource from "demos/sudoku/README.md";
 import pentominoesReadmeSource from "demos/pentominoes/README.md";
@@ -20,72 +19,86 @@ import nQueensReadmeSource from "demos/n-queens/README.md";
 import rippleEffectReadmeSource from "demos/ripple-effect/README.md";
 import flowFreeReadmeSource from "demos/flow-free/README.md";
 
-const demoNames = [
-  "Sudoku",
-  "Pentominoes",
-  "Draughtboard Puzzle",
-  "N Queens",
-  "TetraSticks",
-  "Aztec Diamond",
-  "Ripple Effect",
-  "Flow Free",
-  "Kakuro",
-  "Nonogram",
-  "Crossword",
-  "Aristotle's Number Puzzle",
+export const availableDemos: AvailableDemo[] = [
+  {
+    name: "Sudoku",
+    shortName: "sudoku",
+    Thumbnail: SudokuThumbnail,
+    hideBorder: false,
+    readmeSource: sudokuReadmeSource,
+  },
+  {
+    name: "Pentominoes",
+    shortName: "pentominoes",
+    Thumbnail: PentominoesThumbnail,
+    hideBorder: true,
+    readmeSource: pentominoesReadmeSource,
+  },
+  {
+    name: "Draughtboard Puzzle",
+    shortName: "draughtboard-puzzle",
+    Thumbnail: DraughtboardPuzzleThumbnail,
+    hideBorder: true,
+    readmeSource: draughtboardPuzzleReadmeSource,
+  },
+  {
+    name: "N Queens",
+    shortName: "n-queens",
+    Thumbnail: NQueensThumbnail,
+    hideBorder: true,
+    readmeSource: nQueensReadmeSource,
+  },
+  {
+    name: "TetraSticks",
+    shortName: "tetrasticks",
+    Thumbnail: TetraSticksThumbnail,
+    hideBorder: true,
+  },
+  {
+    name: "Aztec Diamond",
+    shortName: "aztec-diamond",
+    Thumbnail: AztecDiamondThumbnail,
+    hideBorder: true,
+  },
+  {
+    name: "Ripple Effect",
+    shortName: "ripple-effect",
+    Thumbnail: RippleEffectThumbnail,
+    hideBorder: false,
+    readmeSource: rippleEffectReadmeSource,
+  },
+  {
+    name: "Flow Free",
+    shortName: "flow-free",
+    Thumbnail: FlowFreeThumbnail,
+    hideBorder: true,
+    readmeSource: flowFreeReadmeSource,
+  },
+  {
+    name: "Kakuro",
+    shortName: "kakuro",
+    Thumbnail: KakuroThumbnail,
+    hideBorder: false,
+  },
+  {
+    name: "Nonogram",
+    shortName: "nonogram",
+    Thumbnail: NonogramThumbnail,
+    hideBorder: false,
+  },
+  {
+    name: "Crossword",
+    shortName: "crossword",
+    Thumbnail: CrosswordThumbnail,
+    hideBorder: false,
+  },
+  {
+    name: "Aristotle's Number Puzzle",
+    shortName: "aristotle-numbers",
+    Thumbnail: AristotleNumbersThumbnail,
+    hideBorder: true,
+  },
 ];
-
-const thumbnailMap = new Map<string, React.FC>([
-  ["sudoku", SudokuThumbnail],
-  ["pentominoes", PentominoesThumbnail],
-  ["draughtboard-puzzle", DraughtboardPuzzleThumbnail],
-  ["n-queens", NQueensThumbnail],
-  ["tetrasticks", TetraSticksThumbnail],
-  ["aztec-diamond", AztecDiamondThumbnail],
-  ["ripple-effect", RippleEffectThumbnail],
-  ["flow-free", FlowFreeThumbnail],
-  ["kakuro", KakuroThumbnail],
-  ["nonogram", NonogramThumbnail],
-  ["crossword", CrosswordThumbnail],
-  ["aristotle's-number-puzzle", AristotleNumbersThumbnail],
-]);
-
-const hideBorderMap = new Map<string, boolean>([
-  ["pentominoes", true],
-  ["draughtboard-puzzle", true],
-  ["n-queens", true],
-  ["flow-free", true],
-  ["tetrasticks", true],
-  ["aztec-diamond", true],
-  ["aristotle's-number-puzzle", true],
-]);
-
-const readmeSourceMap = new Map<string, string>([
-  ["sudoku", sudokuReadmeSource],
-  ["pentominoes", pentominoesReadmeSource],
-  ["draughtboard-puzzle", draughtboardPuzzleReadmeSource],
-  ["n-queens", nQueensReadmeSource],
-  ["ripple-effect", rippleEffectReadmeSource],
-  ["flow-free", flowFreeReadmeSource],
-]);
-
-const makeShortName = (name: string): string =>
-  name.toLowerCase().replace(/\s/g, "-");
-
-export const availableDemos: AvailableDemo[] = demoNames.map((name) => {
-  const shortName = makeShortName(name);
-  const hideBorder = hideBorderMap.get(shortName) ?? false;
-  const maybeReadmeSource = readmeSourceMap.has(shortName)
-    ? { readmeSource: readmeSourceMap.get(shortName) }
-    : undefined;
-  return {
-    name,
-    shortName,
-    Thumbnail: thumbnailMap.get(shortName) ?? PlaceholderThumbnail,
-    hideBorder,
-    ...maybeReadmeSource,
-  };
-});
 
 export const lookupAvailableDemoByShortName = (shortName: string) => {
   return availableDemos.find(

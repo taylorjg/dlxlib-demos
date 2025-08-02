@@ -69,7 +69,7 @@ export const App = () => {
           <Route path="/demo/crossword" exact>
             <Crossword.DemoPage />
           </Route>
-          <Route path="/demo/aristotle's-number-puzzle" exact>
+          <Route path="/demo/aristotle-numbers" exact>
             <AristotleNumbers.DemoPage />
           </Route>
           <Route path="/demo/:shortName" exact>
