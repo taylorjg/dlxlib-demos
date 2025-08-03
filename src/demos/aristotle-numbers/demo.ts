@@ -10,7 +10,7 @@ import { Run, sameRun } from "./run";
 
 const DIGITS = range(19).map((n) => n + 1);
 
-const horizontalRuns: Run[] = [
+export const horizontalRuns: Run[] = [
   {
     runType: RunType.Horizontal,
     cellIds: [0, 1, 2],
@@ -33,7 +33,7 @@ const horizontalRuns: Run[] = [
   },
 ];
 
-const diagonal1Runs: Run[] = [
+export const diagonal1Runs: Run[] = [
   {
     runType: RunType.Diagonal1,
     cellIds: [0, 3, 7],
@@ -56,7 +56,7 @@ const diagonal1Runs: Run[] = [
   },
 ];
 
-const diagonal2Runs: Run[] = [
+export const diagonal2Runs: Run[] = [
   {
     runType: RunType.Diagonal2,
     cellIds: [2, 6, 11],
@@ -99,6 +99,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
 
     createInternalRowsFor(horizontalRuns);
     createInternalRowsFor(diagonal1Runs);
+    createInternalRowsFor(diagonal2Runs);
 
     return internalRows;
   }
@@ -150,11 +151,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       run,
       values
     );
-    const diagonal1RunValueColumns = this.makeDiagonal1RunValueColumns(
-      run,
-      values
-    );
-    const diagonal2RunValueColumns = this.makeDiagonal2RunValueColumns(
+    const diagonalsRunValueColumns = this.makeDiagonalsRunValueColumns(
       run,
       values
     );
@@ -163,12 +160,11 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       .concat(diagonal1RunColumns)
       .concat(diagonal2RunColumns)
       .concat(horizontalRunValueColumns)
-      .concat(diagonal1RunValueColumns)
-      .concat(diagonal2RunValueColumns);
+      .concat(diagonalsRunValueColumns);
   }
 
   getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
-    return horizontalRuns.length + diagonal1Runs.length;
+    return horizontalRuns.length + diagonal1Runs.length + diagonal2Runs.length;
   }
 
   makeHorizontalRunColumns(run: Run): number[] {
@@ -220,7 +216,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     return columns;
   }
 
-  makeDiagonal1RunValueColumns(run: Run, values: number[]): number[] {
+  makeDiagonalsRunValueColumns(run: Run, values: number[]): number[] {
     const encodedValueLength = DIGITS.length;
     const columns = Array(DIGITS.length * encodedValueLength).fill(0);
 
@@ -231,29 +227,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
         value,
         run.runType,
         RunType.Diagonal1,
-        RunType.Horizontal
-      );
-      for (const encodedValueIndex of range(encodedValueLength)) {
-        columns[cellId * encodedValueLength + encodedValueIndex] =
-          encodedValue[encodedValueIndex];
-      }
-    }
-
-    return columns;
-  }
-
-  makeDiagonal2RunValueColumns(run: Run, values: number[]): number[] {
-    const encodedValueLength = DIGITS.length;
-    const columns = Array(DIGITS.length * encodedValueLength).fill(0);
-
-    for (const index of range(run.cellIds.length)) {
-      const cellId = run.cellIds[index];
-      const value = values[index];
-      const encodedValue = this.encodeValue(
-        value,
-        run.runType,
-        RunType.Diagonal2,
-        RunType.Horizontal
+        RunType.Diagonal2
       );
       for (const encodedValueIndex of range(encodedValueLength)) {
         columns[cellId * encodedValueLength + encodedValueIndex] =
