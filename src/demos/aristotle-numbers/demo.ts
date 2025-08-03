@@ -1,34 +1,106 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Coords, IDemo, sameCoords } from "types";
+import { IDemo } from "types";
 import { except, range, sum } from "utils";
 import { InternalRow } from "./internal-row";
 import { Puzzle } from "./puzzle";
 import { doPermute } from "./permutations";
+import { RunType } from "./run-type";
+import { Run, sameRun } from "./run";
 
 const DIGITS = range(19).map((n) => n + 1);
+
+const horizontalRuns: Run[] = [
+  {
+    runType: RunType.Horizontal,
+    cellIds: [0, 1, 2],
+  },
+  {
+    runType: RunType.Horizontal,
+    cellIds: [3, 4, 5, 6],
+  },
+  {
+    runType: RunType.Horizontal,
+    cellIds: [7, 8, 9, 10, 11],
+  },
+  {
+    runType: RunType.Horizontal,
+    cellIds: [12, 13, 14, 15],
+  },
+  {
+    runType: RunType.Horizontal,
+    cellIds: [16, 17, 18],
+  },
+];
+
+const diagonal1Runs: Run[] = [
+  {
+    runType: RunType.Diagonal1,
+    cellIds: [0, 3, 7],
+  },
+  {
+    runType: RunType.Diagonal1,
+    cellIds: [1, 4, 8, 12],
+  },
+  {
+    runType: RunType.Diagonal1,
+    cellIds: [2, 5, 9, 13, 16],
+  },
+  {
+    runType: RunType.Diagonal1,
+    cellIds: [6, 10, 14, 17],
+  },
+  {
+    runType: RunType.Diagonal1,
+    cellIds: [11, 15, 18],
+  },
+];
+
+const diagonal2Runs: Run[] = [
+  {
+    runType: RunType.Diagonal2,
+    cellIds: [2, 6, 11],
+  },
+  {
+    runType: RunType.Diagonal2,
+    cellIds: [1, 5, 10, 15],
+  },
+  {
+    runType: RunType.Diagonal2,
+    cellIds: [0, 4, 9, 14, 18],
+  },
+  {
+    runType: RunType.Diagonal2,
+    cellIds: [3, 8, 13, 17],
+  },
+  {
+    runType: RunType.Diagonal2,
+    cellIds: [7, 12, 16],
+  },
+];
 
 export class Demo implements IDemo<Puzzle, InternalRow> {
   buildInternalRows(
     puzzle: Puzzle,
     _checkForCancellation: () => boolean
   ): InternalRow[] {
-    const setsOfValuesForLength3 = this.findSetsOfValues(3);
-    const setsOfValuesForLength4 = this.findSetsOfValues(4);
-    const setsOfValuesForLength5 = this.findSetsOfValues(5);
+    const internalRows: InternalRow[] = [];
 
-    console.log({
-      setsOfValuesForLength3,
-      setsOfValuesForLength4,
-      setsOfValuesForLength5,
-    });
+    const createInternalRowsFor = (runs: Run[]): void => {
+      for (const run of runs) {
+        for (const setOfValues of this.findSetsOfValues(run.cellIds.length)) {
+          for (const values of doPermute(setOfValues)) {
+            const internalRow = { run, values };
+            internalRows.push(internalRow);
+          }
+        }
+      }
+    };
 
-    console.log(doPermute(setsOfValuesForLength3[0]));
-    console.log(doPermute(setsOfValuesForLength4[0]));
-    console.log(doPermute(setsOfValuesForLength5[0]));
+    createInternalRowsFor(horizontalRuns);
+    createInternalRowsFor(diagonal1Runs);
 
-    // TODO
-    return [];
+    return internalRows;
   }
 
   // Return sets of values where each set of values:
@@ -68,12 +140,170 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
   }
 
   internalRowToMatrixRow(internalRow: InternalRow): number[] {
-    // TODO
-    return [];
+    const { run, values } = internalRow;
+
+    const horizontalRunColumns = this.makeHorizontalRunColumns(run);
+    const diagonal1RunColumns = this.makeDiagonal1RunColumns(run);
+    const diagonal2RunColumns = this.makeDiagonal2RunColumns(run);
+
+    const horizontalRunValueColumns = this.makeHorizontalRunValueColumns(
+      run,
+      values
+    );
+    const diagonal1RunValueColumns = this.makeDiagonal1RunValueColumns(
+      run,
+      values
+    );
+    const diagonal2RunValueColumns = this.makeDiagonal2RunValueColumns(
+      run,
+      values
+    );
+
+    return horizontalRunColumns
+      .concat(diagonal1RunColumns)
+      .concat(diagonal2RunColumns)
+      .concat(horizontalRunValueColumns)
+      .concat(diagonal1RunValueColumns)
+      .concat(diagonal2RunValueColumns);
   }
 
   getNumPrimaryColumns(puzzle: Puzzle): number | undefined {
-    // TODO
-    return 0;
+    return horizontalRuns.length + diagonal1Runs.length;
+  }
+
+  makeHorizontalRunColumns(run: Run): number[] {
+    const columns = Array(horizontalRuns.length).fill(0);
+    if (run.runType === RunType.Horizontal) {
+      const index = this.findHorizontalRunIndex(run);
+      columns[index] = 1;
+    }
+    return columns;
+  }
+
+  makeDiagonal1RunColumns(run: Run): number[] {
+    const columns = Array(diagonal1Runs.length).fill(0);
+    if (run.runType === RunType.Diagonal1) {
+      const index = this.findDiagonal1RunIndex(run);
+      columns[index] = 1;
+    }
+    return columns;
+  }
+
+  makeDiagonal2RunColumns(run: Run): number[] {
+    const columns = Array(diagonal2Runs.length).fill(0);
+    if (run.runType === RunType.Diagonal2) {
+      const index = this.findDiagonal2RunIndex(run);
+      columns[index] = 1;
+    }
+    return columns;
+  }
+
+  makeHorizontalRunValueColumns(run: Run, values: number[]): number[] {
+    const encodedValueLength = DIGITS.length;
+    const columns = Array(DIGITS.length * encodedValueLength).fill(0);
+
+    for (const index of range(run.cellIds.length)) {
+      const cellId = run.cellIds[index];
+      const value = values[index];
+      const encodedValue = this.encodeValue(
+        value,
+        run.runType,
+        RunType.Horizontal,
+        RunType.Diagonal1
+      );
+      for (const encodedValueIndex of range(encodedValueLength)) {
+        columns[cellId * encodedValueLength + encodedValueIndex] =
+          encodedValue[encodedValueIndex];
+      }
+    }
+
+    return columns;
+  }
+
+  makeDiagonal1RunValueColumns(run: Run, values: number[]): number[] {
+    const encodedValueLength = DIGITS.length;
+    const columns = Array(DIGITS.length * encodedValueLength).fill(0);
+
+    for (const index of range(run.cellIds.length)) {
+      const cellId = run.cellIds[index];
+      const value = values[index];
+      const encodedValue = this.encodeValue(
+        value,
+        run.runType,
+        RunType.Diagonal1,
+        RunType.Horizontal
+      );
+      for (const encodedValueIndex of range(encodedValueLength)) {
+        columns[cellId * encodedValueLength + encodedValueIndex] =
+          encodedValue[encodedValueIndex];
+      }
+    }
+
+    return columns;
+  }
+
+  makeDiagonal2RunValueColumns(run: Run, values: number[]): number[] {
+    const encodedValueLength = DIGITS.length;
+    const columns = Array(DIGITS.length * encodedValueLength).fill(0);
+
+    for (const index of range(run.cellIds.length)) {
+      const cellId = run.cellIds[index];
+      const value = values[index];
+      const encodedValue = this.encodeValue(
+        value,
+        run.runType,
+        RunType.Diagonal2,
+        RunType.Horizontal
+      );
+      for (const encodedValueIndex of range(encodedValueLength)) {
+        columns[cellId * encodedValueLength + encodedValueIndex] =
+          encodedValue[encodedValueIndex];
+      }
+    }
+
+    return columns;
+  }
+
+  encodeValue(
+    value: number,
+    runType: RunType,
+    normalRunType: RunType,
+    inverseRunType: RunType
+  ): number[] {
+    if (runType === normalRunType) {
+      return this.encodeValueNormal(value);
+    }
+
+    if (runType === inverseRunType) {
+      return this.encodeValueInverse(value);
+    }
+
+    return Array(DIGITS.length).fill(0);
+  }
+
+  encodeValueNormal(value: number): number[] {
+    const columns = Array(DIGITS.length).fill(0);
+    const index = value - 1;
+    columns[index] = 1;
+    return columns;
+  }
+
+  encodeValueInverse(value: number): number[] {
+    const columns = Array(DIGITS.length).fill(1);
+    const index = value - 1;
+    columns[index] = 0;
+    return columns;
+  }
+
+  findHorizontalRunIndex(run: Run): number {
+    return horizontalRuns.findIndex((r) => sameRun(r, run));
+  }
+
+  findDiagonal1RunIndex(run: Run): number {
+    return diagonal1Runs.findIndex((r) => sameRun(r, run));
+  }
+
+  findDiagonal2RunIndex(run: Run): number {
+    return diagonal2Runs.findIndex((r) => sameRun(r, run));
   }
 }

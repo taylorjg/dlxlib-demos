@@ -144,6 +144,18 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
       .flatMap(drawHorizontalRun);
   };
 
+  const drawDiagonal1Runs = (): JSX.Element[] => {
+    return solutionInternalRows
+      .filter((internalRow) => internalRow.run.runType === RunType.Diagonal1)
+      .flatMap(drawHorizontalRun);
+  };
+
+  const drawDiagonal2Runs = (): JSX.Element[] => {
+    return solutionInternalRows
+      .filter((internalRow) => internalRow.run.runType === RunType.Diagonal2)
+      .flatMap(drawHorizontalRun);
+  };
+
   const drawBoardCutOut = (): JSX.Element[] => {
     return range(19).map((cellId) => {
       const cx = calculateCentreX(cellId);
@@ -154,6 +166,7 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
           key={`cutout-${cellId}`}
           d={makePathData(points)}
           fill="#654321"
+          fillOpacity={0.75}
         />
       );
     });
@@ -193,6 +206,8 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
       {drawBackground()}
       {drawBoardCutOut()}
       {drawHorizontalRuns()}
+      {drawDiagonal1Runs()}
+      {drawDiagonal2Runs()}
     </svg>
   );
 };
