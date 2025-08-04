@@ -3,6 +3,7 @@ import { sum } from "utils";
 import { Demo, horizontalRuns, diagonal1Runs, diagonal2Runs } from "./demo";
 import { InternalRow } from "./internal-row";
 import { makeThumbnailSolution } from "./thumbnail";
+import { RunType } from "./run-type";
 
 describe("aristotle-numbers tests", () => {
   it("can find a valid solution", () => {
@@ -37,19 +38,25 @@ const checkDigits = (internalRows: InternalRow[]): void => {
 };
 
 const checkRuns = (internalRows: InternalRow[]): void => {
-  for (const horizontalRun of horizontalRuns) {
-    const internalRow = internalRows.find(({ run }) => run === horizontalRun);
-    expect(internalRow).toBeDefined();
+  const getInternalRowsOfRunType = (runType: RunType): InternalRow[] =>
+    internalRows.filter((internalRow) => internalRow.run.runType === runType);
+
+  expect(getInternalRowsOfRunType(RunType.Horizontal)).toHaveLength(5);
+  expect(getInternalRowsOfRunType(RunType.Diagonal1)).toHaveLength(5);
+  expect(getInternalRowsOfRunType(RunType.Diagonal2)).toHaveLength(5);
+
+  const internalRowRuns = internalRows.map(({ run }) => run);
+
+  for (const run of horizontalRuns) {
+    expect(internalRowRuns).toContain(run);
   }
 
-  for (const diagonal1Run of diagonal1Runs) {
-    const internalRow = internalRows.find(({ run }) => run === diagonal1Run);
-    expect(internalRow).toBeDefined();
+  for (const run of diagonal1Runs) {
+    expect(internalRowRuns).toContain(run);
   }
 
-  for (const diagonal2Run of diagonal2Runs) {
-    const internalRow = internalRows.find(({ run }) => run === diagonal2Run);
-    expect(internalRow).toBeDefined();
+  for (const run of diagonal2Runs) {
+    expect(internalRowRuns).toContain(run);
   }
 
   const values = internalRows.flatMap((internalRow) => internalRow.values);
