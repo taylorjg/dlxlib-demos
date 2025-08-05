@@ -145,10 +145,22 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     const runColumns2 = this.makeDiagonal1RunColumns(run);
     const runColumns3 = this.makeDiagonal2RunColumns(run);
 
-    const digitsColumns = this.makeDigitsColumns(
+    const digitsColumns1 = this.makeDigitsColumns(
+      run,
+      values,
+      RunType.Horizontal
+    );
+
+    const digitsColumns2 = this.makeDigitsColumns(
       run,
       values,
       RunType.Diagonal1
+    );
+
+    const digitsColumns3 = this.makeDigitsColumns(
+      run,
+      values,
+      RunType.Diagonal2
     );
 
     const valuesColumns1 = this.makeValuesColumns(
@@ -175,7 +187,9 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     return runColumns1
       .concat(runColumns2)
       .concat(runColumns3)
-      .concat(digitsColumns)
+      .concat(digitsColumns1)
+      .concat(digitsColumns2)
+      .concat(digitsColumns3)
       .concat(valuesColumns1)
       .concat(valuesColumns2)
       .concat(valuesColumns3);
@@ -186,7 +200,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       horizontalRuns.length +
       diagonal1Runs.length +
       diagonal2Runs.length +
-      DIGITS.length
+      3 * DIGITS.length
     );
   }
 
