@@ -145,22 +145,10 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     const runColumns2 = this.makeDiagonal1RunColumns(run);
     const runColumns3 = this.makeDiagonal2RunColumns(run);
 
-    const digitsColumns1 = this.makeDigitsColumns(
-      run,
-      values,
-      RunType.Horizontal
-    );
-
-    const digitsColumns2 = this.makeDigitsColumns(
+    const digitsColumns = this.makeDigitsColumns(
       run,
       values,
       RunType.Diagonal1
-    );
-
-    const digitsColumns3 = this.makeDigitsColumns(
-      run,
-      values,
-      RunType.Diagonal2
     );
 
     const valuesColumns1 = this.makeValuesColumns(
@@ -187,9 +175,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     return runColumns1
       .concat(runColumns2)
       .concat(runColumns3)
-      .concat(digitsColumns1)
-      .concat(digitsColumns2)
-      .concat(digitsColumns3)
+      .concat(digitsColumns)
       .concat(valuesColumns1)
       .concat(valuesColumns2)
       .concat(valuesColumns3);
@@ -200,7 +186,7 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
       horizontalRuns.length +
       diagonal1Runs.length +
       diagonal2Runs.length +
-      3 * DIGITS.length
+      DIGITS.length
     );
   }
 
@@ -208,7 +194,6 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     const columns = Array(horizontalRuns.length).fill(0);
     if (run.runType === RunType.Horizontal) {
       const index = this.findHorizontalRunIndex(run);
-      console.assert(index >= 0);
       columns[index] = 1;
     }
     return columns;
@@ -218,7 +203,6 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     const columns = Array(diagonal1Runs.length).fill(0);
     if (run.runType === RunType.Diagonal1) {
       const index = this.findDiagonal1RunIndex(run);
-      console.assert(index >= 0);
       columns[index] = 1;
     }
     return columns;
@@ -228,7 +212,6 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     const columns = Array(diagonal2Runs.length).fill(0);
     if (run.runType === RunType.Diagonal2) {
       const index = this.findDiagonal2RunIndex(run);
-      console.assert(index >= 0);
       columns[index] = 1;
     }
     return columns;
@@ -253,24 +236,18 @@ export class Demo implements IDemo<Puzzle, InternalRow> {
     normalRunType: RunType,
     inverseRunType: RunType
   ): number[] {
-    console.assert(run.cellIds.length === values.length);
-
     const encodedValueLength = DIGITS.length;
     const columns = Array(DIGITS.length * encodedValueLength).fill(0);
 
     for (const index of range(run.cellIds.length)) {
       const cellId = run.cellIds[index];
       const value = values[index];
-      console.assert(cellId >= 0 && cellId <= 18);
-      console.assert(value >= 1 && value <= 19);
-      console.assert(sum(values) === 38);
       const encodedValue = this.encodeValue(
         value,
         run.runType,
         normalRunType,
         inverseRunType
       );
-      console.assert(encodedValue.length === encodedValueLength);
       for (const encodedValueIndex of range(encodedValueLength)) {
         columns[cellId * encodedValueLength + encodedValueIndex] =
           encodedValue[encodedValueIndex];

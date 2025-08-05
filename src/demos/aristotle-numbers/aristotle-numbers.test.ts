@@ -62,6 +62,11 @@ const checkRuns = (internalRows: InternalRow[]): void => {
   const values = internalRows.flatMap((internalRow) => internalRow.values);
   const valuesAsASet = new Set(values);
   expect(valuesAsASet.size).toBe(19);
+
+  // TODO: check that the values are in the same locations for horizontal, diagonal1 and diagonal2 solution rows
+  // horizontal: cellId 0 = v1, cellId 1 = v2, cellId 2 = v3, etc.
+  // diagonal1: cellId 0 = v1, cellId 1 = v2, cellId 2 = v3, etc.
+  // diagonal2: cellId 0 = v1, cellId 1 = v2, cellId 2 = v3, etc.
 };
 
 const checkRunSums = (internalRows: InternalRow[]): void => {

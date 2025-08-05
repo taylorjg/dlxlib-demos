@@ -82,27 +82,31 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     ];
   };
 
-  const drawHexagon = (cellId: number): JSX.Element => {
+  const drawHexagon = (runType: RunType, cellId: number): JSX.Element => {
     const cx = calculateCentreX(cellId);
     const cy = calculateCentreY(cellId);
     const points = calculateHexagonPoints(cx, cy, PIECE_HEIGHT / 2 - 0.25);
 
     return (
       <path
-        key={`hexagon-${cellId}`}
+        key={`hexagon-${runType}-${cellId}`}
         d={makePathData(points)}
         fill="url(#piece)"
       />
     );
   };
 
-  const drawValue = (cellId: number, value: number): JSX.Element => {
+  const drawValue = (
+    runType: RunType,
+    cellId: number,
+    value: number
+  ): JSX.Element => {
     const cx = calculateCentreX(cellId);
     const cy = calculateCentreY(cellId);
 
     return (
       <text
-        key={`value-${cellId}`}
+        key={`value-${runType}-${cellId}`}
         x={cx}
         y={cy}
         textAnchor="middle"
@@ -115,8 +119,12 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     );
   };
 
-  const drawPiece = (cellId: number, value: number): JSX.Element[] => {
-    return [drawHexagon(cellId), drawValue(cellId, value)];
+  const drawPiece = (
+    runType: RunType,
+    cellId: number,
+    value: number
+  ): JSX.Element[] => {
+    return [drawHexagon(runType, cellId), drawValue(runType, cellId, value)];
   };
 
   const makePathData = (points: number[][]): string => {
@@ -130,30 +138,31 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     return pathCommands.join(" ");
   };
 
-  const drawHorizontalRun = (internalRow: InternalRow): JSX.Element[] => {
+  const drawRun = (internalRow: InternalRow): JSX.Element[] => {
     return range(internalRow.run.cellIds.length).flatMap((index) => {
+      const runType = internalRow.run.runType;
       const cellId = internalRow.run.cellIds[index];
       const value = internalRow.values[index];
-      return drawPiece(cellId, value);
+      return drawPiece(runType, cellId, value);
     });
   };
 
   const drawHorizontalRuns = (): JSX.Element[] => {
     return solutionInternalRows
       .filter((internalRow) => internalRow.run.runType === RunType.Horizontal)
-      .flatMap(drawHorizontalRun);
+      .flatMap(drawRun);
   };
 
   const drawDiagonal1Runs = (): JSX.Element[] => {
     return solutionInternalRows
       .filter((internalRow) => internalRow.run.runType === RunType.Diagonal1)
-      .flatMap(drawHorizontalRun);
+      .flatMap(drawRun);
   };
 
   const drawDiagonal2Runs = (): JSX.Element[] => {
     return solutionInternalRows
       .filter((internalRow) => internalRow.run.runType === RunType.Diagonal2)
-      .flatMap(drawHorizontalRun);
+      .flatMap(drawRun);
   };
 
   const drawBoardCutOut = (): JSX.Element[] => {
