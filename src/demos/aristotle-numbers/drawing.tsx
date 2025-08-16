@@ -38,6 +38,16 @@ const CELLID_TO_OFFSETS = new Map([
   [18, [1, 2]],
 ]);
 
+const getRandomPatternNum = (): number => {
+  return Math.floor(Math.random() * 5) + 1;
+};
+
+const randomPatternNumMap = new Map(
+  range(19)
+    .map((n) => n + 1)
+    .map((value) => [value, getRandomPatternNum()])
+);
+
 const calculateCentreX = (cellId: number) => {
   const [dx] = CELLID_TO_OFFSETS.get(cellId) ?? [0, 0];
   return 50 + dx * PIECE_WIDTH;
@@ -60,7 +70,7 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
         y={0}
         width={VIEWBOX_WIDTH}
         height={VIEWBOX_HEIGHT}
-        fill="url(#board)"
+        fill="url(#board2)"
       />
     );
   };
@@ -82,16 +92,23 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     ];
   };
 
-  const drawHexagon = (runType: RunType, cellId: number): JSX.Element => {
+  const drawHexagon = (
+    runType: RunType,
+    cellId: number,
+    value: number
+  ): JSX.Element => {
     const cx = calculateCentreX(cellId);
     const cy = calculateCentreY(cellId);
     const points = calculateHexagonPoints(cx, cy, PIECE_HEIGHT / 2 - 0.25);
+    const randomPatternNum = randomPatternNumMap.get(value);
+    const fill = `url(#piece${randomPatternNum})`;
 
     return (
       <path
         key={`hexagon-${runType}-${cellId}`}
         d={makePathData(points)}
-        fill="url(#piece)"
+        fill={fill}
+        filter="url(#shadow)"
       />
     );
   };
@@ -111,7 +128,7 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
         y={cy}
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize={8}
+        fontSize={9}
         fill="black"
       >
         {value}
@@ -124,7 +141,10 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     cellId: number,
     value: number
   ): JSX.Element[] => {
-    return [drawHexagon(runType, cellId), drawValue(runType, cellId, value)];
+    return [
+      drawHexagon(runType, cellId, value),
+      drawValue(runType, cellId, value),
+    ];
   };
 
   const makePathData = (points: number[][]): string => {
@@ -169,21 +189,68 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
     return range(19).map((cellId) => {
       const cx = calculateCentreX(cellId);
       const cy = calculateCentreY(cellId);
-      const points = calculateHexagonPoints(cx, cy, PIECE_HEIGHT / 2 + 0.1);
+      const points = calculateHexagonPoints(cx, cy, PIECE_HEIGHT / 2 + 0);
       return (
         <path
           key={`cutout-${cellId}`}
           d={makePathData(points)}
-          fill="#654321"
-          fillOpacity={0.75}
+          fill="transparent"
+          // fill="#654321"
+          // fillOpacity={0.75}
+          stroke="#654321"
+          strokeWidth={0.2}
         />
       );
     });
   };
 
+  const makePiecePattern = (
+    id: string,
+    angle: number,
+    scaleX: number,
+    scaleY: number
+  ): JSX.Element => {
+    return (
+      <pattern
+        id={id}
+        height="100%"
+        width="100%"
+        patternContentUnits="objectBoundingBox"
+        patternTransform={`rotate(${angle}), scale(${scaleX} ,${scaleY})`}
+      >
+        <image
+          href="dlxlib-demos/images/piece.jpg"
+          preserveAspectRatio="none"
+          width="1"
+          height="1"
+        />
+      </pattern>
+    );
+  };
+
+  const makeClipPath = () => {
+    return (
+      <clipPath id="boardCutOut">
+        {range(19).map((cellId) => {
+          const cx = calculateCentreX(cellId);
+          const cy = calculateCentreY(cellId);
+          const points = calculateHexagonPoints(
+            cx,
+            cy,
+            PIECE_HEIGHT / 2 + 0.25
+          );
+          return <path key={`clip-${cellId}`} d={makePathData(points)} />;
+        })}
+      </clipPath>
+    );
+  };
+
   return (
     <svg viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}>
       <defs>
+        <filter id="shadow">
+          <feDropShadow dx="0.2" dy="-0.2" stdDeviation="0.5" />
+        </filter>{" "}
         <pattern
           id="board"
           height="100%"
@@ -198,19 +265,24 @@ export const Drawing: React.FunctionComponent<LocalDrawingProps> = ({
           />
         </pattern>
         <pattern
-          id="piece"
+          id="board2"
           height="100%"
           width="100%"
           patternContentUnits="objectBoundingBox"
-          patternTransform="rotate(27)"
         >
           <image
-            href="dlxlib-demos/images/piece.jpg"
+            href="dlxlib-demos/images/board2.jpg"
             preserveAspectRatio="none"
             width="1"
             height="1"
           />
         </pattern>
+        {makePiecePattern("piece1", 27, 0.85, 16.03)}
+        {makePiecePattern("piece2", 43, 4.64, 9.75)}
+        {makePiecePattern("piece3", -12, 3.08, 1.7)}
+        {makePiecePattern("piece4", 31, 8.76, 7.49)}
+        {makePiecePattern("piece5", 9, 7.62, 0.25)}
+        {makeClipPath()}
       </defs>
       {drawBackground()}
       {drawBoardCutOut()}
